@@ -426,7 +426,7 @@ html,body{
 }
 
 .post-title > a{
-    color: #666;
+    color: #FFF;
 }
 
 .post-title > a:hover{
@@ -720,6 +720,8 @@ a.post-nav-link-wrap:hover{
 .typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
 .typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote{
   margin-bottom:1.8em;
+  font-size: 16px;
+  color: black;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -892,4 +894,8 @@ h1, h2, h3, h4, h5, h6{
 
 #wrap {
   min-height: 100%;
+}
+
+.gutter p{
+  color:white;
 }
