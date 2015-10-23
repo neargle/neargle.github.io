@@ -755,6 +755,8 @@ h1, h2, h3, h4, h5, h6{
 
 .typo code, .typo kbd, .typo pre, .typo samp{
     font-family: 'Source Code Pro', Consolas, 'Liberation Mono', Courier, monospace, serif;
+    color: #607114;
+    font-size: small;
 }
 
 /* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
@@ -900,6 +902,6 @@ h1, h2, h3, h4, h5, h6{
   color:white;
 }
 
-.highlight p{
+.highlight .typo p{
   color: white;
 }
