@@ -364,8 +364,8 @@ html,body{
 }
 
 #logo a{
-    /*color: #fff;*/
-    color: #005EFF;
+    color: #fff;
+    /*color: #005EFF;*/
     text-decoration: none;
 }
 
