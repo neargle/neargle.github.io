@@ -66,50 +66,6 @@
   
     
       <h2 class="post-title">
-        <a href="/2015/10/23/hello-world/">Hello World</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2015-10-23T03:19:50.000Z" class="post-time">2015-10-23</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-    
-      
-        <a href="http://blog.neargle.com/2015/10/23/hello-world/#disqus_thread" class="post-foot-link fr">评论</a>
-      
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
         <a href="/2015/10/20/code-audit-from-definition-in-condition-sqli/">PHP代码审计笔记：条件内初始化SQL变量造成SQL注入</a>
       </h2>
     
@@ -122,7 +78,9 @@
   
   <section class="post-content typo">
     
-      <h2 id="概述">概述</h2><p>总结来自于Metinfo最新版本的两个SQL注入漏洞，两个漏洞都因为在php代码内在条件语句中初始化或直接用<code>.=</code>拼接SQL语句，导致可以构造条件，控制变量进行SQL注入。<br>
+      <h2 id="概述">概述</h2><p>总结来自于Metinfo最新版本的两个SQL注入漏洞，两个漏洞都因为在php代码内在条件语句中初始化或直接用<code>.=</code>拼接SQL语句，导致可以构造条件，控制变量进行SQL注入。</p>
+<h2 id="详细">详细</h2><h3 id="漏洞代码其一：">漏洞代码其一：</h3><p>/include/global/listmod.php 文件：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$imgproduct</span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ipcom</span> = <span class="variable">$imgproduct</span>==<span class="string">'product'</span>?<span class="variable">$productcom</span>:<span class="variable">$imgcom</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$serch_sql</span> .=<span class="string">" where lang='$lang' &#123;$mobilesql&#125; and (recycle='0' or recycle='-1')"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$ipcom</span>==<span class="string">'com'</span>)<span class="variable">$serch_sql</span> .= <span class="string">" and com_ok=1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class1</span> &amp;&amp; <span class="variable">$class_list</span>[<span class="variable">$class1</span>][<span class="string">'module'</span>]&lt;&gt;<span class="variable">$ipmd</span>&amp;&amp;<span class="variable">$class1</span>!=<span class="number">10001</span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$serch_sql</span> .= <span class="string">' and (('</span>.<span class="variable">$class1sql</span>;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$serch_sql</span> .= <span class="string">' and ((1=1'</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$serch_sql</span>=<span class="string">" where lang='$lang' &#123;$mobilesql&#125; and (recycle='0' or recycle='-1')  and (( $class1sql "</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这行代码位于源码的第72行，可以发现这里使用<code>$serch_sql .=&quot; where lang=&#39;$lang&#39; {$mobilesql} and (recycle=&#39;0&#39; or recycle=&#39;-1&#39;)&quot;;</code>的方式定义并初始化serch_sql变量，然而却是在<code>if($imgproduct)</code>的判断条件中。在这代码之前，并未对serch_sql进行初始化，所以只要我们达成if条件，就可以控制SQL语句进行SQL注入。<br>
     
   </section>
   
