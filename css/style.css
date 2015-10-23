@@ -328,10 +328,10 @@ html,body{
 
 #site-description{
   font-size: 1.5em;
-  /*font-weight: 200;*/
-  /*color: #fff;*/
-  color: #005EFF;
-  font-weight: bold;
+  font-weight: 200;
+  color: #fff;
+  /*color: #005EFF;*/
+  /*font-weight: bold;*/
 }
 
 @media (max-width:1024px){
