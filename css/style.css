@@ -426,7 +426,7 @@ html,body{
 }
 
 .post-title > a{
-    color: #FFF;
+    color: #000;
 }
 
 .post-title > a:hover{
@@ -898,4 +898,8 @@ h1, h2, h3, h4, h5, h6{
 
 .gutter p{
   color:white;
+}
+
+.highlight p{
+  color: white;
 }
