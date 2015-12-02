@@ -329,7 +329,7 @@ html,body{
 #site-description{
   font-size: 1.5em;
   font-weight: 200;
-  color: #fff;
+  color: #5281F8;
   /*color: #005EFF;*/
   /*font-weight: bold;*/
 }
@@ -358,13 +358,13 @@ html,body{
 #logo{
     overflow: hidden;
     text-align: center;
-    background: url(../images/header_bg4.jpg) no-repeat center center;
+    background: url(../images/header_bg4.png) no-repeat center center;
     background-size: cover;
     min-width: 100%;
 }
 
 #logo a{
-    color: #fff;
+    color: #5281F8;
     /*color: #005EFF;*/
     text-decoration: none;
 }
