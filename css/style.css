@@ -329,7 +329,7 @@ html,body{
 #site-description{
   font-size: 1.5em;
   font-weight: 200;
-  color: #5281F8;
+  color: white;
   /*color: #005EFF;*/
   /*font-weight: bold;*/
 }
@@ -358,13 +358,14 @@ html,body{
 #logo{
     overflow: hidden;
     text-align: center;
-    background: url(../images/header_bg4.png) no-repeat center center;
+    background: url(../images/h2.jpg) no-repeat center center;
     background-size: cover;
     min-width: 100%;
+    background-position:bottom;
 }
 
 #logo a{
-    color: #5281F8;
+    color: white;
     /*color: #005EFF;*/
     text-decoration: none;
 }
@@ -618,7 +619,7 @@ a.post-nav-link-wrap:hover{
 }
 
 #archives .month-title{
-  font-size: 1.8em;
+  font-size: 1.2em;
   font-weight: lighter;
 }
 
@@ -628,15 +629,16 @@ a.post-nav-link-wrap:hover{
 
 #archives .post-list li{
   padding: 5px 0;
-  font-size: 1.2em;
+  font-size: 1.8em;
 }
 
 #archives .post-list a{
-  color: #999;
+  color: #000;
+  /*font-size: 1.5em;*/
 }
 
 #archives .post-list a:hover{
-  color: #333;
+  color: #08c;
   text-decoration: none;
 }
 

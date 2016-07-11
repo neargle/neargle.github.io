@@ -1,102 +1,97 @@
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+
 .highlight {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #002b36;
-  color: #839496;
-  -webkit-text-size-adjust: none;
+  color: #333;
+  background: #E7E9EE;
 }
 
 .comment,
-.diff .header,
-.doctype,
-.pi,
-.lisp .string,
-.javadoc {
-  color: #586e75;
+.quote {
+  color: #998;
+  font-style: italic;
 }
 
-/* Solarized Green */
 .keyword,
-.winutils,
-.method,
-.addition,
-.css .tag,
-.request,
-.status,
-.nginx .title {
-  color: #859900;
+.selector-tag,
+.subst {
+  color: #333;
+  font-weight: bold;
 }
 
-/* Solarized Cyan */
 .number,
-.command,
-.string,
-.tag .value,
-.rules .value,
-.phpdoc,
-.dartdoc,
-.tex .formula,
-.regexp,
-.hexcolor,
-.link_url {
-  color: #2aa198;
-}
-
-/* Solarized Blue */
-.title,
-.localvars,
-.chunk,
-.decorator,
-.built_in,
-.identifier,
-.vhdl .literal,
-.id,
-.css .function {
-  color: #268bd2;
-}
-
-/* Solarized Yellow */
-.attribute,
+.literal,
 .variable,
-.lisp .body,
-.smalltalk .number,
-.constant,
-.class .title,
-.parent,
+.template-variable,
+.tag .attr {
+  color: #008080;
+}
+
+.string,
+.doctag {
+  color: #d14;
+}
+
+.title,
+.section,
+.selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.subst {
+  font-weight: normal;
+}
+
 .type,
-.link_reference {
-  color: #b58900;
+.class .title {
+  color: #458;
+  font-weight: bold;
 }
 
-/* Solarized Orange */
-.preprocessor,
-.preprocessor .keyword,
-.pragma,
-.shebang,
+.tag,
+.name,
+.attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.regexp,
+.link {
+  color: #009926;
+}
+
 .symbol,
-.symbol .string,
-.diff .change,
-.special,
-.attr_selector,
-.subst,
-.cdata,
-.css .pseudo,
-.header {
-  color: #cb4b16;
+.bullet {
+  color: #990073;
 }
 
-/* Solarized Red */
-.deletion,
-.important {
-  color: #dc322f;
+.built_in,
+.builtin-name {
+  color: #0086b3;
 }
 
-/* Solarized Violet */
-.link_label {
-  color: #6c71c4;
+.meta {
+  color: #999;
+  font-weight: bold;
 }
 
-.tex .formula {
-  background: #073642;
+.deletion {
+  background: #fdd;
+}
+
+.addition {
+  background: #dfd;
+}
+
+.emphasis {
+  font-style: italic;
+}
+
+.strong {
+  font-weight: bold;
 }
