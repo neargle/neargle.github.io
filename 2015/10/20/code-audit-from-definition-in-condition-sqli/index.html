@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>条件内初始化SQL变量造成SQL注入 - Nearg1e</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link rel="alternative" href="/atom.xml" title="Nearg1e" type="application/atom+xml">
+  
+  <!--[if lt IE 9]>
+    <script type="text/javascript" src="/js/html5.js"></script>
+    <script type="text/javascript" src="/js/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+
+</head>
+<body>
+    <header id="header">
+    <div class="nav-warp">
+      <nav id="nav" class="w">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="搜索"></a>
+        <div id="nav-search-input" class="hide">
+          <form class="search-form" onsubmit="return dispatch()">
+            <input type="hidden" id="site" value="site:http://blog.neargle.com">
+            <input type="text" id="q" class="input-text" name="q" placeholder="搜索">
+            <input type="submit" value="" class="input-submit">
+          </form>
+        </div>
+      </nav>
+    </div>
+    <div id="logo">
+      <div class="hg">
+      
+        <h2 id="site-title">
+          <a href="/">Nearg1e</a>
+        </h2>
+        
+          <p id="site-description">这里是Neargle的部落格|Web安全|ACG|Pythoner|TouhouProject|求交友狂魔</p>
+        
+      
+        <!-- <p>微博:<a href="http://weibo.com/neargle">@Neargle</a></p> -->
+      </div>
+    </div>
+  </header>
+
+  <!-- <div id='wrap'> -->
+    <div id='outer'>
+      <section id="main"><article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h1 class="post-title">条件内初始化SQL变量造成SQL注入</h1>
+    
+  
+
+    
+<time datetime="2015-10-20T13:52:41.000Z" class="post-time">2015-10-20</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    <p>过了一段时间再来看自己的Blog感觉有很多写的不对的地方，需要认真的再研究研究Metinfo才行QAQ</p>
+<h2 id="概述">概述</h2><p>总结来自于Metinfo最新版本的两个SQL注入漏洞，两个漏洞都因为在php代码内在条件语句中初始化或直接用<code>.=</code>拼接SQL语句，导致可以构造条件，控制变量进行SQL注入。</p>
+<h2 id="详细">详细</h2><h3 id="漏洞代码其一：">漏洞代码其一：</h3><p>/include/global/listmod.php 文件：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$imgproduct</span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$ipcom</span> = <span class="variable">$imgproduct</span>==<span class="string">'product'</span>?<span class="variable">$productcom</span>:<span class="variable">$imgcom</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$serch_sql</span> .=<span class="string">" where lang='$lang' &#123;$mobilesql&#125; and (recycle='0' or recycle='-1')"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$ipcom</span>==<span class="string">'com'</span>)<span class="variable">$serch_sql</span> .= <span class="string">" and com_ok=1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class1</span> &amp;&amp; <span class="variable">$class_list</span>[<span class="variable">$class1</span>][<span class="string">'module'</span>]&lt;&gt;<span class="variable">$ipmd</span>&amp;&amp;<span class="variable">$class1</span>!=<span class="number">10001</span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$serch_sql</span> .= <span class="string">' and (('</span>.<span class="variable">$class1sql</span>;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$serch_sql</span> .= <span class="string">' and ((1=1'</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$serch_sql</span>=<span class="string">" where lang='$lang' &#123;$mobilesql&#125; and (recycle='0' or recycle='-1')  and (( $class1sql "</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这行代码位于源码的第72行，可以发现这里使用<code>$serch_sql .=&quot; where lang=&#39;$lang&#39; {$mobilesql} and (recycle=&#39;0&#39; or recycle=&#39;-1&#39;)&quot;;</code>的方式定义并初始化serch_sql变量，然而却是在<code>if($imgproduct)</code>的判断条件中。在这代码之前，并未对serch_sql进行初始化，所以只要我们达成if条件，就可以控制SQL语句进行SQL注入。<br><a id="more"></a></p>
+<h3 id="漏洞代码其二：">漏洞代码其二：</h3><p>/search/search.php文件<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$module</span>=intval(<span class="variable">$module</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class1</span>)<span class="variable">$module</span>=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(intval(<span class="variable">$module</span>))&#123;</span><br><span class="line">      <span class="variable">$serch_sql</span>.=<span class="string">" where lang='$lang' and (recycle='0' or recycle='-1') and displaytype='1' "</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="variable">$class1_info</span>=<span class="variable">$class_list</span>[<span class="variable">$class1</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$class1_info</span>)okinfo(<span class="string">'../'</span>,<span class="variable">$pagelang</span>[noid]);</span><br><span class="line">    <span class="variable">$class1sql</span>=<span class="string">" class1='$class1' "</span>;</span><br><span class="line">    <span class="variable">$class2sql</span>=<span class="string">" class2='$class2' "</span>;</span><br><span class="line">    <span class="variable">$class3sql</span>=<span class="string">" class3='$class3' "</span>;</span><br><span class="line">    <span class="variable">$class1re</span> = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class1</span>&amp;&amp;!<span class="variable">$class2</span>&amp;&amp;!<span class="variable">$class3</span>)&#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$module_list2</span>[<span class="variable">$class_list</span>[<span class="variable">$class1</span>][<span class="string">'module'</span>]] <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$val</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$val</span>[<span class="string">'releclass'</span>]==<span class="variable">$class1</span>)&#123;</span><br><span class="line">                <span class="variable">$class1re</span>.=<span class="string">" or class1='$val[id]' "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$class1re</span>)&#123;</span><br><span class="line">            <span class="variable">$class1sql</span>=<span class="string">'('</span>.<span class="variable">$class1sql</span>.<span class="variable">$class1re</span>.<span class="string">')'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class_list</span>[<span class="variable">$class2</span>][<span class="string">'releclass'</span>])&#123;</span><br><span class="line">        <span class="variable">$class1sql</span>=<span class="string">" class1='$class2' "</span>;</span><br><span class="line">        <span class="variable">$class2sql</span>=<span class="string">" class2='$class3' "</span>;</span><br><span class="line">        <span class="variable">$class3sql</span>=<span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$serch_sql</span>=<span class="string">" where lang='$lang' and (recycle='0' or recycle='-1') and displaytype='1' and $class1sql "</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class2</span>&amp;&amp;<span class="variable">$class2sql</span>)<span class="variable">$serch_sql</span> .= <span class="string">" and $class2sql "</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$class3</span>&amp;&amp;<span class="variable">$class3sql</span>)<span class="variable">$serch_sql</span> .= <span class="string">" and $class3sql "</span>; </span><br><span class="line">    <span class="variable">$order_sql</span>=<span class="string">" order by top_ok desc,com_ok desc,no_order desc,updatetime desc,id desc"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现<code>$order_sql=&quot; order by top_ok desc,com_ok desc,no_order desc,updatetime desc,id desc&quot;</code>这样的定义及初始化语句在else条件体中，只要我们不进入else条件就可以控制变量导致注入。<br>然后又有非else语句的代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(intval(<span class="variable">$module</span>))&#123;</span><br><span class="line">      <span class="variable">$serch_sql</span>.=<span class="string">" where lang='$lang' and (recycle='0' or recycle='-1') and displaytype='1' "</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>又是<code>.=</code>，可以拼接sql语句。</p>
+<h2 id="总结">总结</h2><h3 id="修复方案：">修复方案：</h3><p>Metinfo官方的修复方案是： 在条件外把变量定义为空字符串。<br><img src="http://ww1.sinaimg.cn/large/005y7Ba5gw1ex7ib70vroj30he01rglx.jpg" alt=""><br>作为临时的修复方法是可行的。但是其实总归来说，还是直接使用<code>.+</code>拼接SQL字符串变量的错，再加上PHP的变量无需声明直接使用和PHP的变量get传入(应该是开启 register_globals)，在方便开发者的同事，也会出现很多安全隐患，开发的时候还是得小心坑为好啊。</p>
+<h2 id="参考：">参考：</h2><p><a href="http://www.wooyun.org/bugs/wooyun-2015-0125648" target="_blank" rel="external">http://www.wooyun.org/bugs/wooyun-2015-0125648</a><br><a href="http://www.wooyun.org/bugs/wooyun-2015-0121480" target="_blank" rel="external">http://www.wooyun.org/bugs/wooyun-2015-0121480</a></p>
+
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+      
+  <ul class="post-tag icon-tag fl">
+    
+      <li><a href="/tags/代码审计/">#代码审计</a></li>
+    
+  </ul>
+
+      
+    </section>
+  </footer>
+  
+</article>
+
+    
+<nav id="post-nav" class="clear">
+  
+    <a href="/2015/12/01/html5-file-upload-flask-ver-python-ver/" id="post-nav-newer" class="post-nav-link-wrap fl" title="Html5文件夹上传欺骗之Python实现版-w-">
+      <div class="post-nav-title">&laquo; Html5文件夹上传欺骗之Python实现版-w-</div>
+    </a>
+  
+  
+    <a href="/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/" id="post-nav-older" class="post-nav-link-wrap fr" title="Wordpress插件：WP Mobile Edition Plugin 任意文件下载漏洞分析">
+      <div class="post-nav-title">Wordpress插件：WP Mobile Edition Plugin 任意文件下载漏洞分析 &raquo;</div>
+    </a>
+  
+</nav>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    </div>
+  <!-- </div> -->
+    <footer id="footer">
+    <div class="foot-warp">
+      <p>© 2014 Nearg1e</p>
+    </div>
+  </footer>
+  <script src="/js/tools.js"></script>
+  
+  
+  <script>
+    var disqus_shortname = 'neargle';
+    
+    var disqus_url = 'http://blog.neargle.com/2015/10/20/code-audit-from-definition-in-condition-sqli/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  
+  
+</body>
+</html>
