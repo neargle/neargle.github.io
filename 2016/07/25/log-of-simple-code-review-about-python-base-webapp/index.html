@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>记一下PythonWeb代码审计应该注意的地方 - Nearg1e</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link rel="alternative" href="/atom.xml" title="Nearg1e" type="application/atom+xml">
+  
+  <!--[if lt IE 9]>
+    <script type="text/javascript" src="/js/html5.js"></script>
+    <script type="text/javascript" src="/js/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+
+</head>
+<body>
+    <header id="header">
+    <div class="nav-warp">
+      <nav id="nav" class="w">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="搜索"></a>
+        <div id="nav-search-input" class="hide">
+          <form class="search-form" onsubmit="return dispatch()">
+            <input type="hidden" id="site" value="site:http://blog.neargle.com">
+            <input type="text" id="q" class="input-text" name="q" placeholder="搜索">
+            <input type="submit" value="" class="input-submit">
+          </form>
+        </div>
+      </nav>
+    </div>
+    
+  </header>
+
+  <!-- <div id='wrap'> -->
+    <div id='outer'>
+      <section id="main"><article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h1 class="post-title">记一下PythonWeb代码审计应该注意的地方</h1>
+    
+  
+
+    
+<time datetime="2016-07-25T11:34:35.612Z" class="post-time">2016-07-25</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    <p>读<a href="https://security.openstack.org/guidelines/dg_using-file-paths.html" target="_blank" rel="external">《Code Review For Python-Based Web Apps》</a>（《PythonWebApp代码审计》）做的笔记,正好自己也在写相关的文章：<a href="http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题</a>,所以就翻译了一下作者原文，省去一些不必要的口水，并添加了一些自己的想法。</p>
+<h2 id="SQL注入">SQL注入</h2><p>安全的做法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stmt = <span class="string">"SELECT * FROM table WHERE id=?"</span></span><br><span class="line">connection.execute(stmt, (value,))</span><br></pre></td></tr></table></figure>
+<p>不安全的做法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"SELECT * FROM table WHERE id="</span> + value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=%s"</span> % value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=&#123;0&#125;"</span>.format(value)</span><br></pre></td></tr></table></figure></p>
+<p>大部分Python操作数据库的第三方模块，如pymysql、sqlite3等，执行sql语句的函数，都支持参数化查询，如上安全的做法所示，可以给sql语句传递参数，这个参数经过过滤。而下面的字符串拼接是不经过过滤。所以会出现sql注入。</p>
+<h2 id="命令执行">命令执行</h2><p>危险的函数或模块列表：</p>
+<ul>
+<li>os.popen*</li>
+<li>os.system</li>
+<li>os.spawn*</li>
+<li>os.fork</li>
+<li>os.exec*</li>
+<li>popen2.*</li>
+<li>commands.*</li>
+<li>subprocess.call</li>
+</ul>
+<p>这里着重说明了，subprocess.call函数：</p>
+<p>危险的用法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">subprocess.call(<span class="string">"cat "</span> + user_input, shell=<span class="keyword">True</span>)</span><br><span class="line">subprocess.call(<span class="string">"cat %s"</span> % user_input, shell=<span class="keyword">True</span>)</span><br><span class="line">subprocess.call(<span class="string">"cat &#123;0&#125;"</span>.format(user_input), shell=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>这里说一下shell这个参数的作用，如果shell为True，subprocess.call会给予更大的权限，因为使用<code>shell=True</code>, subprocess.call会在命令前添加<code>/bin/sh -c</code>（windows是<code>cmd.exe /c</code>）。测试：</p>
+<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5jw1f66aitab2zj30q10esgre.jpg" alt=""></p>
+<p>执行subprocess.call函数的几点建议：</p>
+<ol>
+<li>使用pipes.quote()函数去过滤用户输入，可以过滤命令拼接</li>
+<li>尽量不要使用shell=True</li>
+<li>即使不使用shell=True，也尽量去过滤用户输入</li>
+<li>如果用户的输入是路径的话，可以使用下面目录遍历的防护方法进行防护</li>
+</ol>
+<h2 id="目录遍历">目录遍历</h2><p>危险的代码例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">open(user_input)</span><br><span class="line">os.fdopen(user_input)</span><br></pre></td></tr></table></figure>
+<p>防护思路：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cwd = os.getcwd()</span><br><span class="line"><span class="keyword">if</span> os.path.abspath(user_input).startswith(cwd) <span class="keyword">is</span> <span class="keyword">True</span>:</span><br><span class="line">    open(user_input)</span><br></pre></td></tr></table></figure>
+<p>abspath是获取绝对路径，这段代码的意思就是限定用户读取的目录为当前目录。我们可以把<code>os.getcwd()</code>替换成<code>os.path.realpath</code>限定当前目录下的任意子目录。</p>
+<p><img src="http://ww4.sinaimg.cn/large/005y7Ba5jw1f66bh4fkmzj30d401ujri.jpg" alt=""></p>
+<h2 id="XSS">XSS</h2><p>原作者提到如果webapp没有使用模板语言的话，又没有使用cgi.escape()对用户输入进行过滤直接加到程序返回给客户端的情况，就会产生XSS。cgi.escape()函数会把&lt;&gt;尖括号转化为html实体编码，如果使用cgi.escape(user_input, True)，会把’”单引号双引号也转成实体编码。</p>
+<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f66btoa2u4j30hl06hq4k.jpg" alt=""></p>
+<p>其实就算使用了模板语言也很容易产生XSS。因为每一个模板语言都有一个可以不转义<code>&lt;&gt;&#39;&quot;</code>等html特殊字符的选项。以jinja2为例，jinja2默认会对所有传进来的变量进行转义，但有下面两种情况是例外的：</p>
+<ol>
+<li>传进的变量是一个<code>MarkupSafe.Markup</code>对象，例如<code>MarkupSafe.Markup(&#39;&lt;script&gt;alert(1)&lt;/script&gt;&gt;&#39;)</code></li>
+<li>该模板使用|safe进行标记，例如<code></code></li>
+</ol>
+<p>以上两种情况，就算你使用了jinja2模板传入参数也有可能会产生Xss。当然如果你直接把用户输入拼接到模板中，也同样会产生XSS，不过那会产生更加严重的SSTI。</p>
+<h2 id="异常处理">异常处理</h2><p>这里作者提到了异常处理的正确方式，其实我觉得并不只在Python里面有，是大部分程序员在开发时候的通病。处理异常的时候直接pass，不回显，也不记录异常信息，不分类处理异常，导致错误无法跟踪。这里我推荐看一下：<code>https://www.zhihu.com/question/29459586</code>中pig pig的回答，他的描述比原作者要详细一些。</p>
+<p>至于这个我觉得超出了安全审计的范围，是代码规范和软件测试的范畴。在这里就不说明了。</p>
+
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+      
+  <ul class="post-tag icon-tag fl">
+    
+      <li><a href="/tags/代码审计/">#代码审计</a></li>
+    
+  </ul>
+
+      
+    </section>
+  </footer>
+  
+</article>
+
+    
+<nav id="post-nav" class="clear">
+  
+  
+    <a href="/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/" id="post-nav-older" class="post-nav-link-wrap fr" title="使用PyQt4.QtWebKit降低自动化XSS检测的误报">
+      <div class="post-nav-title">使用PyQt4.QtWebKit降低自动化XSS检测的误报 &raquo;</div>
+    </a>
+  
+</nav>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    </div>
+  <!-- </div> -->
+    <footer id="footer">
+    <div class="foot-warp">
+      <p>© 2014 Nearg1e</p>
+    </div>
+  </footer>
+  <script src="/js/tools.js"></script>
+  
+  
+  <script>
+    var disqus_shortname = 'neargle';
+    
+    var disqus_url = 'http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  
+  
+</body>
+</html>
