@@ -1,0 +1,127 @@
+title: 稍微记一下rockoa的代码审计
+date: 2015-07-12 10:39.07
+tags: 代码审计
+
+
+---
+
+\webrock\webrockAction.php文件
+
+```php
+public function publicdelAjax()
+    {
+        // rock.php?a=publicdel&m=index&d=&ajaxbool=true&rnd=0.3103273190927536
+        // table=pii0cc0hc0pic0rr0pir0ppl0ppd07&id=3&deljudgewhere=&storedeleteaction=
+        $this->iszclogin();
+        $id     = $this->post('id');
+        $table  = $this->post('table','',1);
+        $delw   = $this->post('deljudgewhere');
+        $msg    = '';
+        if($this->isempt($table))exit('sorry;');
+        if($msg == ''){
+            $db     = m($table);
+            if($delw !=''){
+                $rows   = $db->getall("`id` in($id)");
+                foreach($rows as $k=>$rs){
+                    $delw = $this->rock->reparr($delw, $rs);
+                    if($db->rows($delw)==0)$msg='not delete';
+                }
+            }
+        }
+```
+
+这里虽然进行了字符串拼接，但还不是sql语句。跟进getall函数：
+
+\include\class\mysql.php
+
+```php
+public function getall($sql)
+{
+    $res=$this->query($sql);
+    $arr=array();
+    if($res){
+        while($row=$this->fetch_array($res)){
+            $arr[]  = $row;
+            $this->count++;
+        }
+    }
+    return $arr;
+}
+```
+跟进query
+```php
+public function query($sql, $ebo=true)
+{
+    if($this->conn == null)$this->connect();
+    if($this->conn == null)exit('mysql user or pass error!');
+    $sql    = trim($sql); 
+    $sql    = str_replace(array('[Q]','[q]', '[date]', '[now]'), array($this->perfix, $this->perfix, date('Y-m-d'), date('Y-m-d H:i:s')), $sql);
+    $this->countsql++;
+    $this->sqlarr[] = $sql;
+    $this->nowsql   = $sql;
+    $this->count    = 0;
+    $rsbool         = $this->querysql($sql);
+    $this->nowerror = false;
+    if(!$rsbool)$this->nowerror = true;
+    if(!$rsbool && DEBUG && $ebo){
+        $txt    = ''.D.'/'.M.'/'.A.',[错误SQL]：《'.$sql.'》----------原因：'.$this->error().'';
+        $this->rock->debug($txt,'mysql');
+    }
+    return $rsbool;
+}
+```
+
+```php
+public function getsql($arr=array())
+{
+    $where  = $table = $order = $limit = $group = '';
+    $fields = '*';
+    if(isset($arr['table']))$table=$arr['table'];
+    if(isset($arr['where']))$where=$arr['where'];
+    if(isset($arr['order']))$order=$arr['order'];
+    if(isset($arr['limit']))$limit=$arr['limit'];
+    if(isset($arr['group']))$group=$arr['group'];
+    if(isset($arr['fields']))$fields=$arr['fields'];
+    $where  = $this->getwhere($where);
+    $table  = $this->gettable($table);
+    $sql    = "SELECT $fields FROM $table";
+    if($where!=''){
+        $where = $this->filterstr($where);
+        $sql.=" WHERE $where";
+    }
+    if($order!='')$sql.=" ORDER BY $order";
+    if($group!='')$sql.=" GROUP BY $group";
+    if($limit!='')$sql.=" LIMIT $limit";
+    return $sql;
+}
+```
+
+在query函数里，sql语句进行了两次处理，第一次去掉首尾空行，第二次添加了数据库表的前缀后缀。
+getsql是sql语句拼接的函数，会根据传进来的参数返回sql语句。可见打这些都是经过了字符串拼接的过程，完全没有过滤...
+
+得出结论只要这个CMS使用了这几个函数进行数据库查询，并进行字符串拼接，那就基本上都会存在注入。
+
+可惜的是，这是一个OA系统，OA系统前台没啥功能，会执行sql语句的地方，不传入参数。找了一遍没有别的功能可以进行注入了。那就只有登录这个点了，登录这个点确实也使用了那个sql生成和查询流程，应该也会有注入的吧。
+
+可是... 它过滤了...
+
+```
+public function start($user, $pass, $cfrom='', $device='')
+    {
+        $uid   = 0; 
+        $cfrom = $this->rock->request('cfrom', $cfrom);
+        $token = $this->rock->request('token');
+        $device= $this->rock->request('device', $device);
+        $ip    = $this->rock->request('ip', $this->rock->ip);
+        $web   = $this->rock->request('web', $this->rock->web);
+        $cfroar= explode(',', 'pc,reim,weixin,appandroid,appiphone,mweb');
+        if(!in_array($cfrom, $cfroar))return 'not found cfrom';
+        if($user=='')return '用户名不能为空';
+        if($pass==''&&strlen($token)<8)return '密码不能为空';
+        $user   = addslashes(substr($user, 0, 20));
+        $pass   = addslashes($pass);
+```
+
+这是整个cms唯一使用addslashes进行过滤的地方。也是唯一可以前台注入的地方。
+你狠...
+搞不懂为什么要写一个数据库调用层，却不在这个层里面写过滤，只要在这个层里面写过滤，并且所有的查询都基于这个层的话，就可以消灭大部分的注入了。
