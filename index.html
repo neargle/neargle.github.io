@@ -68,64 +68,65 @@
   
     
       <h2 class="post-title">
-        <a href="/2016/07/25/log-of-simple-code-review-about-python-base-webapp/">记一下PythonWeb代码审计应该注意的地方</a>
+        <a href="/2016/07/27/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题之SQL注入</a>
       </h2>
     
   
 
     
-<time datetime="2016-07-25T12:07:26.413Z" class="post-time">2016-07-25</time>
+<time datetime="2016-07-27T06:57:13.026Z" class="post-time">2016-07-27</time>
 
   </header>
   
   <section class="post-content typo">
     
-      <p>读<a href="https://security.openstack.org/guidelines/dg_using-file-paths.html" target="_blank" rel="external">《Code Review For Python-Based Web Apps》</a>（《PythonWebApp代码审计》）做的笔记,正好自己也在写相关的文章：<a href="http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题</a>,所以就翻译了一下作者原文，省去一些不必要的口水，并添加了一些自己的想法。</p>
+      <h1 id="前言">前言</h1><p>好久没写文章了，最近一直都是在看文章。<br>近期写了好几个PythonWeb项目，在实现需求的过程中，一直在思考PythonWeb开发过程中会遇到哪些常见的Web安全问题呢？这些问题又在什么情况下会被利用者GetShell呢？下面就分类来讨论这些问题：(这也是重新启用博客的第一篇文章，顺便投给90Sec也不知道能不能过QAQ。)</p>
+<h1 id="常见漏洞分析">常见漏洞分析</h1><h2 id="SQLI">SQLI</h2><p>SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是<code>request.args.get(&#39;id&#39;, 0, type=int)</code>和<code>request.form.get(&#39;id&#39;, 0, type=int)</code>两种方式，另外Flask还支持在URL路由里带入变量：<code>@app.route(&#39;/news/&lt;int:id&gt;&#39;)</code>，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.</p>
+<p>PythonWeb开发中，在处理数据库的过程中经常使用orm库进行数据库处理，orm库是防SQL注入的好手。Flask和Tornado经常使用Sqlalchemy，而Django有自己自带的orm引擎。举一个用Sqlalchemy建模型类，并使用模型类查询用户数据的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, DateTime</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'mysql+pymysql://user:password@192.168.1.101/test'</span>)</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br><span class="line">session = DBSession()</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">user_t</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'user_t'</span></span><br><span class="line">    user_id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    username = Column(String)</span><br><span class="line">    userpassword = Column(String)</span><br><span class="line">    createtime = Column(DateTime, default=datetime.utcnow)</span><br></pre></td></tr></table></figure>
+    
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+    
+  <ul class="post-tag home-tag icon-tag fl">
+    
+      <li><a href="/tags/Python代码审计/">#Python代码审计</a></li>
+    
+  </ul>
+
+    
+      <a href="/2016/07/27/pythonweb-framework-dev-vulnerable/#more" class="post-foot-link fr">阅读全文</a>
+    
+    </section>
+  </footer>
+  
+</article>
+  
+    <article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h2 class="post-title">
+        <a href="/2016/07/27/log-of-simple-code-review-about-python-base-webapp/">记一下PythonWeb代码审计应该注意的地方</a>
+      </h2>
+    
+  
+
+    
+<time datetime="2016-07-27T06:57:04.560Z" class="post-time">2016-07-27</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    
+      <p>读<a href="https://security.openstack.org/guidelines/dg_using-file-paths.html">《Code Review For Python-Based Web Apps》</a>（《PythonWebApp代码审计》）做的笔记,正好自己也在写相关的文章：<a href="http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题</a>,所以就翻译了一下作者原文，省去一些不必要的口水，并添加了一些自己的想法。</p>
 <h2 id="SQL注入">SQL注入</h2><p>安全的做法：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stmt = <span class="string">"SELECT * FROM table WHERE id=?"</span></span><br><span class="line">connection.execute(stmt, (value,))</span><br></pre></td></tr></table></figure>
 <p>不安全的做法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"SELECT * FROM table WHERE id="</span> + value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=%s"</span> % value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=&#123;0&#125;"</span>.format(value)</span><br></pre></td></tr></table></figure></p>
 <p>大部分Python操作数据库的第三方模块，如pymysql、sqlite3等，执行sql语句的函数，都支持参数化查询，如上安全的做法所示，可以给sql语句传递参数，这个参数经过过滤。而下面的字符串拼接是不经过过滤。所以会出现sql注入。</p>
-<h2 id="命令执行">命令执行</h2><p>危险的函数或模块列表：</p>
-<ul>
-<li>os.popen*</li>
-<li>os.system</li>
-<li>os.spawn*</li>
-<li>os.fork</li>
-<li>os.exec*</li>
-<li>popen2.*</li>
-<li>commands.*</li>
-<li>subprocess.call</li>
-</ul>
-<p>这里着重说明了，subprocess.call函数：</p>
-<p>危险的用法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">subprocess.call(<span class="string">"cat "</span> + user_input, shell=<span class="keyword">True</span>)</span><br><span class="line">subprocess.call(<span class="string">"cat %s"</span> % user_input, shell=<span class="keyword">True</span>)</span><br><span class="line">subprocess.call(<span class="string">"cat &#123;0&#125;"</span>.format(user_input), shell=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
-<p>这里说一下shell这个参数的作用，如果shell为True，subprocess.call会给予更大的权限，因为使用<code>shell=True</code>, subprocess.call会在命令前添加<code>/bin/sh -c</code>（windows是<code>cmd.exe /c</code>）。测试：</p>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5jw1f66aitab2zj30q10esgre.jpg" alt=""></p>
-<p>执行subprocess.call函数的几点建议：</p>
-<ol>
-<li>使用pipes.quote()函数去过滤用户输入，可以过滤命令拼接</li>
-<li>尽量不要使用shell=True</li>
-<li>即使不使用shell=True，也尽量去过滤用户输入</li>
-<li>如果用户的输入是路径的话，可以使用下面目录遍历的防护方法进行防护</li>
-</ol>
-<h2 id="目录遍历">目录遍历</h2><p>危险的代码例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">open(user_input)</span><br><span class="line">os.fdopen(user_input)</span><br></pre></td></tr></table></figure>
-<p>防护思路：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cwd = os.getcwd()</span><br><span class="line"><span class="keyword">if</span> os.path.abspath(user_input).startswith(cwd) <span class="keyword">is</span> <span class="keyword">True</span>:</span><br><span class="line">    open(user_input)</span><br></pre></td></tr></table></figure>
-<p>abspath是获取绝对路径，这段代码的意思就是限定用户读取的目录为当前目录。我们可以把<code>os.getcwd()</code>替换成<code>os.path.realpath</code>限定当前目录下的任意子目录。</p>
-<p><img src="http://ww4.sinaimg.cn/large/005y7Ba5jw1f66bh4fkmzj30d401ujri.jpg" alt=""></p>
-<h2 id="XSS">XSS</h2><p>原作者提到如果webapp没有使用模板语言的话，又没有使用cgi.escape()对用户输入进行过滤直接加到程序返回给客户端的情况，就会产生XSS。cgi.escape()函数会把&lt;&gt;尖括号转化为html实体编码，如果使用cgi.escape(user_input, True)，会把’”单引号双引号也转成实体编码。</p>
-<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f66btoa2u4j30hl06hq4k.jpg" alt=""></p>
-<p>其实就算使用了模板语言也很容易产生XSS。因为每一个模板语言都有一个可以不转义<code>&lt;&gt;&#39;&quot;</code>等html特殊字符的选项。以jinja2为例，jinja2默认会对所有传进来的变量进行转义，但有下面两种情况是例外的：</p>
-<ol>
-<li>传进的变量是一个<code>MarkupSafe.Markup</code>对象，例如<code>MarkupSafe.Markup(&#39;&lt;script&gt;alert(1)&lt;/script&gt;&gt;&#39;)</code></li>
-<li>该模板使用|safe进行标记，例如<code></code></li>
-</ol>
-<p>以上两种情况，就算你使用了jinja2模板传入参数也有可能会产生Xss。当然如果你直接把用户输入拼接到模板中，也同样会产生XSS，不过那会产生更加严重的SSTI。</p>
-<h2 id="异常处理">异常处理</h2><p>这里作者提到了异常处理的正确方式，其实我觉得并不只在Python里面有，是大部分程序员在开发时候的通病。处理异常的时候直接pass，不回显，也不记录异常信息，不分类处理异常，导致错误无法跟踪。这里我推荐看一下：<code>https://www.zhihu.com/question/29459586</code>中pig pig的回答，他的描述比原作者要详细一些。</p>
-<p>至于这个我觉得超出了安全审计的范围，是代码规范和软件测试的范畴。在这里就不说明了。</p>
-<p><a href="http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/">http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/</a></p>
-
     
   </section>
   
@@ -139,9 +140,7 @@
   </ul>
 
     
-      
-        <a href="http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/#disqus_thread" class="post-foot-link fr">评论</a>
-      
+      <a href="/2016/07/27/log-of-simple-code-review-about-python-base-webapp/#more" class="post-foot-link fr">阅读全文</a>
     
     </section>
   </footer>
@@ -169,31 +168,6 @@
       <p>一直以来的一个想法，现在有新的思路的就写出来看看。</p>
 <p>自动化Web漏洞扫描器是渗透测试亘古不变的话题。把当前一直重复的手工劳动和新的思路转化为自动化工具，利用技术和程序实现为自己节省时间是一件非常有趣的事情。然而，自动化的路坑却不少。其中误报就是一件比较蛋疼的事情，XSS的误报尤其蛋疼。当前众多扫描器的XSS插件都存在误报的情况，我们来看一下大部分扫描器的XSS检测思路，我写了一个简单的Python函数来描述它，当然实际的通用XSS检测插件肯定会比这个要复杂的多,我只截取了一部分来说明思路：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">headers=&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xss_detect</span><span class="params">(method=<span class="string">'GET'</span>, querylist=[], url=<span class="string">''</span>)</span>:</span></span><br><span class="line">    params = &#123;&#125;</span><br><span class="line">    resp = <span class="keyword">None</span></span><br><span class="line">    <span class="comment"># 这里有更多的payload,如onfocus=alert(2333)</span></span><br><span class="line">    payload = <span class="string">'--&gt;\'"&gt;&lt;script&gt;alert(1);&lt;/script&gt;'</span> </span><br><span class="line">    <span class="keyword">if</span> method == <span class="string">'GET'</span>:</span><br><span class="line">        <span class="keyword">for</span> query <span class="keyword">in</span> querylist:</span><br><span class="line">            <span class="comment"># url = '&#123;url&#125;?&#123;query&#125;=&#123;payload&#125;'.format(url=url,query=query,payload=payload)</span></span><br><span class="line">            params[query] = payload</span><br><span class="line">        resp = requests.get(url, params=params, headers=headers)</span><br><span class="line">    <span class="comment"># 此处省略POST</span></span><br><span class="line">    <span class="keyword">if</span> resp:</span><br><span class="line">        <span class="comment"># 这里有更多的正则匹配规则</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'&lt;script&gt;alert(1);&lt;/script&gt;'</span> <span class="keyword">in</span> resp.content:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-<p>再准备一个有XSS漏洞的php脚本：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">'id'</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$id</span>;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>测试：</p>
-<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f63n1cwkv5j30r70c7jt9.jpg" alt=""></p>
-<p><img src="http://ww2.sinaimg.cn/large/005y7Ba5jw1f63n2huod6j30ep030dg3.jpg" alt=""></p>
-<p>由脚本可知，当前的XSS自动化测试思路一般都是给GET或POST参数传入Payload，并正则匹配检测返回的响应中是否含有我们构造payload的完整的html标签（不一定是<code>&lt;script&gt;</code>标签，见过用<code>&lt;H1&gt;</code>的=.=），如果有则判断该页面含有XSS漏洞。</p>
-<p>这里的误区在于html页面含有闭合的<code>&lt;script&gt;</code>含有payload的标签，是否就代表JS可执行呢？</p>
-<p>我们来看下面这种情况:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">'id'</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于黑名单的过滤</span></span><br><span class="line"><span class="variable">$black_list</span>  = <span class="keyword">array</span>(<span class="string">'"'</span>, <span class="string">"'"</span>);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$black_list</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">    <span class="variable">$id</span> = str_replace(<span class="variable">$value</span>, <span class="string">''</span>, <span class="variable">$id</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;input type="text" name="" value="'</span> .<span class="variable">$id</span>. <span class="string">'"&gt;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>该php脚本过滤掉了双引号和单引号，并把GET请求中获得的参数添加的input的value属性中，这种情况依照原本xss检测的方法，会出现误报，即虽然从http返回中能检测到闭合完整的<code>&lt;script&gt;</code>标签，但实际该js是不执行的。</p>
-<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f63t4xl66lj30ho0623z3.jpg" alt=""></p>
-<p>其余会产生类似误报的情况也很多，这是一直困扰我的一个问题。直至我在前天重新温习爬虫知识的时候，把爬虫的某项知识和这个联系在了一起，有了一个新的思路。</p>
-<p>在SQL注入的自动化检测里面，我们会力求出数据或输出由SQL语句生成的字符串，我们的正则是去匹配sql生成字符串而非sql语句，这样能保证sql语句正确执行了。例如我们payload是<code>select md5(0x2333333)</code>，正则匹配查找<code>5e2e9b556d77c86ab48075a94740b6f7</code>，这样就能大幅度减小误报率。那XSS是否也能用这样的思路呢？可惜的是，几乎所有的http请求库都不会返回js执行之后的结果而只会返回未执行的js代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> requests</span><br><span class="line">In [<span class="number">3</span>]: r = requests.get(<span class="string">'http://127.0.0.1:8080/html.html'</span>)</span><br><span class="line">In [<span class="number">4</span>]: r.content</span><br><span class="line">Out[<span class="number">4</span>]: <span class="string">'&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;111&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n&lt;script type="text/javascript"&gt;\n    document.body.appendChild(document.createTextNode(String.fromCharCode(84,48,48,76,83)));\n&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;'</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://ww2.sinaimg.cn/large/005y7Ba5jw1f63uwv7ng3j30de0693yx.jpg" alt=""></p>
-<p>很明显requests库不会像浏览器一样去执行JavaScript。既然requests库不行，那么是不是有其它Python库可以实现模拟浏览器执行js，返回被js操作过的dom树的情况呢？<code>python-qt4</code>有可以模拟浏览器操作的Web工具库，只要是浏览器支持的操作它一般都能模拟。使用PyQt4.QtWebKit就可以执行js，返回js执行之后的结果。我们写一个小demo来验证一下该想法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtGui <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtCore <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtWebKit <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Render</span><span class="params">(QWebPage)</span>:</span>  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url)</span>:</span>  </span><br><span class="line">    self.app = QApplication(sys.argv)  </span><br><span class="line">    QWebPage.__init__(self)  </span><br><span class="line">    self.loadFinished.connect(self._loadFinished)  </span><br><span class="line">    self.mainFrame().load(QUrl(url))  </span><br><span class="line">    self.app.exec_()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">_loadFinished</span><span class="params">(self, result)</span>:</span>  </span><br><span class="line">    self.frame = self.mainFrame()  </span><br><span class="line">    self.app.quit()</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">3</span>]: url = <span class="string">'http://192.168.1.126:8080/html.html'</span></span><br><span class="line">In [<span class="number">4</span>]: r = Render(url)</span><br><span class="line">In [<span class="number">5</span>]: result = r.frame.toHtml()</span><br><span class="line">In [<span class="number">6</span>]: result</span><br><span class="line">Out[<span class="number">6</span>]: PyQt4.QtCore.QString(<span class="string">u'&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;\n    &lt;title&gt;111&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n&lt;script type="text/javascript"&gt;\n    document.body.appendChild(document.createTextNode(String.fromCharCode(84,48,48,76,83)));\n&lt;/script&gt;T00LS\n\n&lt;/body&gt;&lt;/html&gt;'</span>)</span><br></pre></td></tr></table></figure>
-<p>可以发现和requests不同，Html内JavaScript已经执行并在html里面插入了<code>T00LS</code>这样的节点。这样我们就可以获取并匹配Js执行之后的内容<code>T00LS</code>，保证Xss测试用的Payload在浏览器是可以被执行的，减少误报。</p>
-<p>修改后的xss检测插件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtGui <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtCore <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> PyQt4.QtWebKit <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Render</span><span class="params">(QWebPage)</span>:</span>  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url)</span>:</span>  </span><br><span class="line">    self.app = QApplication(sys.argv)  </span><br><span class="line">    QWebPage.__init__(self)  </span><br><span class="line">    self.loadFinished.connect(self._loadFinished)  </span><br><span class="line">    self.mainFrame().load(QUrl(url))  </span><br><span class="line">    self.app.exec_()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">_loadFinished</span><span class="params">(self, result)</span>:</span>  </span><br><span class="line">    self.frame = self.mainFrame()  </span><br><span class="line">    self.app.quit() </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xss_detect</span><span class="params">(method=<span class="string">'GET'</span>, querylist=[], url=<span class="string">''</span>)</span>:</span></span><br><span class="line">    params = &#123;&#125;</span><br><span class="line">    resp = <span class="keyword">None</span></span><br><span class="line">    payload = <span class="string">'--&gt;\'"&gt;&lt;script&gt;document.body.appendChild(document.createTextNode(String.fromCharCode(84,48,48,76,83)));&lt;/script&gt;'</span></span><br><span class="line">    <span class="keyword">if</span> method == <span class="string">'GET'</span>:</span><br><span class="line">        <span class="keyword">for</span> query <span class="keyword">in</span> querylist:</span><br><span class="line">            url = <span class="string">'&#123;url&#125;?&#123;query&#125;=&#123;payload&#125;'</span>.format(url=url,query=query,payload=payload)</span><br><span class="line">        r = Render(url)</span><br><span class="line">        result = r.frame.toHtml()</span><br><span class="line">        resp = str(result.toAscii())</span><br><span class="line">        <span class="keyword">print</span> resp</span><br><span class="line">    <span class="keyword">if</span> resp:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'T00LS'</span> <span class="keyword">in</span> resp:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> xss_detect(querylist=[<span class="string">'id'</span>,], url=<span class="string">'http://192.168.1.126/xss.php'</span>)</span><br></pre></td></tr></table></figure>
-<p>分别对上面构造的两个php脚本进行检测，可以发现不会出现相同的误报了。</p>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5jw1f63x4gyaq8j30ub044gnp.jpg" alt=""></p>
-<p>这种方法保证了我们所插入的Js代码确实在浏览器能执行，实际的环境中，我们应该让Js生成比<code>T00LS</code>更加复杂得多的字符，这样就可以避免误报了。</p>
-
     
   </section>
   
@@ -207,91 +181,7 @@
   </ul>
 
     
-      
-        <a href="http://blog.neargle.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/#disqus_thread" class="post-foot-link fr">评论</a>
-      
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2016/07/22/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题之SQL注入</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2016-07-22T15:51:06.257Z" class="post-time">2016-07-22</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <h1 id="前言">前言</h1><p>好久没写文章了，最近一直都是在看文章。<br>近期写了好几个PythonWeb项目，在实现需求的过程中，一直在思考PythonWeb开发过程中会遇到哪些常见的Web安全问题呢？这些问题又在什么情况下会被利用者GetShell呢？下面就分类来讨论这些问题：(这也是重新启用博客的第一篇文章，顺便投给90Sec也不知道能不能过QAQ。)</p>
-<h1 id="常见漏洞分析">常见漏洞分析</h1><h2 id="SQLI">SQLI</h2><p>SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是<code>request.args.get(&#39;id&#39;, 0, type=int)</code>和<code>request.form.get(&#39;id&#39;, 0, type=int)</code>两种方式，另外Flask还支持在URL路由里带入变量：<code>@app.route(&#39;/news/&lt;int:id&gt;&#39;)</code>，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.</p>
-<p>PythonWeb开发中，在处理数据库的过程中经常使用orm库进行数据库处理，orm库是防SQL注入的好手。Flask和Tornado经常使用Sqlalchemy，而Django有自己自带的orm引擎。举一个用Sqlalchemy建模型类，并使用模型类查询用户数据的例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, DateTime</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'mysql+pymysql://user:password@192.168.1.101/test'</span>)</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br><span class="line">session = DBSession()</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">user_t</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'user_t'</span></span><br><span class="line">    user_id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    username = Column(String)</span><br><span class="line">    userpassword = Column(String)</span><br><span class="line">    createtime = Column(DateTime, default=datetime.utcnow)</span><br></pre></td></tr></table></figure>
-<p>正常的查询与数据展示:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>user = session.query(user_t).filter(user_t.username==<span class="string">'test'</span>).first()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>user.__dict__</span><br><span class="line">&#123;<span class="string">'username'</span>: <span class="string">'test'</span>, <span class="string">'userpassword'</span>: <span class="string">'098f6bcd4621d373cade4e832627b4f6'</span>, <span class="string">'_sa_instance_state'</span>: &lt;sqlalchemy.orm.state.InstanceState object at <span class="number">0x03F96530</span>&gt;, <span class="string">'user_id'</span>: <span class="number">3</span>, <span class="string">'createtime'</span>: datetime.datetime(<span class="number">2016</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">50</span>, <span class="number">16</span>)&#125;</span><br></pre></td></tr></table></figure>
-<p>在数据库执行的sql语句为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> user_t.user_id <span class="keyword">AS</span> user_t_user_id, user_t.username <span class="keyword">AS</span> user_t_username, user_t.userpassword <span class="keyword">AS</span> user_t_userpassword, user_t.createtime <span class="keyword">AS</span> user_t_createtime </span><br><span class="line"><span class="keyword">FROM</span> user_t </span><br><span class="line"><span class="keyword">WHERE</span> user_t.username = <span class="string">'test'</span> </span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">1</span></span></span><br></pre></td></tr></table></figure>
-<p>如果我们构造sql注入测试语句，并传入Sqlalchemy的查询语句中，看一下返回。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>user = session.query(user_t).filter(user_t.username==<span class="string">"test'"</span>).first()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="keyword">print</span> user</span><br><span class="line"><span class="keyword">None</span></span><br></pre></td></tr></table></figure>
-<p>那么在数据库中执行的sql语句是什么呢？</p>
-<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f632h0ycipj311y02zmyh.jpg" alt=""></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> user_t.user_id <span class="keyword">AS</span> user_t_user_id, user_t.username <span class="keyword">AS</span> user_t_username, user_t.userpassword <span class="keyword">AS</span> user_t_userpassword, user_t.createtime <span class="keyword">AS</span> user_t_createtime </span><br><span class="line"><span class="keyword">FROM</span> user_t </span><br><span class="line"><span class="keyword">WHERE</span> user_t.username = <span class="string">'test\''</span> </span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">1</span></span></span><br></pre></td></tr></table></figure>
-<p>由此可见在当Sqlalchemy接收到字符串进行查询时，在构造SQL语句的时候，会默认使用单引号包裹字符串，如果字符串内含有单引号的话，会使用<code>\</code>进行转义。从而达到过滤单引号的效果。</p>
-<p>我们知道原生的sql语句在进行字符串拼接的情况下，容易产生sql注入，那Sqlalchemy是否支持执行sql语句呢？答案是肯定的，下面是Sqlalchemy执行sql语句的一个例子。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">18</span>]: <span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> text</span><br><span class="line">In [<span class="number">19</span>]: sql = text(<span class="string">'SELECT * from user_t WHERE username = :username;'</span>)</span><br><span class="line">In [<span class="number">20</span>]: data = session.execute(sql, &#123;<span class="string">'username'</span>:<span class="string">'test'</span>&#125;).fetchall()</span><br><span class="line">In [<span class="number">21</span>]: data</span><br><span class="line">Out[<span class="number">21</span>]: [(<span class="number">3</span>, <span class="string">'test'</span>, <span class="string">'098f6bcd4621d373cade4e832627b4f6'</span>, datetime.datetime(<span class="number">2016</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">50</span>, <span class="number">16</span>))]</span><br></pre></td></tr></table></figure>
-<p>那么这种情况下，会造成sql注入吗？同样我们传入<code>test&#39;</code>字符串，看看是否会进行对其进行过滤。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">22</span>]: data = session.execute(sql, &#123;<span class="string">'username'</span>:<span class="string">"test'"</span>&#125;).fetchall()</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww2.sinaimg.cn/large/005y7Ba5jw1f632dvfasjj30lv01y0t3.jpg" alt=""></p>
-<p>在数据库执行的sql语句为<code>SELECT * from user_t WHERE username = &#39;test\&#39;&#39;</code>,可见Sqlalchemy对其进行了相同的处理。那么是不是使用Sqlalchemy的情况下就不用产生sql注入了呢？显然，如果正确使用Sqlchemy的话，出现sql注入的情况会大大的降低，但是愚蠢的sql语句处理方法，同样会导致sql注入。如果不使用execute传入参数，而是使用python格式化字符串或拼接字符串的话，出现sql注入的概率会大大增加。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>sqli_payload = <span class="string">"test'"</span></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>sql = text(<span class="string">"SELECT * from user_t WHERE username = '%s'"</span> %sqli_payload)</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>data = session.execute(sql).fetchall()</span><br><span class="line"></span><br><span class="line">ProgrammingError: (pymysql.err.ProgrammingError) (<span class="number">1064</span>, <span class="string">u"You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''test''' at line 1"</span>) [SQL: <span class="string">u"SELECT * from user_t WHERE username = 'test''"</span>]</span><br></pre></td></tr></table></figure>
-<p>报错，从错误信息上或查看数据库记录可见，单引号被成功带进了sql语句中。因此我们就可以构造payload获取数据。例如：<code>sqli_payload = &quot;test&#39; union select user(),1,2,3#&quot;</code>或<code>sqli_payload = &quot;test&#39; union SELECT host,user,1,2 FROM mysql.user LIMIT 1 OFFSET 1#&quot;</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">22</span>]: sqli_payload = <span class="string">"test' union select user(),1,2,3#"</span></span><br><span class="line">In [<span class="number">23</span>]: sql = text(<span class="string">"SELECT * from user_t WHERE username = '%s'"</span> %sqli_payload)</span><br><span class="line">In [<span class="number">24</span>]: data = session.execute(sql).fetchall()</span><br><span class="line">In [<span class="number">25</span>]: data</span><br><span class="line">Out[<span class="number">25</span>]:</span><br><span class="line">[(<span class="string">'3'</span>, <span class="string">'test'</span>, <span class="string">'098f6bcd4621d373cade4e832627b4f6'</span>, <span class="string">'2016-07-06 06:50:16'</span>),</span><br><span class="line"> (<span class="string">'root@localhost'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">33</span>]: sqli_payload = <span class="string">"test' union SELECT host,user,1,2 FROM mysql.user LIMIT 1 OFFSET 1#"</span></span><br><span class="line">In [<span class="number">34</span>]: sql = text(<span class="string">"SELECT * from user_t WHERE username = '%s'"</span> %sqli_payload)</span><br><span class="line">In [<span class="number">35</span>]: data = session.execute(sql).fetchall()</span><br><span class="line">In [<span class="number">36</span>]: data</span><br><span class="line">Out[<span class="number">36</span>]: [(<span class="string">'%'</span>, <span class="string">'root'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>)]</span><br></pre></td></tr></table></figure>
-<p>结合上面提到的Flask传入参数的方法，我们可以整理在<code>Flask+Sqlalchemy</code>的情况下，比较容易产生sql注入的情况。</p>
-<ol>
-<li>获取get、post请求参数没有限定type或指定type为str</li>
-<li>同样的，定义url参数没有限定参数类型或指定参数回调为str</li>
-<li>使用用户可控的参数进行sql语句格式化或拼接并带入数据库执行的</li>
-</ol>
-<p>综合以上几点，我们写一个基于flask的单文件web小程序。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, render_template_string</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, DateTime, text</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'mysql+pymysql://root:root@127.0.0.1/test'</span>, echo=<span class="keyword">True</span>)</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br><span class="line">session = DBSession()</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="decorator">@app.route('/id-&lt;id&gt;/', methods=['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqli</span><span class="params">(id)</span>:</span></span><br><span class="line">    template = <span class="string">'''</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h1&gt;hello! &#123;&#123; username &#125;&#125;&lt;/h1&gt;</span><br><span class="line">        &lt;/div&gt;'''</span></span><br><span class="line">    sql = text(<span class="string">"SELECT * from user_t WHERE user_id = '%s'"</span> %id)</span><br><span class="line">    data = session.execute(sql).fetchall()</span><br><span class="line">    <span class="keyword">print</span> data</span><br><span class="line">    <span class="keyword">return</span> render_template_string(template, username=data[<span class="number">0</span>][<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">app.run(debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5jw1f632fm8u2hj30ii079gm7.jpg" alt=""></p>
-<p>注入测试：</p>
-<p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f632ge9caij310507etaw.jpg" alt=""></p>
-<h3 id="总结与思考">总结与思考</h3><ol>
-<li>想要在FlaskWeb应用里面发现漏洞，不仅要注意get和post请求的参数，有可能出现问题的变量隐含在url中。</li>
-<li>PythonWeb开发中，即使使用orm引擎，也有可能导致sql注入。</li>
-<li>Sqlalchemy使用单引号包裹传进来的字符串变量，并使用<code>\</code>过滤字符串中的单引号。那么宽字符注入在使用本文的环境中是否可行呢？答案是否定的，Flask默认会将所有传入的字符串转为unicode，但不排除使用别的PythonWeb框架结合Sqlalchemy会产生宽字符注入的情况。</li>
-</ol>
-<h3 id="最后再说点啥">最后再说点啥</h3><p>Web应用包含sql注入的情况，通常的想法会使用sql注入写文件拿webshell。但是写webshell的情况，在多数的PythonWeb框架或PythonWeb生产环境中并不管用。当然这并不代表，sql注入的危害性在PythonWeb环境中会降低，你依旧可以使用它来进行很多危险的行为。PythonWeb框架会产生的安全问题也有很多有趣的地方值得我们思考，我会继续分析其他的诸如XSS，SSRF等漏洞在PythonWeb上面所表现的特点，也会分析诸如Pickle反序列化，Flask强大的Debug模式等Python特性可能产生的安全问题。</p>
-<p>总之路还很长，还得继续加油啊…</p>
-<h2 id="下一章XSS…">下一章XSS…</h2>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/Python代码审计/">#Python代码审计</a></li>
-    
-  </ul>
-
-    
-      
-        <a href="http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/#disqus_thread" class="post-foot-link fr">评论</a>
-      
+      <a href="/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/#more" class="post-foot-link fr">阅读全文</a>
     
     </section>
   </footer>

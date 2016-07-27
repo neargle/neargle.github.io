@@ -56,7 +56,7 @@
   
 
     
-<time datetime="2016-07-22T15:51:06.257Z" class="post-time">2016-07-22</time>
+<time datetime="2016-07-27T06:57:13.026Z" class="post-time">2016-07-27</time>
 
   </header>
   
@@ -65,6 +65,7 @@
 <h1 id="常见漏洞分析">常见漏洞分析</h1><h2 id="SQLI">SQLI</h2><p>SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是<code>request.args.get(&#39;id&#39;, 0, type=int)</code>和<code>request.form.get(&#39;id&#39;, 0, type=int)</code>两种方式，另外Flask还支持在URL路由里带入变量：<code>@app.route(&#39;/news/&lt;int:id&gt;&#39;)</code>，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.</p>
 <p>PythonWeb开发中，在处理数据库的过程中经常使用orm库进行数据库处理，orm库是防SQL注入的好手。Flask和Tornado经常使用Sqlalchemy，而Django有自己自带的orm引擎。举一个用Sqlalchemy建模型类，并使用模型类查询用户数据的例子：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, DateTime</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'mysql+pymysql://user:password@192.168.1.101/test'</span>)</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br><span class="line">session = DBSession()</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">user_t</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'user_t'</span></span><br><span class="line">    user_id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    username = Column(String)</span><br><span class="line">    userpassword = Column(String)</span><br><span class="line">    createtime = Column(DateTime, default=datetime.utcnow)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>正常的查询与数据展示:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>user = session.query(user_t).filter(user_t.username==<span class="string">'test'</span>).first()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>user.__dict__</span><br><span class="line">&#123;<span class="string">'username'</span>: <span class="string">'test'</span>, <span class="string">'userpassword'</span>: <span class="string">'098f6bcd4621d373cade4e832627b4f6'</span>, <span class="string">'_sa_instance_state'</span>: &lt;sqlalchemy.orm.state.InstanceState object at <span class="number">0x03F96530</span>&gt;, <span class="string">'user_id'</span>: <span class="number">3</span>, <span class="string">'createtime'</span>: datetime.datetime(<span class="number">2016</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">50</span>, <span class="number">16</span>)&#125;</span><br></pre></td></tr></table></figure>
 <p>在数据库执行的sql语句为：</p>
@@ -123,13 +124,9 @@
     
 <nav id="post-nav" class="clear">
   
-    <a href="/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/" id="post-nav-newer" class="post-nav-link-wrap fl" title="使用PyQt4.QtWebKit降低自动化XSS检测的误报">
-      <div class="post-nav-title">&laquo; 使用PyQt4.QtWebKit降低自动化XSS检测的误报</div>
-    </a>
   
-  
-    <a href="/2015/12/01/html5-file-upload-flask-ver-python-ver/" id="post-nav-older" class="post-nav-link-wrap fr" title="Html5文件夹上传欺骗之Python实现版-w-">
-      <div class="post-nav-title">Html5文件夹上传欺骗之Python实现版-w- &raquo;</div>
+    <a href="/2016/07/27/log-of-simple-code-review-about-python-base-webapp/" id="post-nav-older" class="post-nav-link-wrap fr" title="记一下PythonWeb代码审计应该注意的地方">
+      <div class="post-nav-title">记一下PythonWeb代码审计应该注意的地方 &raquo;</div>
     </a>
   
 </nav>
@@ -155,7 +152,7 @@
   <script>
     var disqus_shortname = 'neargle';
     
-    var disqus_url = 'http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/';
+    var disqus_url = 'http://blog.neargle.com/2016/07/27/pythonweb-framework-dev-vulnerable/';
     
     (function(){
       var dsq = document.createElement('script');

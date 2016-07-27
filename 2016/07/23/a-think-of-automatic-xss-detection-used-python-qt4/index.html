@@ -64,6 +64,7 @@
     <p>一直以来的一个想法，现在有新的思路的就写出来看看。</p>
 <p>自动化Web漏洞扫描器是渗透测试亘古不变的话题。把当前一直重复的手工劳动和新的思路转化为自动化工具，利用技术和程序实现为自己节省时间是一件非常有趣的事情。然而，自动化的路坑却不少。其中误报就是一件比较蛋疼的事情，XSS的误报尤其蛋疼。当前众多扫描器的XSS插件都存在误报的情况，我们来看一下大部分扫描器的XSS检测思路，我写了一个简单的Python函数来描述它，当然实际的通用XSS检测插件肯定会比这个要复杂的多,我只截取了一部分来说明思路：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">headers=&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xss_detect</span><span class="params">(method=<span class="string">'GET'</span>, querylist=[], url=<span class="string">''</span>)</span>:</span></span><br><span class="line">    params = &#123;&#125;</span><br><span class="line">    resp = <span class="keyword">None</span></span><br><span class="line">    <span class="comment"># 这里有更多的payload,如onfocus=alert(2333)</span></span><br><span class="line">    payload = <span class="string">'--&gt;\'"&gt;&lt;script&gt;alert(1);&lt;/script&gt;'</span> </span><br><span class="line">    <span class="keyword">if</span> method == <span class="string">'GET'</span>:</span><br><span class="line">        <span class="keyword">for</span> query <span class="keyword">in</span> querylist:</span><br><span class="line">            <span class="comment"># url = '&#123;url&#125;?&#123;query&#125;=&#123;payload&#125;'.format(url=url,query=query,payload=payload)</span></span><br><span class="line">            params[query] = payload</span><br><span class="line">        resp = requests.get(url, params=params, headers=headers)</span><br><span class="line">    <span class="comment"># 此处省略POST</span></span><br><span class="line">    <span class="keyword">if</span> resp:</span><br><span class="line">        <span class="comment"># 这里有更多的正则匹配规则</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'&lt;script&gt;alert(1);&lt;/script&gt;'</span> <span class="keyword">in</span> resp.content:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>再准备一个有XSS漏洞的php脚本：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">'id'</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$id</span>;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>测试：</p>
@@ -109,13 +110,13 @@
     
 <nav id="post-nav" class="clear">
   
-    <a href="/2016/07/25/log-of-simple-code-review-about-python-base-webapp/" id="post-nav-newer" class="post-nav-link-wrap fl" title="记一下PythonWeb代码审计应该注意的地方">
+    <a href="/2016/07/27/log-of-simple-code-review-about-python-base-webapp/" id="post-nav-newer" class="post-nav-link-wrap fl" title="记一下PythonWeb代码审计应该注意的地方">
       <div class="post-nav-title">&laquo; 记一下PythonWeb代码审计应该注意的地方</div>
     </a>
   
   
-    <a href="/2016/07/22/pythonweb-framework-dev-vulnerable/" id="post-nav-older" class="post-nav-link-wrap fr" title="讨论PythonWeb开发中可能会遇到的安全问题之SQL注入">
-      <div class="post-nav-title">讨论PythonWeb开发中可能会遇到的安全问题之SQL注入 &raquo;</div>
+    <a href="/2015/12/01/html5-file-upload-flask-ver-python-ver/" id="post-nav-older" class="post-nav-link-wrap fr" title="Html5文件夹上传欺骗之Python实现版-w-">
+      <div class="post-nav-title">Html5文件夹上传欺骗之Python实现版-w- &raquo;</div>
     </a>
   
 </nav>

@@ -56,7 +56,7 @@
   
 
     
-<time datetime="2016-07-25T12:07:26.413Z" class="post-time">2016-07-25</time>
+<time datetime="2016-07-27T06:57:04.560Z" class="post-time">2016-07-27</time>
 
   </header>
   
@@ -66,6 +66,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stmt = <span class="string">"SELECT * FROM table WHERE id=?"</span></span><br><span class="line">connection.execute(stmt, (value,))</span><br></pre></td></tr></table></figure>
 <p>不安全的做法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"SELECT * FROM table WHERE id="</span> + value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=%s"</span> % value</span><br><span class="line"><span class="string">"SELECT * FROM table WHERE id=&#123;0&#125;"</span>.format(value)</span><br></pre></td></tr></table></figure></p>
 <p>大部分Python操作数据库的第三方模块，如pymysql、sqlite3等，执行sql语句的函数，都支持参数化查询，如上安全的做法所示，可以给sql语句传递参数，这个参数经过过滤。而下面的字符串拼接是不经过过滤。所以会出现sql注入。</p>
+<a id="more"></a>
 <h2 id="命令执行">命令执行</h2><p>危险的函数或模块列表：</p>
 <ul>
 <li>os.popen*</li>
@@ -127,6 +128,10 @@
     
 <nav id="post-nav" class="clear">
   
+    <a href="/2016/07/27/pythonweb-framework-dev-vulnerable/" id="post-nav-newer" class="post-nav-link-wrap fl" title="讨论PythonWeb开发中可能会遇到的安全问题之SQL注入">
+      <div class="post-nav-title">&laquo; 讨论PythonWeb开发中可能会遇到的安全问题之SQL注入</div>
+    </a>
+  
   
     <a href="/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/" id="post-nav-older" class="post-nav-link-wrap fr" title="使用PyQt4.QtWebKit降低自动化XSS检测的误报">
       <div class="post-nav-title">使用PyQt4.QtWebKit降低自动化XSS检测的误报 &raquo;</div>
@@ -155,7 +160,7 @@
   <script>
     var disqus_shortname = 'neargle';
     
-    var disqus_url = 'http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/';
+    var disqus_url = 'http://blog.neargle.com/2016/07/27/log-of-simple-code-review-about-python-base-webapp/';
     
     (function(){
       var dsq = document.createElement('script');
