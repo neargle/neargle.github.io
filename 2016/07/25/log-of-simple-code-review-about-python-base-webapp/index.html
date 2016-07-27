@@ -56,7 +56,7 @@
   
 
     
-<time datetime="2016-07-25T11:34:35.612Z" class="post-time">2016-07-25</time>
+<time datetime="2016-07-25T12:07:26.413Z" class="post-time">2016-07-25</time>
 
   </header>
   
@@ -105,6 +105,7 @@
 <p>以上两种情况，就算你使用了jinja2模板传入参数也有可能会产生Xss。当然如果你直接把用户输入拼接到模板中，也同样会产生XSS，不过那会产生更加严重的SSTI。</p>
 <h2 id="异常处理">异常处理</h2><p>这里作者提到了异常处理的正确方式，其实我觉得并不只在Python里面有，是大部分程序员在开发时候的通病。处理异常的时候直接pass，不回显，也不记录异常信息，不分类处理异常，导致错误无法跟踪。这里我推荐看一下：<code>https://www.zhihu.com/question/29459586</code>中pig pig的回答，他的描述比原作者要详细一些。</p>
 <p>至于这个我觉得超出了安全审计的范围，是代码规范和软件测试的范畴。在这里就不说明了。</p>
+<p><a href="http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/">http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/</a></p>
 
   </section>
   
