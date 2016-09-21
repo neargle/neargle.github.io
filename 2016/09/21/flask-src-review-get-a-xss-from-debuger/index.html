@@ -64,7 +64,7 @@
     <h1 id="前言">前言</h1><p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f81cs6bp5lj31130httgm.jpg" alt=""><br>前段时间发现较为鸡肋的洞和当时写的文章。</p>
 <p>一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.10.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.10.11。</p>
 <p>记下了发现的过程。</p>
-<!-- readme -->
+<a id="more"></a>
 <h1 id="正文">正文</h1><p>看了一段时间Flask的源码，想学习一下项目架构和一些感兴趣的实现，其中就包括Flask功能强大的Debugger页面。用过Flask的人都知道，Flask的Debug模式能帮助我们在开发Web应用时跟踪异常信息，调试代码，解决问题。</p>
 <p>在使用Debugger的时候，我就在想这个页面难道也是使用<code>render_template</code>或其他Flask模板调用函数生成的吗？稍微翻了一下代码，发现这个功能既没有使用Jinja2模板，甚至它的主要代码写在Flask的另一个基础库werkzeug上面。</p>
 <p><a href="https://github.com/pallets/werkzeug" target="_blank" rel="external">Werkzeug</a>是Flask官方开发的一个WSGI工具箱，可以作为一个Web框架的底层库。事实上Flask就是基于Werkzeug和Jinja2开发的一个Web框架。</p>
