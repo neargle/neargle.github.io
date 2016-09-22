@@ -6,6 +6,16 @@
   <title>条件内初始化SQL变量造成SQL注入 - Nearg1e</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/js/highlight.pack.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?51135ba584283cb26361d2c420afe192";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
   
     <link rel="icon" href="/favicon.ico">
   
@@ -71,6 +81,7 @@
 <h2 id="总结">总结</h2><h3 id="修复方案：">修复方案：</h3><p>Metinfo官方的修复方案是： 在条件外把变量定义为空字符串。<br><img src="http://ww1.sinaimg.cn/large/005y7Ba5gw1ex7ib70vroj30he01rglx.jpg" alt=""><br>作为临时的修复方法是可行的。但是其实总归来说，还是直接使用<code>.+</code>拼接SQL字符串变量的错，再加上PHP的变量无需声明直接使用和PHP的变量get传入(应该是开启 register_globals)，在方便开发者的同事，也会出现很多安全隐患，开发的时候还是得小心坑为好啊。</p>
 <h2 id="参考：">参考：</h2><p><a href="http://www.wooyun.org/bugs/wooyun-2015-0125648" target="_blank" rel="external">http://www.wooyun.org/bugs/wooyun-2015-0125648</a><br><a href="http://www.wooyun.org/bugs/wooyun-2015-0121480" target="_blank" rel="external">http://www.wooyun.org/bugs/wooyun-2015-0121480</a></p>
 
+    <p class="origin-url">本文URL： <a href="http://blog.neargle.com/2015/10/20/code-audit-from-definition-in-condition-sqli/index.html">http://blog.neargle.com/2015/10/20/code-audit-from-definition-in-condition-sqli/index.html</a></p>
   </section>
   
   <footer class="post-foot">
