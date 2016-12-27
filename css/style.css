@@ -40,11 +40,6 @@ th {
     text-align:inherit;
 }
 
-/* 去除默认边框 */
-fieldset,img {
-    border:0;
-}
-
 /* ie6 7 8(q) bug 显示为行内表现 */
 iframe {
     display:block;
@@ -316,7 +311,7 @@ html,body{
   }
 
   #site-title{
-    padding: 180px 0 0;
+    padding: 5% 0 0;
   }
 }
 
@@ -327,6 +322,7 @@ html,body{
 }
 
 #site-description{
+  padding-bottom: 10%;
   font-size: 1.5em;
   font-weight: 200;
   color: white;
@@ -352,21 +348,22 @@ html,body{
     font-size: 1em;
     font-weight: 200;
     color: #fff;
+    padding-bottom: 0;
   }
 }
 
 #logo{
     overflow: hidden;
     text-align: center;
-    background: url(../images/h2.jpg) no-repeat center center;
+    background: #212121;
     background-size: cover;
     min-width: 100%;
+    height: 50%;
     background-position:bottom;
 }
 
 #logo a{
     color: white;
-    /*color: #005EFF;*/
     text-decoration: none;
 }
 
@@ -393,15 +390,12 @@ html,body{
   background-color: rgba(255, 255, 255, 0);
   overflow: hidden;
   box-shadow: 0 2px 3px #ddd;
+  border-top-style: inset;
 }
 
 .post-head,.post-content,.post-foot-warp{
     width: 850px;
     margin: 0 auto;
-}
-
-.post{
-  margin-bottom: 30px;
 }
 
 @media (max-width:1024px){
@@ -416,8 +410,9 @@ html,body{
 }
 
 .post-head{
-    padding: 30px 0 20px;
-    margin-bottom: 10px;
+    padding: 30px 0 10px;
+    margin-bottom: 30px;
+    border-bottom-style: inset;
 }
 
 /*neargle*/
@@ -509,7 +504,7 @@ html,body{
 
 
 .post-foot{
-    padding: 25px 0;
+    padding: 10px 0;
     border-top: 1px solid #ddd;
 }
 
@@ -721,7 +716,7 @@ a.post-nav-link-wrap:hover{
 /* 保证块/段落之间的空白隔行 */
 .typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
 .typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote{
-  margin-bottom:1.8em;
+  margin-bottom:0.3em;
   font-size: 16px;
   color: black;
 }
@@ -864,7 +859,11 @@ h1, h2, h3, h4, h5, h6{
 }
 
 /* Responsive images */
-.typo img{ max-width: 100%; }
+.typo img{ 
+  max-width: 100%;
+  border-style: solid;
+  border-color: #daebef;
+}
 .post-images img{ max-width: 100%; }
 .video {
     position: relative;
