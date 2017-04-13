@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.neargle.com/"/>
-  <updated>2017-04-13T03:43:23.000Z</updated>
+  <updated>2017-04-13T03:52:55.000Z</updated>
   <id>http://blog.neargle.com/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/"/>
     <id>http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/</id>
     <published>2017-04-12T15:55:00.000Z</published>
-    <updated>2017-04-13T03:43:23.000Z</updated>
+    <updated>2017-04-13T03:52:55.000Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="https://www.djangoproject.com/weblog/2017/apr/04/security-releases/" target="_blank" rel="external">Django官方News&amp;Event</a>在4月4日发布了一个更新，更新了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。把两个漏洞的分析整合在一起，凑了篇文章。</p>
-<h4 id="CVE-2017-7233分析_–_Django_is_safe_url()_URL跳转过滤函数Bypass">CVE-2017-7233分析 – Django is_safe_url() URL跳转过滤函数Bypass</h4><p>国外安全研究员roks0n提供给Django官方的一个漏洞。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多，于是写了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）</p>
+    <content type="html"><![CDATA[<p><a href="https://www.djangoproject.com/weblog/2017/apr/04/security-releases/" target="_blank" rel="external">Django官方News&amp;Event</a>在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）</p>
+<h4 id="CVE-2017-7233分析_–_Django_is_safe_url()_URL跳转过滤函数Bypass">CVE-2017-7233分析 – Django is_safe_url() URL跳转过滤函数Bypass</h4><p>国外安全研究员roks0n提供给Django官方的一个漏洞。</p>
 <p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg" alt=""></p>
 <a id="more"></a>
 <h4 id="关于is_safe_url函数">关于is_safe_url函数</h4><p>Django自带一个函数：<code>django.utils.http.is_safe_url(url, host=None, allowed_hosts=None, require_https=False)</code>，用于过滤需要进行跳转的url。如果url安全则返回ture，不安全则返回false。文档如下:</p>
@@ -68,8 +68,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;a href=&quot;https://www.djangoproject.com/weblog/2017/apr/04/security-releases/&quot;&gt;Django官方News&amp;amp;Event&lt;/a&gt;在4月4日发布了一个更新，更新了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。把两个漏洞的分析整合在一起，凑了篇文章。&lt;/p&gt;
-&lt;h4 id=&quot;CVE-2017-7233分析_–_Django_is_safe_url()_URL跳转过滤函数Bypass&quot;&gt;CVE-2017-7233分析 – Django is_safe_url() URL跳转过滤函数Bypass&lt;/h4&gt;&lt;p&gt;国外安全研究员roks0n提供给Django官方的一个漏洞。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多，于是写了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.djangoproject.com/weblog/2017/apr/04/security-releases/&quot;&gt;Django官方News&amp;amp;Event&lt;/a&gt;在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）&lt;/p&gt;
+&lt;h4 id=&quot;CVE-2017-7233分析_–_Django_is_safe_url()_URL跳转过滤函数Bypass&quot;&gt;CVE-2017-7233分析 – Django is_safe_url() URL跳转过滤函数Bypass&lt;/h4&gt;&lt;p&gt;国外安全研究员roks0n提供给Django官方的一个漏洞。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
