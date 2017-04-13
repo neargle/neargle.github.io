@@ -418,7 +418,7 @@ html,body{
 /*neargle*/
 .post-title{
     font-size: 2.5em;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .post-title > a{
@@ -722,8 +722,8 @@ a.post-nav-link-wrap:hover{
 }
 
 h1, h2, h3, h4, h5, h6{
-  font-family:'Helvetica Neue', 'Microsoft Yahei', 'Hiragino Sans GB', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
-  font-weight:200;
+  font-family: PingFang SC,Hiragino Sans GB,Helvetica Neue,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif;
+  font-weight:600;
   color:#000;
 }
 
@@ -917,4 +917,297 @@ p.origin-url a{
   color: #C0C0C0;
   font-size: 10px;
   float: right;
+}
+
+.post-content .typo h1, h2, h3, h4, h5, h6 {
+  color: #5d5d5d;
+  font-weight: 500;
+}
+
+article section.post-content.typo {
+  font: 400 18px/1.62 "Georgia", "Xin Gothic", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
+  color: #444443;
+}
+
+article section.post-content.typo ::-moz-selection {
+  background-color: rgba(0,0,0,0.2);
+}
+
+article section.post-content.typo ::selection {
+  background-color: rgba(0,0,0,0.2);
+}
+
+article section.post-content.typo h1,
+article section.post-content.typo h2,
+article section.post-content.typo h3,
+article section.post-content.typo h4,
+article section.post-content.typo h5,
+article section.post-content.typo h6 {
+  font-family: PingFang SC,Hiragino Sans GB,Helvetica Neue,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif;
+  color: #545d5b;
+
+}
+
+article section.post-content.typo h1 {
+  margin: 0.67em 0;
+}
+
+article section.post-content.typo > h1 {
+  margin-top: 0;
+}
+
+article section.post-content.typo h2 {
+  margin: 0.83em 0;
+}
+
+article section.post-content.typo h3 {
+  margin: 1em 0;
+}
+
+article section.post-content.typo h4,
+article section.post-content.typo h5,
+article section.post-content.typo h6 {
+  margin: 1.6em 0 1em 0;
+}
+
+article section.post-content.typo h6 {
+  font-weight: 500;
+}
+
+article section.post-content.typo p {
+  margin-top: 0;
+  margin-bottom: 1.46em;
+  font-size: large;
+  font-family: PingFang SC,Hiragino Sans GB,Helvetica Neue,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif;
+}
+
+article section.post-content.typo a {
+  color: #111;
+  word-wrap: break-word;
+  -moz-text-decoration-color: rgba(0, 0, 0, 0.4);
+  text-decoration-color: rgba(0, 0, 0, 0.4);
+}
+
+article section.post-content.typo a:hover {
+  color: #555;
+  -moz-text-decoration-color: rgba(0, 0, 0, 0.6);
+  text-decoration-color: rgba(0, 0, 0, 0.6);
+}
+
+article section.post-content.typo h1 a,
+article section.post-content.typo h2 a,
+article section.post-content.typo h3 a {
+  text-decoration: none;
+}
+
+article section.post-content.typo strong,
+article section.post-content.typo b {
+  font-weight: 700;
+  color: #222223;
+}
+
+article section.post-content.typo em,
+article section.post-content.typo i {
+  font-style: italic;
+  color: #222223;
+}
+
+article section.post-content.typo img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.2em 0;
+}
+
+article section.post-content.typo a img {
+  /* Remove border on IE */
+  border: none;
+}
+
+article section.post-content.typo figure {
+  position: relative;
+  clear: both;
+  outline: 0;
+  padding: 0;
+  min-height: 100px;
+}
+
+article section.post-content.typo figure img {
+  display: block;
+  max-width: 100%;
+  margin: auto auto 4px;
+  box-sizing: border-box;
+}
+
+article section.post-content.typo figure figcaption {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #666665;
+}
+
+article section.post-content.typo figure figcaption a {
+  text-decoration: none;
+  color: #666665;
+}
+
+article section.post-content.typo hr {
+  display: block;
+  width: 14%;
+  margin: 40px auto 34px;
+  border: 0 none;
+  border-top: 3px solid #dededc;
+}
+
+article section.post-content.typo blockquote {
+  margin: 0 0 1.64em 0;
+  border-left: 3px solid #dadada;
+  padding-left: 12px;
+  color: #666664;
+}
+
+article section.post-content.typo blockquote a {
+  color: #666664;
+}
+
+article section.post-content.typo ul,
+article section.post-content.typo ol {
+  margin: 0 0 24px 6px;
+  padding-left: 16px;
+}
+
+article section.post-content.typo ul {
+  list-style-type: square;
+}
+
+article section.post-content.typo ol {
+  list-style-type: decimal;
+}
+
+article section.post-content.typo li {
+  margin-bottom: 0.2em;
+}
+
+article section.post-content.typo li ul,
+article section.post-content.typo li ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 14px;
+}
+
+article section.post-content.typo li ul {
+  list-style-type: disc;
+}
+
+article section.post-content.typo li ul ul {
+  list-style-type: circle;
+}
+
+article section.post-content.typo li p {
+  margin: 0.4em 0 0.6em;
+}
+
+article section.post-content.typo .unstyled {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+article section.post-content.typo code,
+article section.post-content.typo tt {
+  color: #808080;
+  font-size: 0.96em;
+  background-color: #f9f9f7;
+  padding: 1px 2px;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  word-wrap: break-word;
+}
+
+article section.post-content.typo pre {
+  margin: 1.64em 0;
+  padding: 7px;
+  border: none;
+  border-left: 3px solid #dadada;
+  padding-left: 10px;
+  overflow: auto;
+  line-height: 1.5;
+  font-size: 0.96em;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  color: #4c4c4c;
+  background-color: #f9f9f7;
+}
+
+article section.post-content.typo pre code,
+article section.post-content.typo pre tt {
+  color: #4c4c4c;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+article section.post-content.typo table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 1.5em;
+  font-size: 0.96em;
+  box-sizing: border-box;
+}
+
+article section.post-content.typo th,
+article section.post-content.typo td {
+  text-align: left;
+  padding: 4px 8px 4px 10px;
+}
+
+article section.post-content.typo td {
+  vertical-align: top;
+}
+
+article section.post-content.typo tr:nth-child(even) {
+  background-color: #efefee;
+}
+
+article section.post-content.typo iframe {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 30px;
+}
+
+article section.post-content.typo figure iframe {
+  margin: auto;
+}
+
+article section.post-content.typo table pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+@media (min-width: 1100px) {
+  article section.post-content.typo blockquote {
+    margin-left: -24px;
+    padding-left: 20px;
+    border-width: 4px;
+  }
+
+  article section.post-content.typo blockquote blockquote {
+    margin-left: 0;
+  }
+}
+
+
+article section.post-content.typo div.about p {
+  margin-bottom: 0;
+}
+
+article section.post-content.typo a {
+  color: #10b97f;
 }
