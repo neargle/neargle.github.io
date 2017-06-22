@@ -861,8 +861,6 @@ h1, h2, h3, h4, h5, h6{
 /* Responsive images */
 .typo img{ 
   max-width: 100%;
-  border-style: solid;
-  border-color: #daebef;
 }
 .post-images img{ max-width: 100%; }
 .video {
@@ -945,7 +943,7 @@ article section.post-content.typo h5,
 article section.post-content.typo h6 {
   font-family: PingFang SC,Hiragino Sans GB,Helvetica Neue,Microsoft Yahei,WenQuanYi Micro Hei,sans-serif;
   color: #545d5b;
-
+  font-weight: bolder;
 }
 
 article section.post-content.typo h1 {
