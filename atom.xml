@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.neargle.com/"/>
-  <updated>2017-09-28T06:10:24.000Z</updated>
+  <updated>2017-09-28T06:14:23.000Z</updated>
   <id>http://blog.neargle.com/</id>
   
   <author>
@@ -20,12 +20,13 @@
     <link href="http://blog.neargle.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/"/>
     <id>http://blog.neargle.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/</id>
     <published>2017-09-28T05:28:54.000Z</published>
-    <updated>2017-09-28T06:10:24.000Z</updated>
+    <updated>2017-09-28T06:14:23.000Z</updated>
     
     <content type="html"><![CDATA[<p>这是我用来支持先知和代码审计小密圈活动的文章，首发于: <a href="https://xianzhi.aliyun.com/forum/read/2163.html" target="_blank" rel="external">https://xianzhi.aliyun.com/forum/read/2163.html</a></p>
 <p><strong>PIL</strong> (Python Image Library) 应该是 Python 图片处理库中运用最广泛的，它拥有强大的功能和简洁的API。很多Python Web应用在需要实现处理图片的功能时，都会选择使用PIL。</p>
 <p>PIL在对 eps 图片格式进行处理的时候，如果环境内装有 GhostScript，则会调用 GhostScript 在dSAFER模式下处理图片，即使是最新版本的PIL模块，也会受到 <code>GhostButt CVE-2017-8291</code> dSAFER模式Bypass漏洞的影响，产生命令执行漏洞。</p>
 <p>据说大牛们看源码和 dockerfile 就可以了：<a href="https://github.com/neargle/PIL-RCE-By-GhostButt" target="_blank" rel="external">https://github.com/neargle/PIL-RCE-By-GhostButt</a></p>
+<a id="more"></a>
 <h2 id="一个简单常见的Demo">一个简单常见的Demo</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img_size</span><span class="params">(filepath=<span class="string">""</span>)</span>:</span></span><br><span class="line">    <span class="string">'''获取图片长宽'''</span></span><br><span class="line">    <span class="keyword">if</span> filepath:</span><br><span class="line">        img = Image.open(filepath)</span><br><span class="line">        img.load()</span><br><span class="line">        <span class="keyword">return</span> img.size</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
 <p>我们在 Demo 里调用了PIL的 <code>Image.open</code>, <code>Image.load</code> 方法加载图片，最后返回图片的长和宽。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">2</span>]: get_img_size(<span class="string">'/tmp/images.png'</span>)</span><br><span class="line">Out[<span class="number">2</span>]: (<span class="number">183</span>, <span class="number">275</span>)</span><br></pre></td></tr></table></figure>
@@ -74,7 +75,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;这是我用来支持先知和代码审计小密圈活动的文章，首发于: &lt;a href=&quot;https://xianzhi.aliyun.com/forum/read/2163.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://xianzhi.aliy
+      &lt;p&gt;这是我用来支持先知和代码审计小密圈活动的文章，首发于: &lt;a href=&quot;https://xianzhi.aliyun.com/forum/read/2163.html&quot;&gt;https://xianzhi.aliyun.com/forum/read/2163.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PIL&lt;/strong&gt; (Python Image Library) 应该是 Python 图片处理库中运用最广泛的，它拥有强大的功能和简洁的API。很多Python Web应用在需要实现处理图片的功能时，都会选择使用PIL。&lt;/p&gt;
+&lt;p&gt;PIL在对 eps 图片格式进行处理的时候，如果环境内装有 GhostScript，则会调用 GhostScript 在dSAFER模式下处理图片，即使是最新版本的PIL模块，也会受到 &lt;code&gt;GhostButt CVE-2017-8291&lt;/code&gt; dSAFER模式Bypass漏洞的影响，产生命令执行漏洞。&lt;/p&gt;
+&lt;p&gt;据说大牛们看源码和 dockerfile 就可以了：&lt;a href=&quot;https://github.com/neargle/PIL-RCE-By-GhostButt&quot;&gt;https://github.com/neargle/PIL-RCE-By-GhostButt&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
