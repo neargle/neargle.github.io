@@ -1287,3 +1287,7 @@ article section.post-content.typo h1, h2, h3, h4, h5, h6 {
 article section.post-content.typo table {
   margin-bottom: 0px;
 }
+
+article section.post-content.typo figure {
+  min-height: 0px;
+}
