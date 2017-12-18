@@ -70,7 +70,7 @@
   
   <section class="post-content typo">
     <h1 id="前言">前言</h1><p><img src="http://ww3.sinaimg.cn/large/005y7Ba5jw1f81cs6bp5lj31130httgm.jpg" alt=""><br>前段时间发现较为鸡肋的洞和当时写的文章。</p>
-<p>一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.10.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.10.11。</p>
+<p>一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.11.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.11.11。</p>
 <p>记下了发现的过程。</p>
 <a id="more"></a>
 <h1 id="正文">正文</h1><p>看了一段时间Flask的源码，想学习一下项目架构和一些感兴趣的实现，其中就包括Flask功能强大的Debugger页面。用过Flask的人都知道，Flask的Debug模式能帮助我们在开发Web应用时跟踪异常信息，调试代码，解决问题。</p>
@@ -103,8 +103,8 @@
 <p><code>id=&lt;/textarea&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></p>
 <p><img src="http://ww1.sinaimg.cn/large/005y7Ba5jw1f81d0kijo7j30ym0cyq85.jpg" alt=""></p>
 <p>写了一个脚本稍微跑了一下，int()的这个异常最多含有200个字符串值，如果传入的字符串长度大于200，就会截取前200位。然而200位的payload已经足够我们构造所有xss利用代码了。</p>
-<h1 id="修复">修复</h1><p>我自己提交的修复代码，官方也采用了，只是加了过滤而已。现在的话，只要运行<code>pip install -U werkzeug</code>，把werkzeug更新到0.10.11版本就没事了。当然更重要的是，任何框架的debug模式都不要放到生产环境。</p>
-<h1 id="待续">待续</h1><p>我当时还有几个小想法，一个就是想思考如何通过一个简单的脚本获取看啊可能那些常见的字符串处理函数其产生的异常，是带有字符串值的，另一个就是经P牛提醒如果可以构造Payload的去获取pin码的话，就可直接代码执行了。</p>
+<h1 id="修复">修复</h1><p>我自己提交的修复代码，官方也采用了，只是加了转义函数而已。现在的话，只要运行<code>pip install -U werkzeug</code>，把werkzeug更新到0.11.11版本就没事了。当然更重要的是，任何框架的debug模式都不要放到生产环境。</p>
+<h1 id="待续">待续</h1><p>我当时还有几个小想法，一个就是想思考如何通过一个简单的脚本fuzz获取看哪些常见的字符串处理函数其产生的异常，是带有字符串值的，另一个就是经P牛提醒如果可以构造Payload的去获取pin码的话，就可直接代码执行了。</p>
 <p>但是一来是Debug模式在线上确实不多见，所以这个洞影响也不是特别大。二来也要忙着审计php和找工作就没再花时间在这上面了。等有时间再好好弄弄。</p>
 <h1 id="参考">参考</h1><p><a href="https://github.com/pallets/werkzeug/commits?author=neargle" target="_blank" rel="external">https://github.com/pallets/werkzeug/commits?author=neargle</a></p>
 

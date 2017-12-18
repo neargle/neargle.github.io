@@ -150,12 +150,12 @@
     <link href="http://blog.neargle.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/"/>
     <id>http://blog.neargle.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/</id>
     <published>2016-09-21T01:48:42.000Z</published>
-    <updated>2017-02-15T03:47:31.000Z</updated>
+    <updated>2017-12-18T06:44:11.000Z</updated>
     
     <summary type="html">
     
       &lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://ww3.sinaimg.cn/large/005y7Ba5jw1f81cs6bp5lj31130httgm.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;前段时间发现较为鸡肋的洞和当时写的文章。&lt;/p&gt;
-&lt;p&gt;一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.10.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.10.11。&lt;/p&gt;
+&lt;p&gt;一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.11.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.11.11。&lt;/p&gt;
 &lt;p&gt;记下了发现的过程。&lt;/p&gt;
     
     </summary>
