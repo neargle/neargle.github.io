@@ -76,6 +76,49 @@
   
     
       <h2 class="post-title">
+        <a href="/2016/12/15/n0js-case1-writeup/">n0js case1 writeup</a>
+      </h2>
+    
+  
+
+    
+<time datetime="2016-12-15T07:46:50.000Z" class="post-time">2016-12-15</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    
+      <p><em>跟着蘑菇老师学前端安全第一弹[二哈]</em></p>
+<p>地址：</p>
+<p><a href="http://server.n0tr00t.com/n0js/case1.html">http://server.n0tr00t.com/n0js/case1.html</a></p>
+<p>主要代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">a1, a2, a3</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;a1&#125;</span>`</span>);</span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">`<span class="subst">$&#123;a2&#125;</span>`</span>);</span><br><span class="line">    <span class="built_in">console</span>.warn(<span class="string">`<span class="subst">$&#123;a3&#125;</span>`</span>)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> x = location.hash;</span><br><span class="line">l1 = <span class="built_in">escape</span>(x.split(<span class="string">'#'</span>)[<span class="number">1</span>]);</span><br><span class="line">l2 = x.split(<span class="string">'#'</span>)[<span class="number">2</span>];</span><br><span class="line">l3 = x.split(<span class="string">'#'</span>)[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">if</span> (l1 === <span class="string">'undefined'</span> || l1.length &gt;= <span class="number">30</span>) &#123;</span><br><span class="line">    a1</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">if</span> (l2 === <span class="string">'undefined'</span> || l2.length &gt;= <span class="number">35</span>) &#123;</span><br><span class="line">    a2</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> v = [<span class="string">'1'</span>, l2, <span class="string">'3'</span>];</span><br><span class="line"><span class="keyword">if</span> (l1.indexOf(<span class="string">';'</span>) &gt;= <span class="number">0</span> || l2.indexOf(<span class="string">'('</span>) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    a3</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">if</span> (l2.indexOf(<span class="string">'/'</span>) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    b1</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">if</span> (l3.indexOf(<span class="string">']'</span>) &gt;= <span class="number">0</span> || l3.length &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">    c3</span><br><span class="line">&#125;; &#123;</span><br><span class="line">    d = l1 + <span class="string">'v'</span> + l3.trim();</span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">'test('</span> + d + <span class="string">')'</span>)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+    
+  <ul class="post-tag home-tag icon-tag fl">
+    
+      <li><a href="/tags/前端安全/">#前端安全</a></li>
+    
+  </ul>
+
+    
+      <a href="/2016/12/15/n0js-case1-writeup/#more" class="post-foot-link fr">阅读全文</a>
+    
+    </section>
+  </footer>
+  
+</article>
+  
+    <article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h2 class="post-title">
         <a href="/2016/09/21/flask-src-review-get-a-xss-from-debuger/">Flask Debugger页面上的通用XSS漏洞分析和挖掘过程记录</a>
       </h2>
     
@@ -273,50 +316,6 @@
 
     
       <a href="/2015/12/01/html5-file-upload-flask-ver-python-ver/#more" class="post-foot-link fr">阅读全文</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/">Wordpress插件：WP Mobile Edition Plugin 任意文件下载漏洞分析</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2015-10-10T05:28:54.000Z" class="post-time">2015-10-10</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <!-- wp-mobile-edition-pn-cssphp-arbitrary-flie-dl.md -->
-<h2 id="影响：">影响：</h2><ul>
-<li>WP Mobile Edition版本低于2.2.7有该漏洞。</li>
-<li>首次启用WP Mobile Edition 插件之后，即使停用或删除该插件，漏洞也会一直存在。</li>
-<li>即使升级插件，若已经启用过漏洞存在的版本，漏洞也同样存在。</li>
-<li>css.php用于压缩css文件，并不只存在于该插件之中，而是 <a href="https://github.com/mrclay/">https://github.com/mrclay/</a> 的开源代码，使用该文件的网站也存在该漏洞。
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/Wordpress安全/">#Wordpress安全</a></li>
-    
-  </ul>
-
-    
-      <a href="/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/#more" class="post-foot-link fr">阅读全文</a>
     
     </section>
   </footer>
