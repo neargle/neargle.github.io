@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.neargle.com/"/>
-  <updated>2018-01-22T07:45:35.702Z</updated>
+  <updated>2018-01-25T01:56:21.870Z</updated>
   <id>http://blog.neargle.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>驭龙 EventLog 读取模块的迭代历程</title>
+    <title>使用 golang 解析 Windows 日志的四种方法</title>
     <link href="http://blog.neargle.com/2019/01/21/yulong-hids-windows-eventlog-iteration/"/>
     <id>http://blog.neargle.com/2019/01/21/yulong-hids-windows-eventlog-iteration/</id>
     <published>2019-01-21T05:28:54.000Z</published>
-    <updated>2018-01-22T07:45:35.702Z</updated>
+    <updated>2018-01-25T01:56:21.870Z</updated>
     
     <summary type="html">
     
