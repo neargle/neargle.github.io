@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Nearg1e</title>
+  
   <subtitle>Web Develop&amp;Security / 安全研究 / 漏洞挖掘 / 安全开发 / Pyer / Anime</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.neargle.com/"/>
-  <updated>2018-01-25T01:56:21.870Z</updated>
+  <updated>2018-01-29T13:54:41.330Z</updated>
   <id>http://blog.neargle.com/</id>
   
   <author>
@@ -16,15 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>使用 golang 解析 Windows 日志的四种方法</title>
-    <link href="http://blog.neargle.com/2019/01/21/yulong-hids-windows-eventlog-iteration/"/>
-    <id>http://blog.neargle.com/2019/01/21/yulong-hids-windows-eventlog-iteration/</id>
-    <published>2019-01-21T05:28:54.000Z</published>
-    <updated>2018-01-25T01:56:21.870Z</updated>
+    <title>VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</title>
+    <link href="http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/"/>
+    <id>http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/</id>
+    <published>2018-01-28T19:01:11.000Z</published>
+    <updated>2018-01-29T13:54:41.330Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;关于驭龙HIDS&quot;&gt;关于驭龙HIDS&lt;/h2&gt;&lt;p&gt;驭龙HIDS (&lt;a href=&quot;https://github.com/ysrc/yulong-hids&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/ys
+      
+      
+        &lt;p&gt;项目地址: &lt;a href=&quot;https://github.com/neargle/ver-observer&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://gi
+      
+    
+    </summary>
+    
+    
+      <category term="编程开发" scheme="http://blog.neargle.com/tags/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 golang 解析 Windows 日志的四种方法</title>
+    <link href="http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/"/>
+    <id>http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/</id>
+    <published>2018-01-21T05:28:54.000Z</published>
+    <updated>2018-01-29T10:15:36.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;关于驭龙HIDS&quot;&gt;&lt;a href=&quot;#关于驭龙HIDS&quot; class=&quot;headerlink&quot; title=&quot;关于驭龙HIDS&quot;&gt;&lt;/a&gt;关于驭龙HIDS&lt;/h2&gt;&lt;p&gt;驭龙HIDS
+      
     
     </summary>
     
@@ -42,10 +67,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;这是我用来支持先知和代码审计小密圈活动的文章，首发于: &lt;a href=&quot;https://xianzhi.aliyun.com/forum/read/2163.html&quot;&gt;https://xianzhi.aliyun.com/forum/read/2163.html&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;这是我用来支持先知和代码审计小密圈活动的文章，首发于: &lt;a href=&quot;https://xianzhi.aliyun.com/forum/read/2163.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://xianzhi.aliyun.com/forum/read/2163.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;PIL&lt;/strong&gt; (Python Image Library) 应该是 Python 图片处理库中运用最广泛的，它拥有强大的功能和简洁的API。很多Python Web应用在需要实现处理图片的功能时，都会选择使用PIL。&lt;/p&gt;
 &lt;p&gt;PIL在对 eps 图片格式进行处理的时候，如果环境内装有 GhostScript，则会调用 GhostScript 在dSAFER模式下处理图片，即使是最新版本的PIL模块，也会受到 &lt;code&gt;GhostButt CVE-2017-8291&lt;/code&gt; dSAFER模式Bypass漏洞的影响，产生命令执行漏洞。&lt;/p&gt;
-&lt;p&gt;据说大牛们看源码和 dockerfile 就可以了：&lt;a href=&quot;https://github.com/neargle/PIL-RCE-By-GhostButt&quot;&gt;https://github.com/neargle/PIL-RCE-By-GhostButt&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;据说大牛们看源码和 dockerfile 就可以了：&lt;a href=&quot;https://github.com/neargle/PIL-RCE-By-GhostButt&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/neargle/PIL-RCE-By-GhostButt&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -64,13 +89,13 @@
     <summary type="html">
     
       &lt;p&gt;&lt;em&gt;更新两篇之前在其他地方发过的文章&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id=&quot;1-_关于request_merging和其会产生的问题&quot;&gt;1. 关于request merging和其会产生的问题&lt;/h2&gt;&lt;p&gt;request merging : 浏览器会把多次相同的请求(并非所有请求)合并成一次，以加快资源加载速度。&lt;/p&gt;
-&lt;p&gt;e.g.&lt;br&gt;&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;只会请求并加载一次”&lt;a href=&quot;http://0.0.0.0:8888/jsonp/1&amp;quot;资源。&quot;&gt;http://0.0.0.0:8888/jsonp/1&amp;quot;资源。&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;1-关于request-merging和其会产生的问题&quot;&gt;&lt;a href=&quot;#1-关于request-merging和其会产生的问题&quot; class=&quot;headerlink&quot; title=&quot;1. 关于request merging和其会产生的问题&quot;&gt;&lt;/a&gt;1. 关于request merging和其会产生的问题&lt;/h2&gt;&lt;p&gt;request merging : 浏览器会把多次相同的请求(并非所有请求)合并成一次，以加快资源加载速度。&lt;/p&gt;
+&lt;p&gt;e.g.&lt;br&gt;&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://0.0.0.0:8888/jsonp/1&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;undefined&quot;&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;只会请求并加载一次”&lt;a href=&quot;http://0.0.0.0:8888/jsonp/1&amp;quot;资源。&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://0.0.0.0:8888/jsonp/1&amp;quot;资源。&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;曾经有研究指出，这种请求合并想象在iframe里也存在&lt;/em&gt;，那么浏览器的这种特性就可以用来bypass部分程序的referer的判断，如jsonp的防御机制。&lt;/p&gt;
-&lt;h2 id=&quot;2-_环境和POC&quot;&gt;2. 环境和POC&lt;/h2&gt;&lt;p&gt;绕过referer检测，攻击者能否拿到进行referer保护的用户信息？&lt;/p&gt;
-&lt;p&gt;攻击者服务器： &lt;a href=&quot;http://example.com:8081&quot;&gt;http://example.com:8081&lt;/a&gt;&lt;br&gt;目标服务器： &lt;a href=&quot;http://example.com:8082&quot;&gt;http://example.com:8082&lt;/a&gt;&lt;br&gt;referer检测： referer是否以“&lt;a href=&quot;http://example.com:8082”开头&quot;&gt;http://example.com:8082”开头&lt;/a&gt;&lt;br&gt;目标： 攻击者拿到属于用户的 “security content”&lt;/p&gt;
-&lt;h3 id=&quot;环境：&quot;&gt;环境：&lt;/h3&gt;&lt;p&gt;/jsonp.php&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;preprocessor&quot;&gt;&amp;lt;?php&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;startsWith&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;variable&quot;&gt;$url&lt;/span&gt;, &lt;span class=&quot;variable&quot;&gt;$domain&lt;/span&gt;)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;variable&quot;&gt;$length&lt;/span&gt; = strlen(&lt;span class=&quot;variable&quot;&gt;$domain&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (substr(&lt;span class=&quot;variable&quot;&gt;$url&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;variable&quot;&gt;$length&lt;/span&gt;) === &lt;span class=&quot;variable&quot;&gt;$domain&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$referrer&lt;/span&gt; = @&lt;span class=&quot;variable&quot;&gt;$_SERVER&lt;/span&gt;[&lt;span class=&quot;string&quot;&gt;&#39;HTTP_REFERER&#39;&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (startsWith(&lt;span class=&quot;variable&quot;&gt;$referrer&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;http://example.com:8082&quot;&lt;/span&gt;)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;variable&quot;&gt;$js_code&lt;/span&gt; = &lt;span class=&quot;string&quot;&gt;&#39;function jquery() &amp;#123; return &quot;security content&quot;;&amp;#125;&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$js_code&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;variable&quot;&gt;$js_code&lt;/span&gt; = &lt;span class=&quot;string&quot;&gt;&#39;function jquery() &amp;#123; return &quot;nothing&quot;;&amp;#125;&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$js_code&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;2-环境和POC&quot;&gt;&lt;a href=&quot;#2-环境和POC&quot; class=&quot;headerlink&quot; title=&quot;2. 环境和POC&quot;&gt;&lt;/a&gt;2. 环境和POC&lt;/h2&gt;&lt;p&gt;绕过referer检测，攻击者能否拿到进行referer保护的用户信息？&lt;/p&gt;
+&lt;p&gt;攻击者服务器： &lt;a href=&quot;http://example.com:8081&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://example.com:8081&lt;/a&gt;&lt;br&gt;目标服务器： &lt;a href=&quot;http://example.com:8082&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://example.com:8082&lt;/a&gt;&lt;br&gt;referer检测： referer是否以“&lt;a href=&quot;http://example.com:8082”开头&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://example.com:8082”开头&lt;/a&gt;&lt;br&gt;目标： 攻击者拿到属于用户的 “security content”&lt;/p&gt;
+&lt;h3 id=&quot;环境：&quot;&gt;&lt;a href=&quot;#环境：&quot; class=&quot;headerlink&quot; title=&quot;环境：&quot;&gt;&lt;/a&gt;环境：&lt;/h3&gt;&lt;p&gt;/jsonp.php&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;lt;?php&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;startsWith&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;($url, $domain)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     $length = strlen($domain);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (substr($url, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, $length) === $domain);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$referrer = @$_SERVER[&lt;span class=&quot;string&quot;&gt;&#39;HTTP_REFERER&#39;&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (startsWith($referrer, &lt;span class=&quot;string&quot;&gt;&quot;http://example.com:8082&quot;&lt;/span&gt;)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $js_code = &lt;span class=&quot;string&quot;&gt;&#39;function jquery() &amp;#123; return &quot;security content&quot;;&amp;#125;&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;echo&lt;/span&gt; $js_code;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $js_code = &lt;span class=&quot;string&quot;&gt;&#39;function jquery() &amp;#123; return &quot;nothing&quot;;&amp;#125;&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;echo&lt;/span&gt; $js_code;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
     
     </summary>
     
@@ -89,12 +114,12 @@
     <summary type="html">
     
       &lt;p&gt;&lt;em&gt;更新两篇之前在其他地方发过的文章&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id=&quot;sqli&quot;&gt;sqli&lt;/h2&gt;&lt;p&gt;地址: &lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1&quot;&gt;http://118.190.134.8/t1/news.php?id=1&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;尝试sql注入，会发现过滤了’和空格等。使用&lt;br&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1&lt;/a&gt; 和 &lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2&lt;/a&gt; 判断注入存在，开始思考出数据的方法&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5&lt;/a&gt;&lt;br&gt;判断字段数为4&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4&quot;&gt;http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4&lt;/a&gt;&lt;br&gt;发现过滤了逗号&lt;/p&gt;
+&lt;h2 id=&quot;sqli&quot;&gt;&lt;a href=&quot;#sqli&quot; class=&quot;headerlink&quot; title=&quot;sqli&quot;&gt;&lt;/a&gt;sqli&lt;/h2&gt;&lt;p&gt;地址: &lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.190.134.8/t1/news.php?id=1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;尝试sql注入，会发现过滤了’和空格等。使用&lt;br&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1&lt;/a&gt; 和 &lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2&lt;/a&gt; 判断注入存在，开始思考出数据的方法&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5&lt;/a&gt;&lt;br&gt;判断字段数为4&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4&lt;/a&gt;&lt;br&gt;发现过滤了逗号&lt;/p&gt;
 &lt;p&gt;那就不好用union出数据了，可选择使用盲注出数据比如&lt;code&gt;(select%a0ascii(substr((select%a0TABLE_NAME%a0from%a0information_schema.tables%a0where%a0TABLE_TYPE%a0=%a0&amp;quot;BASE%a0TABLE&amp;quot;%a0limit%a01%a0OFFSET%a02)%a0from%a01%a0for%a01))=1)%23&lt;/code&gt;。但是这里其实有一个union出数据的tip可以使用:&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mysql $&amp;#62; select 1,2,3,4 Union select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d&amp;#10;+-----+-----+-----+-----+&amp;#10;|   1 |   2 |   3 |   4 |&amp;#10;|-----+-----+-----+-----|&amp;#10;|   1 |   2 |   3 |   4 |&amp;#10;+-----+-----+-----+-----+&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mysql $&amp;gt; select 1,2,3,4 Union select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-----+-----+-----+-----+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|   1 |   2 |   3 |   4 |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|-----+-----+-----+-----|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|   1 |   2 |   3 |   4 |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-----+-----+-----+-----+&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -112,8 +137,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;a href=&quot;https://www.djangoproject.com/weblog/2017/apr/04/security-releases/&quot;&gt;Django官方News&amp;amp;Event&lt;/a&gt;在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）&lt;/p&gt;
-&lt;h2 id=&quot;CVE-2017-7233分析&quot;&gt;CVE-2017-7233分析&lt;/h2&gt;&lt;p&gt;国外安全研究员roks0n提供给Django官方的一个漏洞。&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.djangoproject.com/weblog/2017/apr/04/security-releases/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Django官方News&amp;amp;Event&lt;/a&gt;在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）&lt;/p&gt;
+&lt;h2 id=&quot;CVE-2017-7233分析&quot;&gt;&lt;a href=&quot;#CVE-2017-7233分析&quot; class=&quot;headerlink&quot; title=&quot;CVE-2017-7233分析&quot;&gt;&lt;/a&gt;CVE-2017-7233分析&lt;/h2&gt;&lt;p&gt;国外安全研究员roks0n提供给Django官方的一个漏洞。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
@@ -132,7 +157,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;可以先看一下n0r00t的文章的这一篇:&lt;a href=&quot;https://www.n0tr00t.com/2017/01/09/Chrome-Extensions-Probe.html&quot;&gt;https://www.n0tr00t.com/2017/01/09/Chrome-Extensions-Probe.html&lt;/a&gt;。&lt;br&gt;以及用chrome试用一下最后的成果POC:&lt;a href=&quot;http://server.n0tr00t.com/chrome/ext_probe.html&quot;&gt;http://server.n0tr00t.com/chrome/ext_probe.html&lt;/a&gt;，可以探测Chrome中已安装的扩展，配合Chrome扩展的一些漏洞，说不定能达到定点攻击的效果。&lt;br&gt;
+      &lt;p&gt;可以先看一下n0r00t的文章的这一篇:&lt;a href=&quot;https://www.n0tr00t.com/2017/01/09/Chrome-Extensions-Probe.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.n0tr00t.com/2017/01/09/Chrome-Extensions-Probe.html&lt;/a&gt;。&lt;br&gt;以及用chrome试用一下最后的成果POC:&lt;a href=&quot;http://server.n0tr00t.com/chrome/ext_probe.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://server.n0tr00t.com/chrome/ext_probe.html&lt;/a&gt;，可以探测Chrome中已安装的扩展，配合Chrome扩展的一些漏洞，说不定能达到定点攻击的效果。&lt;br&gt;
     
     </summary>
     
@@ -152,7 +177,7 @@
     
       &lt;p&gt;&lt;em&gt;跟着蘑菇老师学前端安全第一弹[二哈]&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;地址：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://server.n0tr00t.com/n0js/case1.html&quot;&gt;http://server.n0tr00t.com/n0js/case1.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://server.n0tr00t.com/n0js/case1.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://server.n0tr00t.com/n0js/case1.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;主要代码：&lt;/p&gt;
 &lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;a1, a2, a3&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;`&lt;span class=&quot;subst&quot;&gt;$&amp;#123;a1&amp;#125;&lt;/span&gt;`&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;eval&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;`&lt;span class=&quot;subst&quot;&gt;$&amp;#123;a2&amp;#125;&lt;/span&gt;`&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.warn(&lt;span class=&quot;string&quot;&gt;`&lt;span class=&quot;subst&quot;&gt;$&amp;#123;a3&amp;#125;&lt;/span&gt;`&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; x = location.hash;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;l1 = &lt;span class=&quot;built_in&quot;&gt;escape&lt;/span&gt;(x.split(&lt;span class=&quot;string&quot;&gt;&#39;#&#39;&lt;/span&gt;)[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;l2 = x.split(&lt;span class=&quot;string&quot;&gt;&#39;#&#39;&lt;/span&gt;)[&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;l3 = x.split(&lt;span class=&quot;string&quot;&gt;&#39;#&#39;&lt;/span&gt;)[&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (l1 === &lt;span class=&quot;string&quot;&gt;&#39;undefined&#39;&lt;/span&gt; || l1.length &amp;gt;= &lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (l2 === &lt;span class=&quot;string&quot;&gt;&#39;undefined&#39;&lt;/span&gt; || l2.length &amp;gt;= &lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; v = [&lt;span class=&quot;string&quot;&gt;&#39;1&#39;&lt;/span&gt;, l2, &lt;span class=&quot;string&quot;&gt;&#39;3&#39;&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (l1.indexOf(&lt;span class=&quot;string&quot;&gt;&#39;;&#39;&lt;/span&gt;) &amp;gt;= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; || l2.indexOf(&lt;span class=&quot;string&quot;&gt;&#39;(&#39;&lt;/span&gt;) &amp;gt;= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (l2.indexOf(&lt;span class=&quot;string&quot;&gt;&#39;/&#39;&lt;/span&gt;) &amp;gt;= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    b1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (l3.indexOf(&lt;span class=&quot;string&quot;&gt;&#39;]&#39;&lt;/span&gt;) &amp;gt;= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; || l3.length &amp;gt;= &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    c3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    d = l1 + &lt;span class=&quot;string&quot;&gt;&#39;v&#39;&lt;/span&gt; + l3.trim();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;eval&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;test(&#39;&lt;/span&gt; + d + &lt;span class=&quot;string&quot;&gt;&#39;)&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
@@ -172,7 +197,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://ww3.sinaimg.cn/large/005y7Ba5jw1f81cs6bp5lj31130httgm.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;前段时间发现较为鸡肋的洞和当时写的文章。&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://ww3.sinaimg.cn/large/005y7Ba5jw1f81cs6bp5lj31130httgm.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;前段时间发现较为鸡肋的洞和当时写的文章。&lt;/p&gt;
 &lt;p&gt;一个存在于Flask框架Debugger页面上的通用XSS，Werkzeug0.11.10之前版本受影响，已经报告给Flask官方并提交修复代码。官方在确认之后，及时发布了0.11.11。&lt;/p&gt;
 &lt;p&gt;记下了发现的过程。&lt;/p&gt;
     
@@ -192,8 +217,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;读&lt;a href=&quot;https://security.openstack.org/guidelines/dg_using-file-paths.html&quot;&gt;《Code Review For Python-Based Web Apps》&lt;/a&gt;（《PythonWebApp代码审计》）做的笔记,正好自己也在写相关的文章：&lt;a href=&quot;http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/&quot;&gt;讨论PythonWeb开发中可能会遇到的安全问题&lt;/a&gt;,所以就翻译了一下作者原文，省去一些不必要的口水，并添加了一些自己的想法。&lt;/p&gt;
-&lt;h2 id=&quot;SQL注入&quot;&gt;SQL注入&lt;/h2&gt;&lt;p&gt;安全的做法：&lt;/p&gt;
+      &lt;p&gt;读&lt;a href=&quot;https://security.openstack.org/guidelines/dg_using-file-paths.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;《Code Review For Python-Based Web Apps》&lt;/a&gt;（《PythonWebApp代码审计》）做的笔记,正好自己也在写相关的文章：&lt;a href=&quot;http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/&quot;&gt;讨论PythonWeb开发中可能会遇到的安全问题&lt;/a&gt;,所以就翻译了一下作者原文，省去一些不必要的口水，并添加了一些自己的想法。&lt;/p&gt;
+&lt;h2 id=&quot;SQL注入&quot;&gt;&lt;a href=&quot;#SQL注入&quot; class=&quot;headerlink&quot; title=&quot;SQL注入&quot;&gt;&lt;/a&gt;SQL注入&lt;/h2&gt;&lt;p&gt;安全的做法：&lt;/p&gt;
 &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;stmt = &lt;span class=&quot;string&quot;&gt;&quot;SELECT * FROM table WHERE id=?&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;connection.execute(stmt, (value,))&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;不安全的做法：&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;SELECT * FROM table WHERE id=&quot;&lt;/span&gt; + value&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;SELECT * FROM table WHERE id=%s&quot;&lt;/span&gt; % value&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;SELECT * FROM table WHERE id=&amp;#123;0&amp;#125;&quot;&lt;/span&gt;.format(value)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;大部分Python操作数据库的第三方模块，如pymysql、sqlite3等，执行sql语句的函数，都支持参数化查询，如上安全的做法所示，可以给sql语句传递参数，这个参数经过过滤。而下面的字符串拼接是不经过过滤。所以会出现sql注入。&lt;/p&gt;
@@ -210,7 +235,7 @@
     <link href="http://blog.neargle.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/"/>
     <id>http://blog.neargle.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/</id>
     <published>2016-07-23T08:35:00.000Z</published>
-    <updated>2016-07-27T06:56:36.000Z</updated>
+    <updated>2017-11-14T01:33:39.000Z</updated>
     
     <summary type="html">
     
@@ -234,8 +259,8 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;好久没写文章了，最近一直都是在看文章。&lt;br&gt;近期写了好几个PythonWeb项目，在实现需求的过程中，一直在思考PythonWeb开发过程中会遇到哪些常见的Web安全问题呢？这些问题又在什么情况下会被利用者GetShell呢？下面就分类来讨论这些问题：(这也是重新启用博客的第一篇文章，顺便投给90Sec也不知道能不能过QAQ。)&lt;/p&gt;
-&lt;h1 id=&quot;常见漏洞分析&quot;&gt;常见漏洞分析&lt;/h1&gt;&lt;h2 id=&quot;SQLI&quot;&gt;SQLI&lt;/h2&gt;&lt;p&gt;SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是&lt;code&gt;request.args.get(&amp;#39;id&amp;#39;, 0, type=int)&lt;/code&gt;和&lt;code&gt;request.form.get(&amp;#39;id&amp;#39;, 0, type=int)&lt;/code&gt;两种方式，另外Flask还支持在URL路由里带入变量：&lt;code&gt;@app.route(&amp;#39;/news/&amp;lt;int:id&amp;gt;&amp;#39;)&lt;/code&gt;，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;好久没写文章了，最近一直都是在看文章。&lt;br&gt;近期写了好几个PythonWeb项目，在实现需求的过程中，一直在思考PythonWeb开发过程中会遇到哪些常见的Web安全问题呢？这些问题又在什么情况下会被利用者GetShell呢？下面就分类来讨论这些问题：(这也是重新启用博客的第一篇文章，顺便投给90Sec也不知道能不能过QAQ。)&lt;/p&gt;
+&lt;h1 id=&quot;常见漏洞分析&quot;&gt;&lt;a href=&quot;#常见漏洞分析&quot; class=&quot;headerlink&quot; title=&quot;常见漏洞分析&quot;&gt;&lt;/a&gt;常见漏洞分析&lt;/h1&gt;&lt;h2 id=&quot;SQLI&quot;&gt;&lt;a href=&quot;#SQLI&quot; class=&quot;headerlink&quot; title=&quot;SQLI&quot;&gt;&lt;/a&gt;SQLI&lt;/h2&gt;&lt;p&gt;SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是&lt;code&gt;request.args.get(&amp;#39;id&amp;#39;, 0, type=int)&lt;/code&gt;和&lt;code&gt;request.form.get(&amp;#39;id&amp;#39;, 0, type=int)&lt;/code&gt;两种方式，另外Flask还支持在URL路由里带入变量：&lt;code&gt;@app.route(&amp;#39;/news/&amp;lt;int:id&amp;gt;&amp;#39;)&lt;/code&gt;，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.&lt;/p&gt;
 &lt;p&gt;PythonWeb开发中，在处理数据库的过程中经常使用orm库进行数据库处理，orm库是防SQL注入的好手。Flask和Tornado经常使用Sqlalchemy，而Django有自己自带的orm引擎。举一个用Sqlalchemy建模型类，并使用模型类查询用户数据的例子：&lt;/p&gt;
 &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; sqlalchemy &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; create_engine&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; sqlalchemy.orm &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; sessionmaker&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; datetime &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; datetime&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; sqlalchemy.ext.declarative &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; declarative_base&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; sqlalchemy &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Column, Integer, String, DateTime&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;engine = create_engine(&lt;span class=&quot;string&quot;&gt;&#39;mysql+pymysql://user:password@192.168.1.101/test&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;DBSession = sessionmaker(bind=engine)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;session = DBSession()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Base = declarative_base()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;user_t&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Base)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    __tablename__ = &lt;span class=&quot;string&quot;&gt;&#39;user_t&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    user_id = Column(Integer, primary_key=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    username = Column(String)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    userpassword = Column(String)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    createtime = Column(DateTime, default=datetime.utcnow)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
@@ -255,10 +280,10 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;起因&quot;&gt;起因&lt;/h2&gt;&lt;p&gt;以前曾经在微博上看到过Html5的新特性可以用于新的Web攻击，其中提到文件夹上传可以用于欺骗。觉得有点意思，后来又看到蘑菇在创宇的官博上面写了一篇博客：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://blog.knownsec.com/2015/11/html5-upload-folder-with-webkitdirectory-phishing/&quot;&gt;http://blog.knownsec.com/2015/11/html5-upload-folder-with-webkitdirectory-phishing/&lt;/a&gt;&lt;/p&gt;
+      &lt;h2 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h2&gt;&lt;p&gt;以前曾经在微博上看到过Html5的新特性可以用于新的Web攻击，其中提到文件夹上传可以用于欺骗。觉得有点意思，后来又看到蘑菇在创宇的官博上面写了一篇博客：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://blog.knownsec.com/2015/11/html5-upload-folder-with-webkitdirectory-phishing/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://blog.knownsec.com/2015/11/html5-upload-folder-with-webkitdirectory-phishing/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;感觉的该说的都被他说了，嘛，不过这个东西，可以拿出来逗大家玩玩消遣一下时间0w0，但是这个是PHP的，而且明显任意上传可以直接GetShell，不想在服务器上装PHP。于是想着用Python实现一番。&lt;/p&gt;
-&lt;h2 id=&quot;Python实现文件夹上传&quot;&gt;Python实现文件夹上传&lt;/h2&gt;&lt;p&gt;主要问题在于先用的Python Web框架支不支持文件上传呢？写小玩意儿的时候我喜欢用flask，简单可定制强。于是调查了一番Flask对文件夹上传的支持，发现：其实对于后端来说，Html5的文件夹上传和以前的多文件上传并没有什么不一样，那就简单了-w-&lt;br&gt;
+&lt;h2 id=&quot;Python实现文件夹上传&quot;&gt;&lt;a href=&quot;#Python实现文件夹上传&quot; class=&quot;headerlink&quot; title=&quot;Python实现文件夹上传&quot;&gt;&lt;/a&gt;Python实现文件夹上传&lt;/h2&gt;&lt;p&gt;主要问题在于先用的Python Web框架支不支持文件上传呢？写小玩意儿的时候我喜欢用flask，简单可定制强。于是调查了一番Flask对文件夹上传的支持，发现：其实对于后端来说，Html5的文件夹上传和以前的多文件上传并没有什么不一样，那就简单了-w-&lt;br&gt;
     
     </summary>
     
@@ -277,11 +302,11 @@
     <summary type="html">
     
       &lt;!-- wp-mobile-edition-pn-cssphp-arbitrary-flie-dl.md --&gt;
-&lt;h2 id=&quot;影响：&quot;&gt;影响：&lt;/h2&gt;&lt;ul&gt;
+&lt;h2 id=&quot;影响：&quot;&gt;&lt;a href=&quot;#影响：&quot; class=&quot;headerlink&quot; title=&quot;影响：&quot;&gt;&lt;/a&gt;影响：&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;WP Mobile Edition版本低于2.2.7有该漏洞。&lt;/li&gt;
 &lt;li&gt;首次启用WP Mobile Edition 插件之后，即使停用或删除该插件，漏洞也会一直存在。&lt;/li&gt;
 &lt;li&gt;即使升级插件，若已经启用过漏洞存在的版本，漏洞也同样存在。&lt;/li&gt;
-&lt;li&gt;css.php用于压缩css文件，并不只存在于该插件之中，而是 &lt;a href=&quot;https://github.com/mrclay/&quot;&gt;https://github.com/mrclay/&lt;/a&gt; 的开源代码，使用该文件的网站也存在该漏洞。
+&lt;li&gt;css.php用于压缩css文件，并不只存在于该插件之中，而是 &lt;a href=&quot;https://github.com/mrclay/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/mrclay/&lt;/a&gt; 的开源代码，使用该文件的网站也存在该漏洞。
     
     </summary>
     
@@ -300,7 +325,7 @@
     <summary type="html">
     
       &lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/large/005y7Ba5jw1ew1xyripd6j31gp0ixqcp.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;闲聊&quot;&gt;闲聊&lt;/h2&gt;&lt;p&gt;前一段时间，导师说希望我写一个备份Wooyun公开漏洞信息的爬虫程序，为了避免某些突发情况；写完之后还没爬下来我们去比ISCC，河南的ISCC上网特别麻烦，所以队友君就说“要是有一个离线的漏洞库而且能检索就好了”，于是这事就又到了我头上。考虑到以下三点：&lt;/p&gt;
+&lt;h2 id=&quot;闲聊&quot;&gt;&lt;a href=&quot;#闲聊&quot; class=&quot;headerlink&quot; title=&quot;闲聊&quot;&gt;&lt;/a&gt;闲聊&lt;/h2&gt;&lt;p&gt;前一段时间，导师说希望我写一个备份Wooyun公开漏洞信息的爬虫程序，为了避免某些突发情况；写完之后还没爬下来我们去比ISCC，河南的ISCC上网特别麻烦，所以队友君就说“要是有一个离线的漏洞库而且能检索就好了”，于是这事就又到了我头上。考虑到以下三点：&lt;/p&gt;
     
     </summary>
     
@@ -318,13 +343,13 @@
     
     <summary type="html">
     
-      &lt;h4 id=&quot;实验环境:&quot;&gt;实验环境:&lt;/h4&gt;&lt;ul&gt;
+      &lt;h4 id=&quot;实验环境&quot;&gt;&lt;a href=&quot;#实验环境&quot; class=&quot;headerlink&quot; title=&quot;实验环境:&quot;&gt;&lt;/a&gt;实验环境:&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;KALI (IN VMWARE)&lt;/li&gt;
 &lt;li&gt;Metasploit (IN KALI)&lt;/li&gt;
 &lt;li&gt;Android 4.1.2&lt;/li&gt;
 &lt;li&gt;Apache2 (IN KALI)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&quot;实验步骤:&quot;&gt;实验步骤:&lt;/h4&gt;
+&lt;h4 id=&quot;实验步骤&quot;&gt;&lt;a href=&quot;#实验步骤&quot; class=&quot;headerlink&quot; title=&quot;实验步骤:&quot;&gt;&lt;/a&gt;实验步骤:&lt;/h4&gt;
     
     </summary>
     

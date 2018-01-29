@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   
-  <title>Nearg1e - Web Develop&amp;Security / 安全研究 / 漏洞挖掘 / 安全开发 / Pyer / Anime</title>
+  <title>使用 golang 解析 Windows 日志的四种方法 - Nearg1e</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="/js/highlight.pack.js"></script>
@@ -50,155 +50,16 @@
       </nav>
     </div>
     
-      <div id="logo">
-        <div class="hg">
-        
-          <h1 id="site-title">
-            <a href="/">Nearg1e</a>
-          </h1>
-          
-            <h2 id="site-description">Web Develop&amp;Security / 安全研究 / 漏洞挖掘 / 安全开发 / Pyer / Anime</h2>
-          
-        
-          <!-- <p>微博:<a href="http://weibo.com/neargle">@Neargle</a></p> -->
-        </div>
-      </div>
-    
   </header>
 
   <!-- <div id='wrap'> -->
     <div id='outer'>
-      <section id="main">
-  
-    <article class="post">
+      <section id="main"><article class="post">
   <header class="post-head">
     
   
     
-      <h2 class="post-title">
-        <a href="/2018/01/29/ver-observer-a-tool-about-version-detection/">VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2018-01-28T19:01:11.000Z" class="post-time">2018-01-29</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p>项目地址: <a href="https://github.com/neargle/ver-observer" target="_blank" rel="noopener">https://github.com/neargle/ver-observer</a></p>
-<p><img src="![](http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxt3m57cfj31cf0lktap.jpg" alt="">)</p>
-<p>用最著名的文学情感类博客测试一下, 看看效果。请大家测试的时候请参照这个 <a href="https://asciinema.org/a/ua1WOqMkUummi25QxImlFRNpN" target="_blank" rel="noopener">视频</a>，自己搭建 django 环境，不要浪费博主的流量，谢谢。</p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这个工具可以用来检测网站上所使用到的框架，依赖或者CMS的版本。以 Django 为例，如果我们知道一个网站是由 Django 开发的，那么知道所用的 Django 版本可以定位一些可能存在的问题， 例如，使用版本小于 Django v1.10.7 的网站很有可能存在任意URL跳转漏洞（详情见: <a href="http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/">文章</a>）。</p>
-<p>原则上，这个工具实现了一个较为通用的检测方法和较为方便的指纹生成。但是在有些框架和依赖里并不适用。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="几个探测-Django-版本的例子"><a href="#几个探测-Django-版本的例子" class="headerlink" title="几个探测 Django 版本的例子"></a>几个探测 Django 版本的例子</h3><p>for django v2.0.1:</p>
-<blockquote>
-<p>python vobserver.py -u <a href="https://www.xxx.com/" target="_blank" rel="noopener">https://www.xxx.com/</a> -d django</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxbwmiawrj31c70w4gsj.jpg" alt=""></p>
-<p>for django v1.9:</p>
-<blockquote>
-<p>python vobserver.py -u <a href="https://www.xxx.com/" target="_blank" rel="noopener">https://www.xxx.com/</a> -d django -v</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxjltmhxvj30py0bf417.jpg" alt=""></p>
-<p>一个更加浅显易懂的视频（可能需要翻墙），从头新建一个 Django 网站，并使用 ver-server 探测 Django 版本。</p>
-<p><a href="https://asciinema.org/a/ua1WOqMkUummi25QxImlFRNpN" target="_blank" rel="noopener"><img src="https://asciinema.org/a/ua1WOqMkUummi25QxImlFRNpN.png" alt="asciicast"></a></p>
-<p>视频中所用到的命令:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python vobserver.py -a</span><br><span class="line">pip freeze | grep Django</span><br><span class="line">django-admin startproject vobserver_test</span><br><span class="line">python vobserver_test/manage.py runserver &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">python vobserver.py -u http://127.0.0.1:8000/ -d django -v</span><br></pre></td></tr></table></figure>
-<h3 id="如何支持一个新的框架-CMS-依赖的版本检测"><a href="#如何支持一个新的框架-CMS-依赖的版本检测" class="headerlink" title="如何支持一个新的框架\CMS\依赖的版本检测"></a>如何支持一个新的框架\CMS\依赖的版本检测</h3><p>假如需要创建一个新的插件，支持一个新的框架\CMS\依赖的版本检测，需要系统里支持 git 命令行和该框架的 git 项目。</p>
-<p>还是以 Django 为例，另一个浅显易懂的视频，生成的命令其实没有视频里面那么复杂，视频里只是为了演示各个参数的作用，实际只需要两个参数即可：</p>
-<blockquote>
-<p>python vobserver.py new -d /tmp/django -s /tmp/django/django/contrib/admin/static -w /static/</p>
-</blockquote>
-<p><a href="https://asciinema.org/a/eJUPNOKzIA9imNnlLs8hoYU04" target="_blank" rel="noopener"><img src="https://asciinema.org/a/eJUPNOKzIA9imNnlLs8hoYU04.png" alt="asciicast"></a></p>
-<h2 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE"></a>USAGE</h2><p>英文版的 Usage 可以执行 <code>python vobserver.py -h</code> 查看。这里贴中文的 Usage。</p>
-<pre><code>usage: vobserver.py [-h] [-u URL] [-d DEPEND] [--depth DEPTH] [-a] [-v]
-                    [--logfile LOGFILE] [--level LEVEL]
-                    {new} ...
-
-A tool to detect that which version of web framework using on the target
-website.
-
-positional arguments:
-{new}                 sub-command help
-    new                 新增一个Web框架和依赖的版本探测支持插件
-
-optional arguments:
--h, --help            显示帮助信息
--u URL, --url URL     目标地址. 如 http://blog.neargle.com
--d DEPEND, --depend DEPEND
-                        依赖名，可使用(-a/--all)参数查看，如&quot;django&quot;
---depth DEPTH         这个数值越大扫描的url就越多，默认值0会扫描最多的url。
--a, --all             显示当前支持的所有框架信息。
--v, --verbose         设置日志等级为 &quot;VERBOSE&quot;， 会打印更多的日志信息。
---logfile LOGFILE     设置日志文件路径。默认为 observer.log.
---level LEVEL         日志等级, 有 &quot;CRITICAL, ERROR, WARNING,INFO, VERBOSE, DEBUG, TRACE, NOISE, LOWEST&quot; 这些等级可随便设置。越往后，日志越多。
-</code></pre><p>子命令 new 的 Usage:</p>
-<pre><code>usage: vobserver.py new [-h] [-n FRAMEWORK_NAME] -d DIR -s STATIC_PATH
-                        [-w WEB_STATIC_ROOT] [--alias ALIAS [ALIAS ...]]
-                        [--dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]]
-
-optional arguments:
--n FRAMEWORK_NAME, --framework-name FRAMEWORK_NAME
-                        设置框架或者依赖的名字, 如 django，可不设置，会自动生成
--d DIR, --dir DIR       设置框架的GIT项目本地路径
--s STATIC_PATH, --static-path STATIC_PATH
-                        设置项目下的静态文件路径
--w WEB_STATIC_ROOT, --web-static-root WEB_STATIC_ROOT
-                        设置框架的静态文件在 WEB 站点上的根目录
---alias ALIAS [ALIAS ...]
-                        设置别名，如: `--alias laravel-php laravel`，可用于探测的 -d 参数
---dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]
-                        设置不计入静态文件的后缀名，带有该后缀的文件会被忽略。 如:
-                        `--dis-suffix php asp
-</code></pre><h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><p>逻辑上 git 作为最优秀的版本控制工具帮我们做了很多事情。简要的介绍一下逻辑：</p>
-<p>生成各个版本指纹的逻辑:</p>
-<ol>
-<li>使用 <code>git tag</code> 和 <code>git log</code> 获取项目所有的版本。（如果一个工程没有严格的按照 git 工作流的话，这里可能会出现问题。）</li>
-<li><code>git diff --name-only</code> 获取静态目录下各个版本的文件变化并记录。</li>
-<li><code>git show</code> 和 少量的 <code>git checkout</code> 获取各个版本的变化的文件内容。</li>
-</ol>
-<p>根据这个逻辑最终生成最初的版本和最新的版本中，所有的静态文件hash，和各个版本中静态文件的变化。最终可以得到每个版本下，该框架静态文件的hash值。根据这些进行版本探测和大小比较。</p>
-<h2 id="ver-observer-的第三方依赖"><a href="#ver-observer-的第三方依赖" class="headerlink" title="ver-observer 的第三方依赖"></a>ver-observer 的第三方依赖</h2><p>除了 requirements.txt 中的依赖外， ext/ 目录下也有一些第三方依赖。</p>
-<p>Third-party from great developer and friends in <a href="https://github.com/neargle/ver-observer/tree/master/ext" target="_blank" rel="noopener">etx/</a>.</p>
-<ul>
-<li>err_hunter &amp; version_utils by @aploium</li>
-<li>terminaltables by @robpol86</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Mac快没电了，再写吧。总之是一个以前自己写的扫描器里面分离出来的功能，重构了一下，目前现存的轮子比较少。烦请各位给予意见，多谢各位指教。</p>
-
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/编程开发/">#编程开发</a></li>
-    
-  </ul>
-
-    
-      
-        <a href="http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/#disqus_thread" class="post-foot-link fr">评论</a>
-      
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2018/01/21/yulong-hids-windows-eventlog-iteration/">使用 golang 解析 Windows 日志的四种方法</a>
-      </h2>
+      <h1 class="post-title">使用 golang 解析 Windows 日志的四种方法</h1>
     
   
 
@@ -208,8 +69,7 @@ optional arguments:
   </header>
   
   <section class="post-content typo">
-    
-      <h2 id="关于驭龙HIDS"><a href="#关于驭龙HIDS" class="headerlink" title="关于驭龙HIDS"></a>关于驭龙HIDS</h2><p>驭龙HIDS (<a href="https://github.com/ysrc/yulong-hids" target="_blank" rel="noopener">https://github.com/ysrc/yulong-hids</a>) 是一款由 YSRC 开发的入侵检测系统，集异常检测、监控管理为一体，拥有异常行为发现、快速阻断、高级分析等功能，可从多个维度行为信息中发现入侵行为。当前，驭龙agent主要会收集系统信息，计划任务，存活端口，登录日志，进程信息，服务信息，启动项，用户列表，web路径等信息，其中Windows用户登录信息读取了Windows的EventLog，经历了几个版本，更换了好几个方法，最终成型。这篇文章就稍微说一下这几种方法的思路和实现。如果有更好的思路或实现，期待各位交流指教。</p>
+    <h2 id="关于驭龙HIDS"><a href="#关于驭龙HIDS" class="headerlink" title="关于驭龙HIDS"></a>关于驭龙HIDS</h2><p>驭龙HIDS (<a href="https://github.com/ysrc/yulong-hids" target="_blank" rel="noopener">https://github.com/ysrc/yulong-hids</a>) 是一款由 YSRC 开发的入侵检测系统，集异常检测、监控管理为一体，拥有异常行为发现、快速阻断、高级分析等功能，可从多个维度行为信息中发现入侵行为。当前，驭龙agent主要会收集系统信息，计划任务，存活端口，登录日志，进程信息，服务信息，启动项，用户列表，web路径等信息，其中Windows用户登录信息读取了Windows的EventLog，经历了几个版本，更换了好几个方法，最终成型。这篇文章就稍微说一下这几种方法的思路和实现。如果有更好的思路或实现，期待各位交流指教。</p>
 <h2 id="Windows事件查看器与日志ID"><a href="#Windows事件查看器与日志ID" class="headerlink" title="Windows事件查看器与日志ID"></a>Windows事件查看器与日志ID</h2><p>我们知道Windows会把系统登录日志记录在Windows安全日志里，我们可以在事件查看器里筛选查看这些系统日志。</p>
 <p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fnn10g8af8j315e0nbjuj.jpg" alt=""></p>
 <p>那如果要看登录相关的系统日志呢？可以用事件ID进行筛选，其中登录失败的事件ID为 4625， 而成功的登录ID为 4624。大部分的登录信息会包含在这两个事件ID里面。</p>
@@ -282,210 +142,45 @@ optional arguments:
 <li><a href="https://github.com/elastic/beats" target="_blank" rel="noopener">https://github.com/elastic/beats</a></li>
 </ul>
 
-    
+    <p class="origin-url">本文URL： <a href="http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/index.html">http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/index.html</a></p>
   </section>
   
   <footer class="post-foot">
     <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
+      
+  <ul class="post-tag icon-tag fl">
     
       <li><a href="/tags/golang-hids/">#golang, hids</a></li>
     
   </ul>
 
-    
       
-        <a href="http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/#disqus_thread" class="post-foot-link fr">评论</a>
-      
-    
     </section>
   </footer>
   
 </article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/">Exploiting Python PIL Module Command Execution Vulnerability</a>
-      </h2>
-    
-  
 
     
-<time datetime="2017-09-28T05:28:54.000Z" class="post-time">2017-09-28</time>
+<nav id="post-nav" class="clear">
+  
+    <a href="/2018/01/29/ver-observer-a-tool-about-version-detection/" id="post-nav-newer" class="post-nav-link-wrap fl" title="VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具">
+      <div class="post-nav-title">&laquo; VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</div>
+    </a>
+  
+  
+    <a href="/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/" id="post-nav-older" class="post-nav-link-wrap fr" title="Exploiting Python PIL Module Command Execution Vulnerability">
+      <div class="post-nav-title">Exploiting Python PIL Module Command Execution Vulnerability &raquo;</div>
+    </a>
+  
+</nav>
 
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p>这是我用来支持先知和代码审计小密圈活动的文章，首发于: <a href="https://xianzhi.aliyun.com/forum/read/2163.html" target="_blank" rel="noopener">https://xianzhi.aliyun.com/forum/read/2163.html</a></p>
-<p><strong>PIL</strong> (Python Image Library) 应该是 Python 图片处理库中运用最广泛的，它拥有强大的功能和简洁的API。很多Python Web应用在需要实现处理图片的功能时，都会选择使用PIL。</p>
-<p>PIL在对 eps 图片格式进行处理的时候，如果环境内装有 GhostScript，则会调用 GhostScript 在dSAFER模式下处理图片，即使是最新版本的PIL模块，也会受到 <code>GhostButt CVE-2017-8291</code> dSAFER模式Bypass漏洞的影响，产生命令执行漏洞。</p>
-<p>据说大牛们看源码和 dockerfile 就可以了：<a href="https://github.com/neargle/PIL-RCE-By-GhostButt" target="_blank" rel="noopener">https://github.com/neargle/PIL-RCE-By-GhostButt</a></p>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/Python/">#Python</a></li>
-    
-  </ul>
 
-    
-      <a href="/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/#more" class="post-foot-link fr">阅读全文</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2017/09/01/use-request-merging-to-bypass-referer-check/">使用request merging bypass referer(jsonp) 检测</a>
-      </h2>
-    
-  
 
-    
-<time datetime="2017-08-31T19:01:11.000Z" class="post-time">2017-09-01</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p><em>更新两篇之前在其他地方发过的文章</em></p>
-<h2 id="1-关于request-merging和其会产生的问题"><a href="#1-关于request-merging和其会产生的问题" class="headerlink" title="1. 关于request merging和其会产生的问题"></a>1. 关于request merging和其会产生的问题</h2><p>request merging : 浏览器会把多次相同的请求(并非所有请求)合并成一次，以加快资源加载速度。</p>
-<p>e.g.<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://0.0.0.0:8888/jsonp/1"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>只会请求并加载一次”<a href="http://0.0.0.0:8888/jsonp/1&quot;资源。" target="_blank" rel="noopener">http://0.0.0.0:8888/jsonp/1&quot;资源。</a></p>
-<p><em>曾经有研究指出，这种请求合并想象在iframe里也存在</em>，那么浏览器的这种特性就可以用来bypass部分程序的referer的判断，如jsonp的防御机制。</p>
-<h2 id="2-环境和POC"><a href="#2-环境和POC" class="headerlink" title="2. 环境和POC"></a>2. 环境和POC</h2><p>绕过referer检测，攻击者能否拿到进行referer保护的用户信息？</p>
-<p>攻击者服务器： <a href="http://example.com:8081" target="_blank" rel="noopener">http://example.com:8081</a><br>目标服务器： <a href="http://example.com:8082" target="_blank" rel="noopener">http://example.com:8082</a><br>referer检测： referer是否以“<a href="http://example.com:8082”开头" target="_blank" rel="noopener">http://example.com:8082”开头</a><br>目标： 攻击者拿到属于用户的 “security content”</p>
-<h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><p>/jsonp.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span><span class="params">($url, $domain)</span> </span>&#123;</span><br><span class="line">     $length = strlen($domain);</span><br><span class="line">     <span class="keyword">return</span> (substr($url, <span class="number">0</span>, $length) === $domain);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$referrer = @$_SERVER[<span class="string">'HTTP_REFERER'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (startsWith($referrer, <span class="string">"http://example.com:8082"</span>)) &#123;</span><br><span class="line">    $js_code = <span class="string">'function jquery() &#123; return "security content";&#125;'</span>;</span><br><span class="line">    <span class="keyword">echo</span> $js_code;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $js_code = <span class="string">'function jquery() &#123; return "nothing";&#125;'</span>;</span><br><span class="line">    <span class="keyword">echo</span> $js_code;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/前端安全/">#前端安全</a></li>
-    
-  </ul>
-
-    
-      <a href="/2017/09/01/use-request-merging-to-bypass-referer-check/#more" class="post-foot-link fr">阅读全文</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2017/09/01/ddctf-web-xss-sqli-writeup/">ddctf 两道web题的Writeup (sqli &amp; xss)</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2017-08-31T19:01:10.000Z" class="post-time">2017-09-01</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p><em>更新两篇之前在其他地方发过的文章</em></p>
-<h2 id="sqli"><a href="#sqli" class="headerlink" title="sqli"></a>sqli</h2><p>地址: <a href="http://118.190.134.8/t1/news.php?id=1" target="_blank" rel="noopener">http://118.190.134.8/t1/news.php?id=1</a></p>
-<p>尝试sql注入，会发现过滤了’和空格等。使用<br><a href="http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1" target="_blank" rel="noopener">http://118.190.134.8/t1/news.php?id=1%0aand%0a1=1</a> 和 <a href="http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2" target="_blank" rel="noopener">http://118.190.134.8/t1/news.php?id=1%0aand%0a1=2</a> 判断注入存在，开始思考出数据的方法</p>
-<p><a href="http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5" target="_blank" rel="noopener">http://118.190.134.8/t1/news.php?id=1%0aorder%0aby%0a5</a><br>判断字段数为4</p>
-<p><a href="http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4" target="_blank" rel="noopener">http://118.190.134.8/t1/news.php?id=1union%0aselect%0a1,2,3,4</a><br>发现过滤了逗号</p>
-<p>那就不好用union出数据了，可选择使用盲注出数据比如<code>(select%a0ascii(substr((select%a0TABLE_NAME%a0from%a0information_schema.tables%a0where%a0TABLE_TYPE%a0=%a0&quot;BASE%a0TABLE&quot;%a0limit%a01%a0OFFSET%a02)%a0from%a01%a0for%a01))=1)%23</code>。但是这里其实有一个union出数据的tip可以使用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql $&gt; select 1,2,3,4 Union select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d</span><br><span class="line">+-----+-----+-----+-----+</span><br><span class="line">|   1 |   2 |   3 |   4 |</span><br><span class="line">|-----+-----+-----+-----|</span><br><span class="line">|   1 |   2 |   3 |   4 |</span><br><span class="line">+-----+-----+-----+-----+</span><br></pre></td></tr></table></figure>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/CTF/">#CTF</a></li>
-    
-  </ul>
-
-    
-      <a href="/2017/09/01/ddctf-web-xss-sqli-writeup/#more" class="post-foot-link fr">阅读全文</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/">Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2017-04-12T15:55:00.000Z" class="post-time">2017-04-12</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p><a href="https://www.djangoproject.com/weblog/2017/apr/04/security-releases/" target="_blank" rel="noopener">Django官方News&amp;Event</a>在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）</p>
-<h2 id="CVE-2017-7233分析"><a href="#CVE-2017-7233分析" class="headerlink" title="CVE-2017-7233分析"></a>CVE-2017-7233分析</h2><p>国外安全研究员roks0n提供给Django官方的一个漏洞。</p>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg" alt=""></p>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/漏洞分析/">#漏洞分析</a></li>
-    
-  </ul>
-
-    
-      <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/#more" class="post-foot-link fr">阅读全文</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-  
-    <nav class="page-nav">
-      
-      
-        <a href="/page/2/">下一页 &raquo;</a>
-      
-    </nav>
-  
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
     </div>
   <!-- </div> -->
@@ -500,11 +195,13 @@ optional arguments:
   <script>
     var disqus_shortname = 'neargle';
     
+    var disqus_url = 'http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/';
+    
     (function(){
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
   </script>
