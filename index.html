@@ -114,46 +114,10 @@
 </blockquote>
 <p><a href="https://asciinema.org/a/eJUPNOKzIA9imNnlLs8hoYU04" target="_blank" rel="noopener"><img src="https://asciinema.org/a/eJUPNOKzIA9imNnlLs8hoYU04.png" alt="asciicast"></a></p>
 <h2 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE"></a>USAGE</h2><p>英文版的 Usage 可以执行 <code>python vobserver.py -h</code> 查看。这里贴中文的 Usage。</p>
-<pre><code>usage: vobserver.py [-h] [-u URL] [-d DEPEND] [--depth DEPTH] [-a] [-v]
-                    [--logfile LOGFILE] [--level LEVEL]
-                    {new} ...
-
-A tool to detect that which version of web framework using on the target
-website.
-
-positional arguments:
-{new}                 sub-command help
-    new                 新增一个Web框架和依赖的版本探测支持插件
-
-optional arguments:
--h, --help            显示帮助信息
--u URL, --url URL     目标地址. 如 http://blog.neargle.com
--d DEPEND, --depend DEPEND
-                        依赖名，可使用(-a/--all)参数查看，如&quot;django&quot;
---depth DEPTH         这个数值越大扫描的url就越多，默认值0会扫描最多的url。
--a, --all             显示当前支持的所有框架信息。
--v, --verbose         设置日志等级为 &quot;VERBOSE&quot;， 会打印更多的日志信息。
---logfile LOGFILE     设置日志文件路径。默认为 observer.log.
---level LEVEL         日志等级, 有 &quot;CRITICAL, ERROR, WARNING,INFO, VERBOSE, DEBUG, TRACE, NOISE, LOWEST&quot; 这些等级可随便设置。越往后，日志越多。
-</code></pre><p>子命令 new 的 Usage:</p>
-<pre><code>usage: vobserver.py new [-h] [-n FRAMEWORK_NAME] -d DIR -s STATIC_PATH
-                        [-w WEB_STATIC_ROOT] [--alias ALIAS [ALIAS ...]]
-                        [--dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]]
-
-optional arguments:
--n FRAMEWORK_NAME, --framework-name FRAMEWORK_NAME
-                        设置框架或者依赖的名字, 如 django，可不设置，会自动生成
--d DIR, --dir DIR       设置框架的GIT项目本地路径
--s STATIC_PATH, --static-path STATIC_PATH
-                        设置项目下的静态文件路径
--w WEB_STATIC_ROOT, --web-static-root WEB_STATIC_ROOT
-                        设置框架的静态文件在 WEB 站点上的根目录
---alias ALIAS [ALIAS ...]
-                        设置别名，如: `--alias laravel-php laravel`，可用于探测的 -d 参数
---dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]
-                        设置不计入静态文件的后缀名，带有该后缀的文件会被忽略。 如:
-                        `--dis-suffix php asp
-</code></pre><h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><p>逻辑上 git 作为最优秀的版本控制工具帮我们做了很多事情。简要的介绍一下逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">usage: vobserver.py [-h] [-u URL] [-d DEPEND] [--depth DEPTH] [-a] [-v]</span><br><span class="line">                    [--logfile LOGFILE] [--level LEVEL]</span><br><span class="line">                    &#123;new&#125; ...</span><br><span class="line"></span><br><span class="line">A tool to detect that which version of web framework using on the target</span><br><span class="line">website.</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">&#123;new&#125;                 sub-command help</span><br><span class="line">    new                 新增一个Web框架和依赖的版本探测支持插件</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">-h, --help            显示帮助信息</span><br><span class="line">-u URL, --url URL     目标地址. 如 http://blog.neargle.com</span><br><span class="line">-d DEPEND, --depend DEPEND</span><br><span class="line">                        依赖名，可使用(-a/--all)参数查看，如&quot;django&quot;</span><br><span class="line">--depth DEPTH         这个数值越大扫描的url就越多，默认值0会扫描最多的url。</span><br><span class="line">-a, --all             显示当前支持的所有框架信息。</span><br><span class="line">-v, --verbose         设置日志等级为 &quot;VERBOSE&quot;， 会打印更多的日志信息。</span><br><span class="line">--logfile LOGFILE     设置日志文件路径。默认为 observer.log.</span><br><span class="line">--level LEVEL         日志等级, 有 &quot;CRITICAL, ERROR, WARNING,INFO, VERBOSE, DEBUG, TRACE, NOISE, LOWEST&quot; 这些等级可随便设置。越往后，日志越多。</span><br></pre></td></tr></table></figure>
+<p>子命令 new 的 Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">usage: vobserver.py new [-h] [-n FRAMEWORK_NAME] -d DIR -s STATIC_PATH</span><br><span class="line">                        [-w WEB_STATIC_ROOT] [--alias ALIAS [ALIAS ...]]</span><br><span class="line">                        [--dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">-n FRAMEWORK_NAME, --framework-name FRAMEWORK_NAME</span><br><span class="line">                        设置框架或者依赖的名字, 如 django，可不设置，会自动生成</span><br><span class="line">-d DIR, --dir DIR       设置框架的GIT项目本地路径</span><br><span class="line">-s STATIC_PATH, --static-path STATIC_PATH</span><br><span class="line">                        设置项目下的静态文件路径</span><br><span class="line">-w WEB_STATIC_ROOT, --web-static-root WEB_STATIC_ROOT</span><br><span class="line">                        设置框架的静态文件在 WEB 站点上的根目录</span><br><span class="line">--alias ALIAS [ALIAS ...]</span><br><span class="line">                        设置别名，如: `--alias laravel-php laravel`，可用于探测的 -d 参数</span><br><span class="line">--dis-suffix DIS_SUFFIX [DIS_SUFFIX ...]</span><br><span class="line">                        设置不计入静态文件的后缀名，带有该后缀的文件会被忽略。 如:</span><br><span class="line">                        `--dis-suffix php asp</span><br></pre></td></tr></table></figure>
+<h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><p>逻辑上 git 作为最优秀的版本控制工具帮我们做了很多事情。简要的介绍一下逻辑：</p>
 <p>生成各个版本指纹的逻辑:</p>
 <ol>
 <li>使用 <code>git tag</code> 和 <code>git log</code> 获取项目所有的版本。（如果一个工程没有严格的按照 git 工作流的话，这里可能会出现问题。）</li>
