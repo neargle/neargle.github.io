@@ -39,11 +39,11 @@
         
           <a class="main-nav-link" href="https://github.com/neargle">Project</a>
         
-        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="搜索"></a>
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="Search"></a>
         <div id="nav-search-input" class="hide">
           <form class="search-form" onsubmit="return dispatch()">
             <input type="hidden" id="site" value="site:http://blog.neargle.com">
-            <input type="text" id="q" class="input-text" name="q" placeholder="搜索">
+            <input type="text" id="q" class="input-text" name="q" placeholder="Search">
             <input type="submit" value="" class="input-submit">
           </form>
         </div>
@@ -70,7 +70,7 @@
   
   <section class="post-content typo">
     <p>项目地址: <a href="https://github.com/neargle/ver-observer" target="_blank" rel="noopener">https://github.com/neargle/ver-observer</a></p>
-<p><img src="![](http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxt3m57cfj31cf0lktap.jpg" alt="">)</p>
+<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxt3m57cfj31cf0lktap.jpg" alt=""></p>
 <p>用最著名的文学情感类博客测试一下, 看看效果。请大家测试的时候请参照这个 <a href="https://asciinema.org/a/ua1WOqMkUummi25QxImlFRNpN" target="_blank" rel="noopener">视频</a>，自己搭建 django 环境，不要浪费博主的流量，谢谢。</p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这个工具可以用来检测网站上所使用到的框架，依赖或者CMS的版本。以 Django 为例，如果我们知道一个网站是由 Django 开发的，那么知道所用的 Django 版本可以定位一些可能存在的问题， 例如，使用版本小于 Django v1.10.7 的网站很有可能存在任意URL跳转漏洞（详情见: <a href="http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/">文章</a>）。</p>
 <p>原则上，这个工具实现了一个较为通用的检测方法和较为方便的指纹生成。但是在有些框架和依赖里并不适用。</p>
