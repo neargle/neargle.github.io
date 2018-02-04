@@ -1300,3 +1300,9 @@ article section.post-content.typo blockquote p {
 article section.post-content.typo blockquote {
   margin-left: 0px;
 }
+
+/* 修改li样式 */
+li {
+  font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 18px;
+}
