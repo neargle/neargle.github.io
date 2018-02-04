@@ -1291,3 +1291,12 @@ article section.post-content.typo table {
 article section.post-content.typo figure {
   min-height: 0px;
 }
+
+/* 修改引用样式 */
+article section.post-content.typo blockquote p {
+  margin-bottom: 5px;
+}
+
+article section.post-content.typo blockquote {
+  margin-left: 0px;
+}

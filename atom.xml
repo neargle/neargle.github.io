@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.neargle.com/"/>
-  <updated>2018-01-30T01:58:36.000Z</updated>
+  <updated>2018-02-04T07:56:06.798Z</updated>
   <id>http://blog.neargle.com/</id>
   
   <author>
@@ -21,14 +21,13 @@
     <link href="http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/"/>
     <id>http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/</id>
     <published>2018-01-28T19:01:11.000Z</published>
-    <updated>2018-01-30T01:58:36.000Z</updated>
+    <updated>2018-02-04T07:56:06.798Z</updated>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;项目地址: &lt;a href=&quot;https://github.com/neargle/ver-observer&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://gi
-      
+      &lt;p&gt;项目地址: &lt;a href=&quot;https://github.com/neargle/ver-observer&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/neargle/ver-observer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/large/005y7Ba5ly1fnxt3m57cfj31cf0lktap.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;用最著名的文学情感类博客测试一下, 看看效果。请大家测试的时候请参照这个 &lt;a href=&quot;https://asciinema.org/a/ua1WOqMkUummi25QxImlFRNpN&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;视频&lt;/a&gt;，自己搭建 django 环境，不要浪费博主的流量，谢谢。&lt;/p&gt;
     
     </summary>
     
@@ -42,14 +41,14 @@
     <link href="http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/"/>
     <id>http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/</id>
     <published>2018-01-21T05:28:54.000Z</published>
-    <updated>2018-01-29T10:15:36.000Z</updated>
+    <updated>2018-02-04T07:56:22.341Z</updated>
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;关于驭龙HIDS&quot;&gt;&lt;a href=&quot;#关于驭龙HIDS&quot; class=&quot;headerlink&quot; title=&quot;关于驭龙HIDS&quot;&gt;&lt;/a&gt;关于驭龙HIDS&lt;/h2&gt;&lt;p&gt;驭龙HIDS
-      
+      &lt;h2 id=&quot;关于驭龙HIDS&quot;&gt;&lt;a href=&quot;#关于驭龙HIDS&quot; class=&quot;headerlink&quot; title=&quot;关于驭龙HIDS&quot;&gt;&lt;/a&gt;关于驭龙HIDS&lt;/h2&gt;&lt;p&gt;驭龙HIDS (&lt;a href=&quot;https://github.com/ysrc/yulong-hids&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/ysrc/yulong-hids&lt;/a&gt;) 是一款由 YSRC 开发的入侵检测系统，集异常检测、监控管理为一体，拥有异常行为发现、快速阻断、高级分析等功能，可从多个维度行为信息中发现入侵行为。当前，驭龙agent主要会收集系统信息，计划任务，存活端口，登录日志，进程信息，服务信息，启动项，用户列表，web路径等信息，其中Windows用户登录信息读取了Windows的EventLog，经历了几个版本，更换了好几个方法，最终成型。这篇文章就稍微说一下这几种方法的思路和实现。如果有更好的思路或实现，期待各位交流指教。&lt;/p&gt;
+&lt;h2 id=&quot;Windows事件查看器与日志ID&quot;&gt;&lt;a href=&quot;#Windows事件查看器与日志ID&quot; class=&quot;headerlink&quot; title=&quot;Windows事件查看器与日志ID&quot;&gt;&lt;/a&gt;Windows事件查看器与日志ID&lt;/h2&gt;&lt;p&gt;我们知道Windows会把系统登录日志记录在Windows安全日志里，我们可以在事件查看器里筛选查看这些系统日志。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/large/005y7Ba5gy1fnn10g8af8j315e0nbjuj.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;那如果要看登录相关的系统日志呢？可以用事件ID进行筛选，其中登录失败的事件ID为 4625， 而成功的登录ID为 4624。大部分的登录信息会包含在这两个事件ID里面。&lt;/p&gt;
     
     </summary>
     
