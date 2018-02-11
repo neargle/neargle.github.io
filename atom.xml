@@ -5,9 +5,9 @@
   <subtitle>Web Develop&amp;Security / 安全研究 / 漏洞挖掘 / 安全开发 / Pyer / Anime</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://blog.neargle.com/"/>
+  <link href="https://blog.linguofeng.com/"/>
   <updated>2018-02-04T07:56:06.798Z</updated>
-  <id>http://blog.neargle.com/</id>
+  <id>https://blog.linguofeng.com/</id>
   
   <author>
     <name>Neargle</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</title>
-    <link href="http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/"/>
-    <id>http://blog.neargle.com/2018/01/29/ver-observer-a-tool-about-version-detection/</id>
+    <link href="https://blog.linguofeng.com/2018/01/29/ver-observer-a-tool-about-version-detection/"/>
+    <id>https://blog.linguofeng.com/2018/01/29/ver-observer-a-tool-about-version-detection/</id>
     <published>2018-01-28T19:01:11.000Z</published>
     <updated>2018-02-04T07:56:06.798Z</updated>
     
@@ -32,14 +32,14 @@
     </summary>
     
     
-      <category term="编程开发" scheme="http://blog.neargle.com/tags/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+      <category term="编程开发" scheme="https://blog.linguofeng.com/tags/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
   <entry>
     <title>使用 golang 解析 Windows 日志的四种方法</title>
-    <link href="http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/"/>
-    <id>http://blog.neargle.com/2018/01/21/yulong-hids-windows-eventlog-iteration/</id>
+    <link href="https://blog.linguofeng.com/2018/01/21/yulong-hids-windows-eventlog-iteration/"/>
+    <id>https://blog.linguofeng.com/2018/01/21/yulong-hids-windows-eventlog-iteration/</id>
     <published>2018-01-21T05:28:54.000Z</published>
     <updated>2018-02-04T07:56:22.341Z</updated>
     
@@ -53,14 +53,14 @@
     </summary>
     
     
-      <category term="golang, hids" scheme="http://blog.neargle.com/tags/golang-hids/"/>
+      <category term="golang, hids" scheme="https://blog.linguofeng.com/tags/golang-hids/"/>
     
   </entry>
   
   <entry>
     <title>Exploiting Python PIL Module Command Execution Vulnerability</title>
-    <link href="http://blog.neargle.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/"/>
-    <id>http://blog.neargle.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/</id>
+    <link href="https://blog.linguofeng.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/"/>
+    <id>https://blog.linguofeng.com/2017/09/28/Exploiting-Python-PIL-Module-Command-Execution-Vulnerability/</id>
     <published>2017-09-28T05:28:54.000Z</published>
     <updated>2017-09-28T06:14:23.000Z</updated>
     
@@ -74,14 +74,14 @@
     </summary>
     
     
-      <category term="Python" scheme="http://blog.neargle.com/tags/Python/"/>
+      <category term="Python" scheme="https://blog.linguofeng.com/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>使用request merging bypass referer(jsonp) 检测</title>
-    <link href="http://blog.neargle.com/2017/09/01/use-request-merging-to-bypass-referer-check/"/>
-    <id>http://blog.neargle.com/2017/09/01/use-request-merging-to-bypass-referer-check/</id>
+    <link href="https://blog.linguofeng.com/2017/09/01/use-request-merging-to-bypass-referer-check/"/>
+    <id>https://blog.linguofeng.com/2017/09/01/use-request-merging-to-bypass-referer-check/</id>
     <published>2017-08-31T19:01:11.000Z</published>
     <updated>2017-09-02T01:25:02.000Z</updated>
     
@@ -99,14 +99,14 @@
     </summary>
     
     
-      <category term="前端安全" scheme="http://blog.neargle.com/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
+      <category term="前端安全" scheme="https://blog.linguofeng.com/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>ddctf 两道web题的Writeup (sqli &amp; xss)</title>
-    <link href="http://blog.neargle.com/2017/09/01/ddctf-web-xss-sqli-writeup/"/>
-    <id>http://blog.neargle.com/2017/09/01/ddctf-web-xss-sqli-writeup/</id>
+    <link href="https://blog.linguofeng.com/2017/09/01/ddctf-web-xss-sqli-writeup/"/>
+    <id>https://blog.linguofeng.com/2017/09/01/ddctf-web-xss-sqli-writeup/</id>
     <published>2017-08-31T19:01:10.000Z</published>
     <updated>2017-09-02T01:20:14.000Z</updated>
     
@@ -123,14 +123,14 @@
     </summary>
     
     
-      <category term="CTF" scheme="http://blog.neargle.com/tags/CTF/"/>
+      <category term="CTF" scheme="https://blog.linguofeng.com/tags/CTF/"/>
     
   </entry>
   
   <entry>
     <title>Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析</title>
-    <link href="http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/"/>
-    <id>http://blog.neargle.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/</id>
+    <link href="https://blog.linguofeng.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/"/>
+    <id>https://blog.linguofeng.com/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/</id>
     <published>2017-04-12T15:55:00.000Z</published>
     <updated>2017-06-22T08:36:15.000Z</updated>
     
@@ -143,14 +143,14 @@
     </summary>
     
     
-      <category term="漏洞分析" scheme="http://blog.neargle.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+      <category term="漏洞分析" scheme="https://blog.linguofeng.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
   <entry>
     <title>Chrome Extensions Spider &amp; Downloader</title>
-    <link href="http://blog.neargle.com/2017/01/09/chrome-ext-spider-for-probe/"/>
-    <id>http://blog.neargle.com/2017/01/09/chrome-ext-spider-for-probe/</id>
+    <link href="https://blog.linguofeng.com/2017/01/09/chrome-ext-spider-for-probe/"/>
+    <id>https://blog.linguofeng.com/2017/01/09/chrome-ext-spider-for-probe/</id>
     <published>2017-01-09T05:42:21.000Z</published>
     <updated>2017-01-23T02:40:37.000Z</updated>
     
@@ -161,14 +161,14 @@
     </summary>
     
     
-      <category term="安全研究" scheme="http://blog.neargle.com/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
+      <category term="安全研究" scheme="https://blog.linguofeng.com/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
     
   </entry>
   
   <entry>
     <title>n0js case1 writeup</title>
-    <link href="http://blog.neargle.com/2016/12/15/n0js-case1-writeup/"/>
-    <id>http://blog.neargle.com/2016/12/15/n0js-case1-writeup/</id>
+    <link href="https://blog.linguofeng.com/2016/12/15/n0js-case1-writeup/"/>
+    <id>https://blog.linguofeng.com/2016/12/15/n0js-case1-writeup/</id>
     <published>2016-12-15T07:46:50.000Z</published>
     <updated>2016-12-15T09:31:27.000Z</updated>
     
@@ -183,14 +183,14 @@
     </summary>
     
     
-      <category term="前端安全" scheme="http://blog.neargle.com/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
+      <category term="前端安全" scheme="https://blog.linguofeng.com/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>Flask Debugger页面上的通用XSS漏洞分析和挖掘过程记录</title>
-    <link href="http://blog.neargle.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/"/>
-    <id>http://blog.neargle.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/</id>
+    <link href="https://blog.linguofeng.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/"/>
+    <id>https://blog.linguofeng.com/2016/09/21/flask-src-review-get-a-xss-from-debuger/</id>
     <published>2016-09-21T01:48:42.000Z</published>
     <updated>2017-12-18T06:44:11.000Z</updated>
     
@@ -203,14 +203,14 @@
     </summary>
     
     
-      <category term="代码审计" scheme="http://blog.neargle.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="https://blog.linguofeng.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>记一下PythonWeb代码审计应该注意的地方</title>
-    <link href="http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/"/>
-    <id>http://blog.neargle.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/</id>
+    <link href="https://blog.linguofeng.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/"/>
+    <id>https://blog.linguofeng.com/2016/07/25/log-of-simple-code-review-about-python-base-webapp/</id>
     <published>2016-07-25T10:39:07.000Z</published>
     <updated>2016-09-20T14:34:18.000Z</updated>
     
@@ -225,14 +225,14 @@
     </summary>
     
     
-      <category term="代码审计" scheme="http://blog.neargle.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="https://blog.linguofeng.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>使用PyQt4.QtWebKit降低自动化XSS检测的误报</title>
-    <link href="http://blog.neargle.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/"/>
-    <id>http://blog.neargle.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/</id>
+    <link href="https://blog.linguofeng.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/"/>
+    <id>https://blog.linguofeng.com/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/</id>
     <published>2016-07-23T08:35:00.000Z</published>
     <updated>2017-11-14T01:33:39.000Z</updated>
     
@@ -245,14 +245,14 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.neargle.com/tags/python/"/>
+      <category term="python" scheme="https://blog.linguofeng.com/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>讨论PythonWeb开发中可能会遇到的安全问题之SQL注入</title>
-    <link href="http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/"/>
-    <id>http://blog.neargle.com/2016/07/22/pythonweb-framework-dev-vulnerable/</id>
+    <link href="https://blog.linguofeng.com/2016/07/22/pythonweb-framework-dev-vulnerable/"/>
+    <id>https://blog.linguofeng.com/2016/07/22/pythonweb-framework-dev-vulnerable/</id>
     <published>2016-07-22T13:39:07.000Z</published>
     <updated>2016-09-21T11:57:06.000Z</updated>
     
@@ -266,14 +266,14 @@
     </summary>
     
     
-      <category term="Python代码审计" scheme="http://blog.neargle.com/tags/Python%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="Python代码审计" scheme="https://blog.linguofeng.com/tags/Python%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>Html5文件夹上传欺骗之Python实现版-w-</title>
-    <link href="http://blog.neargle.com/2015/12/01/html5-file-upload-flask-ver-python-ver/"/>
-    <id>http://blog.neargle.com/2015/12/01/html5-file-upload-flask-ver-python-ver/</id>
+    <link href="https://blog.linguofeng.com/2015/12/01/html5-file-upload-flask-ver-python-ver/"/>
+    <id>https://blog.linguofeng.com/2015/12/01/html5-file-upload-flask-ver-python-ver/</id>
     <published>2015-12-01T06:14:44.000Z</published>
     <updated>2015-12-01T13:52:16.000Z</updated>
     
@@ -287,14 +287,14 @@
     </summary>
     
     
-      <category term="Web安全" scheme="http://blog.neargle.com/tags/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web安全" scheme="https://blog.linguofeng.com/tags/Web%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>Wordpress插件：WP Mobile Edition Plugin 任意文件下载漏洞分析</title>
-    <link href="http://blog.neargle.com/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/"/>
-    <id>http://blog.neargle.com/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/</id>
+    <link href="https://blog.linguofeng.com/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/"/>
+    <id>https://blog.linguofeng.com/2015/10/10/wp-mobile-edition-pn-cssphp-arbitrary-flie-dl/</id>
     <published>2015-10-10T05:28:54.000Z</published>
     <updated>2016-07-27T06:57:18.000Z</updated>
     
@@ -310,14 +310,14 @@
     </summary>
     
     
-      <category term="Wordpress安全" scheme="http://blog.neargle.com/tags/Wordpress%E5%AE%89%E5%85%A8/"/>
+      <category term="Wordpress安全" scheme="https://blog.linguofeng.com/tags/Wordpress%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>WooMirror:一个公开漏洞备份及搜索的Wooyun镜像站</title>
-    <link href="http://blog.neargle.com/2015/09/14/woomirror-one-spider-and-searchable-wooyun-webapp/"/>
-    <id>http://blog.neargle.com/2015/09/14/woomirror-one-spider-and-searchable-wooyun-webapp/</id>
+    <link href="https://blog.linguofeng.com/2015/09/14/woomirror-one-spider-and-searchable-wooyun-webapp/"/>
+    <id>https://blog.linguofeng.com/2015/09/14/woomirror-one-spider-and-searchable-wooyun-webapp/</id>
     <published>2015-09-14T05:28:54.000Z</published>
     <updated>2016-07-27T06:43:02.000Z</updated>
     
@@ -329,14 +329,14 @@
     </summary>
     
     
-      <category term="Web开发" scheme="http://blog.neargle.com/tags/Web%E5%BC%80%E5%8F%91/"/>
+      <category term="Web开发" scheme="https://blog.linguofeng.com/tags/Web%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
   <entry>
     <title>使用Metasploit获取Android设备权限</title>
-    <link href="http://blog.neargle.com/2015/06/28/android-msf-exploit-by-reverse-tcp/"/>
-    <id>http://blog.neargle.com/2015/06/28/android-msf-exploit-by-reverse-tcp/</id>
+    <link href="https://blog.linguofeng.com/2015/06/28/android-msf-exploit-by-reverse-tcp/"/>
+    <id>https://blog.linguofeng.com/2015/06/28/android-msf-exploit-by-reverse-tcp/</id>
     <published>2015-06-28T06:14:44.000Z</published>
     <updated>2015-10-23T03:15:46.000Z</updated>
     
@@ -353,7 +353,7 @@
     </summary>
     
     
-      <category term="Metasploit" scheme="http://blog.neargle.com/tags/Metasploit/"/>
+      <category term="Metasploit" scheme="https://blog.linguofeng.com/tags/Metasploit/"/>
     
   </entry>
   
