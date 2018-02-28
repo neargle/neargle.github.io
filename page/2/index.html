@@ -76,6 +76,47 @@
   
     
       <h2 class="post-title">
+        <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/">Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析</a>
+      </h2>
+    
+  
+
+    
+<time datetime="2017-04-12T15:55:00.000Z" class="post-time">2017-04-12</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    
+      <p><a href="https://www.djangoproject.com/weblog/2017/apr/04/security-releases/" target="_blank" rel="noopener">Django官方News&amp;Event</a>在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）</p>
+<h2 id="CVE-2017-7233分析"><a href="#CVE-2017-7233分析" class="headerlink" title="CVE-2017-7233分析"></a>CVE-2017-7233分析</h2><p>国外安全研究员roks0n提供给Django官方的一个漏洞。</p>
+<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg" alt=""></p>
+    
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+    
+  <ul class="post-tag home-tag icon-tag fl">
+    
+      <li><a href="/tags/漏洞分析/">#漏洞分析</a></li>
+    
+  </ul>
+
+    
+      <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/#more" class="post-foot-link fr">READ MORE</a>
+    
+    </section>
+  </footer>
+  
+</article>
+  
+    <article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h2 class="post-title">
         <a href="/2017/01/09/chrome-ext-spider-for-probe/">Chrome Extensions Spider &amp; Downloader</a>
       </h2>
     
@@ -271,48 +312,6 @@
 
     
       <a href="/2016/07/23/a-think-of-automatic-xss-detection-used-python-qt4/#more" class="post-foot-link fr">READ MORE</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2016/07/22/pythonweb-framework-dev-vulnerable/">讨论PythonWeb开发中可能会遇到的安全问题之SQL注入</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2016-07-22T13:39:07.000Z" class="post-time">2016-07-22</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>好久没写文章了，最近一直都是在看文章。<br>近期写了好几个PythonWeb项目，在实现需求的过程中，一直在思考PythonWeb开发过程中会遇到哪些常见的Web安全问题呢？这些问题又在什么情况下会被利用者GetShell呢？下面就分类来讨论这些问题：(这也是重新启用博客的第一篇文章，顺便投给90Sec也不知道能不能过QAQ。)</p>
-<h1 id="常见漏洞分析"><a href="#常见漏洞分析" class="headerlink" title="常见漏洞分析"></a>常见漏洞分析</h1><h2 id="SQLI"><a href="#SQLI" class="headerlink" title="SQLI"></a>SQLI</h2><p>SQL注入所产生的条件是用户输入可构造sql语句并带入数据库执行。在Web应用中，容易产生SQL注入的输入一般是GET或POST请求参数。在PythonWeb开发中，以Flask框架为例，Flask里获取GET或POST请求数据的方式分别是<code>request.args.get(&#39;id&#39;, 0, type=int)</code>和<code>request.form.get(&#39;id&#39;, 0, type=int)</code>两种方式，另外Flask还支持在URL路由里带入变量：<code>@app.route(&#39;/news/&lt;int:id&gt;&#39;)</code>，当程序员定义了这样的URL，则id这个变量在该视图里就是可以调用的。两种方法获取都是可以限定参数的类型，前者如果程序指定type为int，当用户传入无法转换成整形的字符串时，就返回None（若指定了默认值则为默认值，例子的默认值为0），后者出现这种情况则直接返回404.</p>
-<p>PythonWeb开发中，在处理数据库的过程中经常使用orm库进行数据库处理，orm库是防SQL注入的好手。Flask和Tornado经常使用Sqlalchemy，而Django有自己自带的orm引擎。举一个用Sqlalchemy建模型类，并使用模型类查询用户数据的例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, DateTime</span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">'mysql+pymysql://user:password@192.168.1.101/test'</span>)</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br><span class="line">session = DBSession()</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">user_t</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'user_t'</span></span><br><span class="line">    user_id = Column(Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    username = Column(String)</span><br><span class="line">    userpassword = Column(String)</span><br><span class="line">    createtime = Column(DateTime, default=datetime.utcnow)</span><br></pre></td></tr></table></figure>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/Python代码审计/">#Python代码审计</a></li>
-    
-  </ul>
-
-    
-      <a href="/2016/07/22/pythonweb-framework-dev-vulnerable/#more" class="post-foot-link fr">READ MORE</a>
     
     </section>
   </footer>

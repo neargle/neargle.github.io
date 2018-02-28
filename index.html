@@ -76,6 +76,50 @@
   
     
       <h2 class="post-title">
+        <a href="/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/">Chrome 扩展安全研究 - 一个UXSS的挖掘经历</a>
+      </h2>
+    
+  
+
+    
+<time datetime="2018-02-14T05:42:21.000Z" class="post-time">2018-02-14</time>
+
+  </header>
+  
+  <section class="post-content typo">
+    
+      <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>有点想把标题换成 <chrome 安全研究:="" 一个uxss的挖掘经历=""> 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。</chrome></p>
+<p>这是我春节前挖到的一个漏洞，大概抓取了用户量top400的 Chrome 扩展，对比较在意的几个问题写了脚本删选了一部分出来，再逐个审计。本次讲的这个漏洞是想产出 UXSS 的时候挖的 UXSS 漏洞之一。我觉得比较典型，涉及到 content_scripts 和 background 脚本及其他 Chrome 扩展的特性，相对来说比较有趣，坑也稍微多一点。</p>
+<p>由于不能公开插件详情，我把该插件和漏洞相关的源码抽出来，去掉一些带有公司名的关键字，放到 github 上:</p>
+<p><a href="https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss" target="_blank" rel="noopener">https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss</a></p>
+<p><code>git clone</code> 到本地，打开 chrome://extensions/， 开启“开发者模式”, 点击 “加载已解压的扩展程序…” 按钮，选择 content_scripts_uxss 文件夹即可。</p>
+<p><img src="https://p0.ssl.qhimg.com/t01c468de71c3e4dbac.jpg" alt=""></p>
+    
+  </section>
+  
+  <footer class="post-foot">
+    <section class="post-foot-warp clear">
+    
+  <ul class="post-tag home-tag icon-tag fl">
+    
+      <li><a href="/tags/安全研究-浏览器安全/">#安全研究, 浏览器安全</a></li>
+    
+  </ul>
+
+    
+      <a href="/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/#more" class="post-foot-link fr">READ MORE</a>
+    
+    </section>
+  </footer>
+  
+</article>
+  
+    <article class="post">
+  <header class="post-head">
+    
+  
+    
+      <h2 class="post-title">
         <a href="/2018/01/29/ver-observer-a-tool-about-version-detection/">VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</a>
       </h2>
     
@@ -280,47 +324,6 @@
 
     
       <a href="/2017/09/01/ddctf-web-xss-sqli-writeup/#more" class="post-foot-link fr">READ MORE</a>
-    
-    </section>
-  </footer>
-  
-</article>
-  
-    <article class="post">
-  <header class="post-head">
-    
-  
-    
-      <h2 class="post-title">
-        <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/">Django的两则url跳转漏洞:CVE-2017-7233和CVE-2017-7234分析</a>
-      </h2>
-    
-  
-
-    
-<time datetime="2017-04-12T15:55:00.000Z" class="post-time">2017-04-12</time>
-
-  </header>
-  
-  <section class="post-content typo">
-    
-      <p><a href="https://www.djangoproject.com/weblog/2017/apr/04/security-releases/" target="_blank" rel="noopener">Django官方News&amp;Event</a>在4月4日发布了一个安全更新，修复了两个URL跳转的漏洞，一个是urlparse的锅，另一个来自国内的安全研究员 phithon@长亭,都非常漂亮。因为有复现Django漏洞的习惯，晚上抽了点时间复现了一下。有趣的点还挺多。把两个漏洞的分析整合在一起，凑了篇文章。（还是研究漏洞有趣啊，泪流满面QAQ）</p>
-<h2 id="CVE-2017-7233分析"><a href="#CVE-2017-7233分析" class="headerlink" title="CVE-2017-7233分析"></a>CVE-2017-7233分析</h2><p>国外安全研究员roks0n提供给Django官方的一个漏洞。</p>
-<p><img src="http://ww1.sinaimg.cn/large/005y7Ba5gy1fekb8wapitj317d0pxage.jpg" alt=""></p>
-    
-  </section>
-  
-  <footer class="post-foot">
-    <section class="post-foot-warp clear">
-    
-  <ul class="post-tag home-tag icon-tag fl">
-    
-      <li><a href="/tags/漏洞分析/">#漏洞分析</a></li>
-    
-  </ul>
-
-    
-      <a href="/2017/04/12/Django-CVE-2017-7233-bypass-is-safe-url-and-CVE-2017-7233-serve-open-url/#more" class="post-foot-link fr">READ MORE</a>
     
     </section>
   </footer>

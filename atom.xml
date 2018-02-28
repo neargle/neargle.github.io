@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.neargle.com/"/>
-  <updated>2018-02-04T07:56:06.798Z</updated>
+  <updated>2018-02-28T15:08:06.000Z</updated>
   <id>https://blog.neargle.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Chrome 扩展安全研究 - 一个UXSS的挖掘经历</title>
+    <link href="https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/"/>
+    <id>https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/</id>
+    <published>2018-02-14T05:42:21.000Z</published>
+    <updated>2018-02-28T15:08:06.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;有点想把标题换成 &lt;chrome 安全研究:=&quot;&quot; 一个uxss的挖掘经历=&quot;&quot;&gt; 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。&lt;/chrome&gt;&lt;/p&gt;
+&lt;p&gt;这是我春节前挖到的一个漏洞，大概抓取了用户量top400的 Chrome 扩展，对比较在意的几个问题写了脚本删选了一部分出来，再逐个审计。本次讲的这个漏洞是想产出 UXSS 的时候挖的 UXSS 漏洞之一。我觉得比较典型，涉及到 content_scripts 和 background 脚本及其他 Chrome 扩展的特性，相对来说比较有趣，坑也稍微多一点。&lt;/p&gt;
+&lt;p&gt;由于不能公开插件详情，我把该插件和漏洞相关的源码抽出来，去掉一些带有公司名的关键字，放到 github 上:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git clone&lt;/code&gt; 到本地，打开 chrome://extensions/， 开启“开发者模式”, 点击 “加载已解压的扩展程序…” 按钮，选择 content_scripts_uxss 文件夹即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://p0.ssl.qhimg.com/t01c468de71c3e4dbac.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="安全研究, 浏览器安全" scheme="https://blog.neargle.com/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>VER-OBSERVER 一个可以探测框架及依赖版本的命令行工具</title>
