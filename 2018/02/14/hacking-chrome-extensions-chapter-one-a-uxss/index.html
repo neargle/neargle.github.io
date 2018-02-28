@@ -69,7 +69,8 @@
   </header>
   
   <section class="post-content typo">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>有点想把标题换成 <chrome 安全研究:="" 一个uxss的挖掘经历=""> 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。</chrome></p>
+    <p>首发于: <a href="https://www.anquanke.com/post/id/98917" target="_blank" rel="noopener">https://www.anquanke.com/post/id/98917</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>有点想把标题换成 <chrome 安全研究:="" 一个uxss的挖掘经历=""> 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。</chrome></p>
 <p>这是我春节前挖到的一个漏洞，大概抓取了用户量top400的 Chrome 扩展，对比较在意的几个问题写了脚本删选了一部分出来，再逐个审计。本次讲的这个漏洞是想产出 UXSS 的时候挖的 UXSS 漏洞之一。我觉得比较典型，涉及到 content_scripts 和 background 脚本及其他 Chrome 扩展的特性，相对来说比较有趣，坑也稍微多一点。</p>
 <p>由于不能公开插件详情，我把该插件和漏洞相关的源码抽出来，去掉一些带有公司名的关键字，放到 github 上:</p>
 <p><a href="https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss" target="_blank" rel="noopener">https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss</a></p>

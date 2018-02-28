@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.neargle.com/"/>
-  <updated>2018-02-28T15:08:06.000Z</updated>
+  <updated>2018-02-28T15:16:15.238Z</updated>
   <id>https://blog.neargle.com/</id>
   
   <author>
@@ -21,11 +21,12 @@
     <link href="https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/"/>
     <id>https://blog.neargle.com/2018/02/14/hacking-chrome-extensions-chapter-one-a-uxss/</id>
     <published>2018-02-14T05:42:21.000Z</published>
-    <updated>2018-02-28T15:08:06.000Z</updated>
+    <updated>2018-02-28T15:16:15.238Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;有点想把标题换成 &lt;chrome 安全研究:=&quot;&quot; 一个uxss的挖掘经历=&quot;&quot;&gt; 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。&lt;/chrome&gt;&lt;/p&gt;
+      &lt;p&gt;首发于: &lt;a href=&quot;https://www.anquanke.com/post/id/98917&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.anquanke.com/post/id/98917&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;有点想把标题换成 &lt;chrome 安全研究:=&quot;&quot; 一个uxss的挖掘经历=&quot;&quot;&gt; 来骗一波点击。但毕竟其实是扩展的问题，还是老实点写“扩展”吧。&lt;/chrome&gt;&lt;/p&gt;
 &lt;p&gt;这是我春节前挖到的一个漏洞，大概抓取了用户量top400的 Chrome 扩展，对比较在意的几个问题写了脚本删选了一部分出来，再逐个审计。本次讲的这个漏洞是想产出 UXSS 的时候挖的 UXSS 漏洞之一。我觉得比较典型，涉及到 content_scripts 和 background 脚本及其他 Chrome 扩展的特性，相对来说比较有趣，坑也稍微多一点。&lt;/p&gt;
 &lt;p&gt;由于不能公开插件详情，我把该插件和漏洞相关的源码抽出来，去掉一些带有公司名的关键字，放到 github 上:&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/neargle/hacking-extensions/tree/master/content_scripts_uxss&lt;/a&gt;&lt;/p&gt;
