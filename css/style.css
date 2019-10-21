@@ -502,7 +502,6 @@ html,body{
   border: none;
 }
 
-
 .post-foot{
     padding: 10px 0;
     border-top: 1px solid #ddd;
@@ -907,8 +906,6 @@ h1, h2, h3, h4, h5, h6{
 
 p.origin-url{
   color: #C0C0C0;
-  font-size: 10px;
-  float: right;
 }
 
 p.origin-url a{
